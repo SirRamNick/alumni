@@ -1,4 +1,3 @@
-import 'package:alumni_app/compontents/textfield.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -58,26 +57,6 @@ class _HomePageState extends State<HomePage> {
                 Text('Made By: '),
                 Icon(Icons.abc),
               ],
-            ),
-            MyTextField(
-              textEditingController: nameController,
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1D4695),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 17,
-                  horizontal: 25,
-                ),
-              ),
-              child: Text(
-                'Submit',
-                style: TextStyle(color: Colors.white),
-              ),
             ),
           ],
         ),
