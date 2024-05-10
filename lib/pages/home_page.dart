@@ -1,9 +1,7 @@
 import 'package:alumni_app/compontents/button.dart';
 import 'package:alumni_app/compontents/olopsc_form.dart';
 import 'package:alumni_app/services/firebase.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,6 +23,9 @@ class _HomePageState extends State<HomePage> {
   late final TextEditingController occupationController;
   late final GlobalKey<FormState> formKey;
   late final FirestoreService alumni;
+  late final List<String> programs;
+  late final List<String> sexDropdownItems;
+  late final List<String> status;
 
   @override
   void initState() {
@@ -42,6 +43,20 @@ class _HomePageState extends State<HomePage> {
     occupationController = TextEditingController();
     formKey = GlobalKey<FormState>();
     alumni = FirestoreService();
+    programs = [
+      'Bachelors of Science in Computer Science',
+      'Bachelor of Science in Tourism Management',
+      'Bachelor of Science in Hospitality Management',
+      'Bachelor of Science in Business Administration',
+    ];
+    sexDropdownItems = [
+      'Male',
+      'Female',
+    ];
+    status = [
+      'Employed',
+      'Unemployed',
+    ];
   }
 
   @override
@@ -61,6 +76,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onSubmit() {
+    print(statusController.text);
     setState(() {
       alumni.addAlumnus(
           firstNameController.text,
@@ -134,19 +150,39 @@ class _HomePageState extends State<HomePage> {
                         textEditingController: firstNameController,
                         subTitle: Text('First Name'),
                         formKey: formKey,
+                        suffixIcon: null,
                       )),
                       Expanded(
                           child: OlopscForm(
                         textEditingController: lastNameController,
                         subTitle: Text('Last Name'),
                         formKey: formKey,
+                        suffixIcon: null,
                       )),
                       Expanded(
-                          child: OlopscForm(
-                        textEditingController: middleNameController,
-                        subTitle: Text('Middle Name'),
-                        formKey: formKey,
-                      )),
+                        child: OlopscForm(
+                          textEditingController: middleNameController,
+                          subTitle: Text('Middle Name'),
+                          formKey: formKey,
+                          suffixIcon: null,
+                        ),
+                      ),
+                      Expanded(
+                        child: DropdownMenu(
+                          hintText: 'Sex',
+                          onSelected: (String? value) {
+                            setState(() {
+                              sexController.text = value!;
+                              value = null;
+                            });
+                          },
+                          dropdownMenuEntries:
+                              sexDropdownItems.map((String value) {
+                            return DropdownMenuEntry<String>(
+                                value: value, label: value);
+                          }).toList(),
+                        ),
+                      ),
                     ],
                   ),
                   Row(
@@ -156,44 +192,65 @@ class _HomePageState extends State<HomePage> {
                         textEditingController: dateOfBirthController,
                         subTitle: Text('Date of Birth'),
                         formKey: formKey,
+                        suffixIcon: null,
                       )),
                       Expanded(
-                          child: OlopscForm(
-                        textEditingController: programController,
-                        subTitle: Text('Program'),
-                        formKey: formKey,
-                      )),
+                        child: OlopscForm(
+                          textEditingController: yearGraduatedController,
+                          subTitle: Text('Year Graduated'),
+                          formKey: formKey,
+                          suffixIcon: null,
+                        ),
+                      ),
+                      DropdownMenu(
+                        width: 150,
+                        hintText: 'Course',
+                        onSelected: (String? value) {
+                          setState(() {
+                            programController.text = value!;
+                          });
+                        },
+                        dropdownMenuEntries: programs.map((String value) {
+                          return DropdownMenuEntry<String>(
+                            value: value,
+                            label: value,
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
                       Expanded(
-                          child: OlopscForm(
-                        textEditingController: sexController,
-                        subTitle: Text('Sex'),
-                        formKey: formKey,
-                      )),
+                        child: DropdownMenu(
+                          width: 220,
+                          hintText: 'Employement Status',
+                          onSelected: (String? value) {
+                            setState(() {
+                              statusController.text =
+                                  value == 'Employed' ? 'true' : 'false';
+                            });
+                          },
+                          dropdownMenuEntries: status.map((String value) {
+                            return DropdownMenuEntry<String>(
+                              value: value,
+                              label: value,
+                            );
+                          }).toList(),
+                        ),
+                      ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: OlopscForm(
-                        textEditingController: occupationController,
-                        subTitle: Text('Occupation'),
-                        formKey: formKey,
-                      )),
-                      Expanded(
-                          child: OlopscForm(
-                        textEditingController: statusController,
-                        subTitle: Text('Employment Status'),
-                        formKey: formKey,
-                      )),
-                      Expanded(
-                          child: OlopscForm(
-                        textEditingController: yearGraduatedController,
-                        subTitle: Text('Year Graduated'),
-                        formKey: formKey,
-                      )),
-                    ],
+                  Container(
+                    child: statusController.text == 'true'
+                        ? OlopscForm(
+                            textEditingController: occupationController,
+                            subTitle: const Text('Occupation'),
+                            formKey: formKey,
+                            suffixIcon: null,
+                          )
+                        : null,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Button(

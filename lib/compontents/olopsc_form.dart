@@ -5,11 +5,13 @@ class OlopscForm extends StatelessWidget {
   final TextEditingController textEditingController;
   final GlobalKey<FormState> formKey;
   final Widget subTitle;
+  final Widget? suffixIcon;
   const OlopscForm({
     super.key,
     required this.formKey,
     required this.subTitle,
     required this.textEditingController,
+    required this.suffixIcon,
   });
 
   @override
@@ -24,6 +26,7 @@ class OlopscForm extends StatelessWidget {
               border: InputBorder.none,
               filled: true,
               fillColor: Colors.white,
+              suffixIcon: suffixIcon,
             ),
           ),
           subtitle: subTitle,
