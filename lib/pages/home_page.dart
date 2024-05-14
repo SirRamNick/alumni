@@ -254,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                         : null,
                   ),
                   const SizedBox(
-                    height: 16,
+                    height: 28,
                   ),
                   Button(
                     onSubmit: () => onSubmit(),
