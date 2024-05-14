@@ -19,17 +19,15 @@ class OlopscForm extends StatelessWidget {
     return FormBuilder(
       child: Container(
         padding: const EdgeInsets.only(left: 12, right: 12),
-        child: ListTile(
-          title: TextFormField(
-            controller: textEditingController,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              filled: true,
-              fillColor: Colors.white,
-              suffixIcon: suffixIcon,
-            ),
+        child: TextFormField(
+          controller: textEditingController,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            filled: true,
+            fillColor: Colors.white,
+            suffixIcon: suffixIcon,
+            label: subTitle,
           ),
-          subtitle: subTitle,
         ),
       ),
     );

@@ -14,7 +14,7 @@ class Button extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 250, vertical: 15),
         decoration: BoxDecoration(
-            color: Colors.red[200], borderRadius: BorderRadius.circular(6)),
+            color: Colors.blue, borderRadius: BorderRadius.circular(6)),
         child: Text(
           'S U B M I T',
           style: TextStyle(color: Colors.white),

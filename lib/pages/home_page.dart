@@ -29,7 +29,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     firstNameController = TextEditingController();
     middleNameController = TextEditingController();
@@ -61,7 +60,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     firstNameController.dispose();
     middleNameController.dispose();
@@ -76,19 +74,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onSubmit() {
-    print(statusController.text);
     setState(() {
       alumni.addAlumnus(
-          firstNameController.text,
-          lastNameController.text,
-          programController.text,
-          int.parse(yearGraduatedController.text),
-          batchController.text,
-          sexController.text,
-          bool.parse(statusController.text),
-          middleNameController.text,
-          dateOfBirthController.text,
-          occupationController.text);
+        firstNameController.text,
+        lastNameController.text,
+        programController.text,
+        int.parse(yearGraduatedController.text),
+        batchController.text,
+        sexController.text,
+        bool.parse(statusController.text),
+        middleNameController.text,
+        dateOfBirthController.text,
+        occupationController.text,
+      );
     });
     firstNameController.clear();
     middleNameController.clear();
@@ -120,23 +118,23 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           children: [
-            Icon(
+            const Icon(
               Icons.abc,
               size: 80,
             ),
-            Text('Our Lady of Perpetual Succor College'),
-            Text('Alumni Tracking System'),
-            SizedBox(
+            const Text('Our Lady of Perpetual Succor College'),
+            const Text('Alumni Tracking System'),
+            const SizedBox(
               height: 12,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Made By: '),
                 Icon(Icons.abc),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 75,
             ),
             Container(
@@ -146,23 +144,25 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     children: [
                       Expanded(
-                          child: OlopscForm(
-                        textEditingController: firstNameController,
-                        subTitle: Text('First Name'),
-                        formKey: formKey,
-                        suffixIcon: null,
-                      )),
+                        child: OlopscForm(
+                          textEditingController: firstNameController,
+                          subTitle: const Text('First Name'),
+                          formKey: formKey,
+                          suffixIcon: null,
+                        ),
+                      ),
                       Expanded(
-                          child: OlopscForm(
-                        textEditingController: lastNameController,
-                        subTitle: Text('Last Name'),
-                        formKey: formKey,
-                        suffixIcon: null,
-                      )),
+                        child: OlopscForm(
+                          textEditingController: lastNameController,
+                          subTitle: const Text('Last Name'),
+                          formKey: formKey,
+                          suffixIcon: null,
+                        ),
+                      ),
                       Expanded(
                         child: OlopscForm(
                           textEditingController: middleNameController,
-                          subTitle: Text('Middle Name'),
+                          subTitle: const Text('Middle Name'),
                           formKey: formKey,
                           suffixIcon: null,
                         ),
@@ -185,19 +185,22 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
+                  const SizedBox(
+                    height: 25,
+                  ),
                   Row(
                     children: [
                       Expanded(
                           child: OlopscForm(
                         textEditingController: dateOfBirthController,
-                        subTitle: Text('Date of Birth'),
+                        subTitle: const Text('Date of Birth'),
                         formKey: formKey,
                         suffixIcon: null,
                       )),
                       Expanded(
                         child: OlopscForm(
                           textEditingController: yearGraduatedController,
-                          subTitle: Text('Year Graduated'),
+                          subTitle: const Text('Year Graduated'),
                           formKey: formKey,
                           suffixIcon: null,
                         ),
