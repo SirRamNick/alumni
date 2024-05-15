@@ -1,5 +1,6 @@
 import 'package:alumni_app/compontents/button.dart';
 import 'package:alumni_app/compontents/olopsc_form.dart';
+import 'package:alumni_app/pages/questions_page.dart';
 import 'package:alumni_app/services/firebase.dart';
 import 'package:flutter/material.dart';
 
@@ -115,154 +116,201 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            const Icon(
-              Icons.abc,
-              size: 80,
-            ),
-            const Text('Our Lady of Perpetual Succor College'),
-            const Text('Alumni Tracking System'),
-            const SizedBox(
-              height: 12,
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Made By: '),
-                Icon(Icons.abc),
-              ],
-            ),
-            const SizedBox(
-              height: 75,
-            ),
-            Container(
-              width: screenWidth * .5,
-              child: Column(
+      body: Form(
+        key: formKey,
+        child: Center(
+          child: Column(
+            children: [
+              const Icon(
+                Icons.abc,
+                size: 80,
+              ),
+              const Text('Our Lady of Perpetual Succor College'),
+              const Text('Alumni Tracking System'),
+              const SizedBox(
+                height: 12,
+              ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OlopscForm(
-                          textEditingController: firstNameController,
-                          subTitle: const Text('First Name'),
-                          formKey: formKey,
-                          suffixIcon: null,
-                        ),
-                      ),
-                      Expanded(
-                        child: OlopscForm(
-                          textEditingController: lastNameController,
-                          subTitle: const Text('Last Name'),
-                          formKey: formKey,
-                          suffixIcon: null,
-                        ),
-                      ),
-                      Expanded(
-                        child: OlopscForm(
-                          textEditingController: middleNameController,
-                          subTitle: const Text('Middle Name'),
-                          formKey: formKey,
-                          suffixIcon: null,
-                        ),
-                      ),
-                      Expanded(
-                        child: DropdownMenu(
-                          hintText: 'Sex',
-                          onSelected: (String? value) {
-                            setState(() {
-                              sexController.text = value!;
-                              value = null;
-                            });
-                          },
-                          dropdownMenuEntries:
-                              sexDropdownItems.map((String value) {
-                            return DropdownMenuEntry<String>(
-                                value: value, label: value);
-                          }).toList(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
+                  Text('Made By: '),
+                  Icon(Icons.abc),
+                ],
+              ),
+              const SizedBox(
+                height: 75,
+              ),
+              Container(
+                width: screenWidth * .5,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
                           child: OlopscForm(
-                        textEditingController: dateOfBirthController,
-                        subTitle: const Text('Date of Birth'),
-                        formKey: formKey,
-                        suffixIcon: null,
-                      )),
-                      Expanded(
-                        child: OlopscForm(
-                          textEditingController: yearGraduatedController,
-                          subTitle: const Text('Year Graduated'),
-                          formKey: formKey,
-                          suffixIcon: null,
+                            textEditingController: firstNameController,
+                            subTitle: const Text('First Name'),
+                            suffixIcon: null,
+                            validator: (value) =>
+                                value!.isEmpty && value != null
+                                    ? 'This field is required'
+                                    : null,
+                          ),
                         ),
-                      ),
-                      DropdownMenu(
-                        width: 150,
-                        hintText: 'Course',
-                        onSelected: (String? value) {
-                          setState(() {
-                            programController.text = value!;
-                          });
-                        },
-                        dropdownMenuEntries: programs.map((String value) {
-                          return DropdownMenuEntry<String>(
-                            value: value,
-                            label: value,
-                          );
-                        }).toList(),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: DropdownMenu(
-                          width: 220,
-                          hintText: 'Employement Status',
+                        Expanded(
+                          child: OlopscForm(
+                            textEditingController: lastNameController,
+                            subTitle: const Text('Last Name'),
+                            suffixIcon: null,
+                            validator: (value) =>
+                                value!.isEmpty && value != null
+                                    ? 'This field is required'
+                                    : null,
+                          ),
+                        ),
+                        Expanded(
+                          child: OlopscForm(
+                            textEditingController: middleNameController,
+                            subTitle: const Text('Middle Name'),
+                            suffixIcon: null,
+                            validator: (value) =>
+                                value!.isEmpty && value != null
+                                    ? 'This field is required'
+                                    : null,
+                          ),
+                        ),
+                        Expanded(
+                          child: DropdownMenu(
+                            hintText: 'Sex',
+                            onSelected: (String? value) {
+                              setState(() {
+                                sexController.text = value!;
+                                value = null;
+                              });
+                            },
+                            dropdownMenuEntries:
+                                sexDropdownItems.map((String value) {
+                              return DropdownMenuEntry<String>(
+                                  value: value, label: value);
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: OlopscForm(
+                          textEditingController: dateOfBirthController,
+                          subTitle: const Text('Date of Birth'),
+                          suffixIcon: null,
+                          validator: (value) => value!.isEmpty && value != null
+                              ? 'This field is required'
+                              : null,
+                        )),
+                        Expanded(
+                          child: OlopscForm(
+                            textEditingController: yearGraduatedController,
+                            subTitle: const Text('Year Graduated'),
+                            suffixIcon: null,
+                            validator: (value) =>
+                                value!.isEmpty && value != null
+                                    ? 'This field is required'
+                                    : null,
+                          ),
+                        ),
+                        DropdownMenu(
+                          width: 150,
+                          hintText: 'Course',
                           onSelected: (String? value) {
                             setState(() {
-                              statusController.text =
-                                  value == 'Employed' ? 'true' : 'false';
+                              programController.text = value!;
                             });
                           },
-                          dropdownMenuEntries: status.map((String value) {
+                          dropdownMenuEntries: programs.map((String value) {
                             return DropdownMenuEntry<String>(
                               value: value,
                               label: value,
                             );
                           }).toList(),
                         ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    child: statusController.text == 'true'
-                        ? OlopscForm(
-                            textEditingController: occupationController,
-                            subTitle: const Text('Occupation'),
-                            formKey: formKey,
-                            suffixIcon: null,
-                          )
-                        : null,
-                  ),
-                  const SizedBox(
-                    height: 28,
-                  ),
-                  Button(
-                    onSubmit: () => onSubmit(),
-                  ),
-                ],
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: DropdownMenu(
+                            width: 220,
+                            hintText: 'Employement Status',
+                            onSelected: (String? value) {
+                              setState(() {
+                                statusController.text =
+                                    value == 'Employed' ? 'true' : 'false';
+                              });
+                            },
+                            dropdownMenuEntries: status.map((String value) {
+                              return DropdownMenuEntry<String>(
+                                value: value,
+                                label: value,
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      child: statusController.text == 'true'
+                          ? OlopscForm(
+                              textEditingController: occupationController,
+                              subTitle: const Text('Occupation'),
+                              suffixIcon: null,
+                              validator: (value) =>
+                                  value!.isEmpty && value != null
+                                      ? 'This field is required'
+                                      : null,
+                            )
+                          : null,
+                    ),
+                    const SizedBox(
+                      height: 28,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                Colors.blue,
+                              ),
+                            ),
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => QuestionsPage(),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text(
+                              'Next',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            )),
+                      ],
+                    ),
+                    // Button(
+                    //   onSubmit: () => onSubmit(),
+                    // ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
