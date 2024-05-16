@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class QuestionsPage extends StatefulWidget {
-  const QuestionsPage({super.key});
+  final String docID;
+  const QuestionsPage({
+    super.key,
+    required this.docID,
+  });
 
   @override
   State<QuestionsPage> createState() => _QuestionsPageState();
@@ -59,9 +63,10 @@ class _QuestionsPageState extends State<QuestionsPage> {
         ),
       ),
       body: StreamBuilder(
-          stream: alumni.alumni.snapshots(),
+          stream: alumni.alumni.doc(widget.docID).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              var value = snapshot.data;
               return SingleChildScrollView(
                 child: Center(
                   child: Column(
@@ -108,7 +113,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                           ListTileControlAffinity.leading,
                                       dense: true,
                                       title: Text(
-                                        _firstQuestion[index]['answer'],
+                                        value!['first_name'],
                                         style: const TextStyle(),
                                       ),
                                       value: _firstQuestion[index]['value'],

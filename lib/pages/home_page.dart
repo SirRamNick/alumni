@@ -2,6 +2,7 @@ import 'package:alumni_app/compontents/button.dart';
 import 'package:alumni_app/compontents/olopsc_form.dart';
 import 'package:alumni_app/pages/questions_page.dart';
 import 'package:alumni_app/services/firebase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -74,31 +75,33 @@ class _HomePageState extends State<HomePage> {
     occupationController.dispose();
   }
 
-  void onSubmit() {
-    setState(() {
-      alumni.addAlumnus(
-        firstNameController.text,
-        lastNameController.text,
-        programController.text,
-        int.parse(yearGraduatedController.text),
-        sexController.text,
-        bool.parse(statusController.text),
-        middleNameController.text,
-        dateOfBirthController.text,
-        occupationController.text,
-      );
-    });
-    firstNameController.clear();
-    middleNameController.clear();
-    lastNameController.clear();
-    programController.clear();
-    batchController.clear();
-    sexController.clear();
-    statusController.clear();
-    yearGraduatedController.clear();
-    dateOfBirthController.clear();
-    occupationController.clear();
-  }
+  // void onSubmit() {
+  //   final DocumentReference document =
+  //       alumni.alumni.doc(firstNameController.text);
+  //   setState(() {
+  //     document.set({
+  //       'first_name': firstNameController.text,
+  //       'last_name': lastNameController.text,
+  //       'program': programController.text,
+  //       'year_graduated': int.parse(yearGraduatedController.text),
+  //       'sex': sexController.text,
+  //       'employment_status': bool.parse(statusController.text),
+  //       'middle_name': middleNameController.text,
+  //       'date_of_birth': dateOfBirthController.text,
+  //       'occupation': occupationController.text,
+  //     });
+  //   });
+  //   firstNameController.clear();
+  //   middleNameController.clear();
+  //   lastNameController.clear();
+  //   programController.clear();
+  //   batchController.clear();
+  //   sexController.clear();
+  //   statusController.clear();
+  //   yearGraduatedController.clear();
+  //   dateOfBirthController.clear();
+  //   occupationController.clear();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -289,13 +292,47 @@ class _HomePageState extends State<HomePage> {
                             ),
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
+                                final DocumentReference document =
+                                    alumni.alumni.doc(firstNameController.text);
+                                setState(() {
+                                  document.set({
+                                    'first_name': firstNameController.text,
+                                    'last_name': lastNameController.text,
+                                    'program': programController.text,
+                                    'year_graduated':
+                                        int.parse(yearGraduatedController.text),
+                                    'sex': sexController.text,
+                                    'employment_status':
+                                        bool.parse(statusController.text),
+                                    'middle_name': middleNameController.text,
+                                    'date_of_birth': dateOfBirthController.text,
+                                    'occupation': occupationController.text,
+                                    'question_1': false,
+                                    'question_2': false,
+                                    'question_3': false,
+                                    'question_4': false,
+                                    'question_5': false,
+                                    'question_6': false,
+                                  });
+                                });
+                                firstNameController.clear();
+                                middleNameController.clear();
+                                lastNameController.clear();
+                                programController.clear();
+                                batchController.clear();
+                                sexController.clear();
+                                statusController.clear();
+                                yearGraduatedController.clear();
+                                dateOfBirthController.clear();
+                                occupationController.clear();
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => QuestionsPage(),
+                                    builder: (context) => QuestionsPage(
+                                      docID: document.id,
+                                    ),
                                   ),
                                 );
-                                onSubmit();
                               }
                             },
                             child: Text(
@@ -306,9 +343,6 @@ class _HomePageState extends State<HomePage> {
                             )),
                       ],
                     ),
-                    // Button(
-                    //   onSubmit: () => onSubmit(),
-                    // ),
                   ],
                 ),
               ),
