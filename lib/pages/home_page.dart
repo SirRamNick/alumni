@@ -81,7 +81,6 @@ class _HomePageState extends State<HomePage> {
         lastNameController.text,
         programController.text,
         int.parse(yearGraduatedController.text),
-        batchController.text,
         sexController.text,
         bool.parse(statusController.text),
         middleNameController.text,
@@ -296,6 +295,7 @@ class _HomePageState extends State<HomePage> {
                                     builder: (context) => QuestionsPage(),
                                   ),
                                 );
+                                onSubmit();
                               }
                             },
                             child: Text(
