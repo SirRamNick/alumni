@@ -260,6 +260,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Container(
                       child: statusController.text == 'true'
                           ? OlopscForm(
