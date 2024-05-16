@@ -1,4 +1,6 @@
+import 'package:alumni_app/compontents/button.dart';
 import 'package:alumni_app/compontents/question_form.dart';
+import 'package:alumni_app/pages/navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -195,7 +197,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                           const Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                                'Were you able to aquire the necessary skills from the program you took that are needed for your current job?'),
+                                'Were you able to acquire the necessary skills from the program you took that are needed for your current job?'),
                           ),
                           Column(
                               children: List.generate(
@@ -268,10 +270,18 @@ class _QuestionsPageState extends State<QuestionsPage> {
                             child: Text(
                                 'What are the skills you aquired from the program you took, that you find helpful in your current job?'),
                           ),
-                          Text('data'),
+                          TextFormField(
+                            keyboardType: TextInputType.multiline,
+                            textInputAction: TextInputAction.newline,
+                            maxLines: 2,
+                          )
                         ],
                       ),
                     ),
+                    const SizedBox(height: 28),
+                    Button(
+                      onSubmit: () {},
+                    )
                   ],
                 ),
               ),
