@@ -5,16 +5,23 @@ class FirestoreService {
       FirebaseFirestore.instance.collection('alumni');
 
   Future addAlumnus(
-      String firstName,
-      String lastName,
-      String program,
-      int yearGraduated,
-      String batch,
-      String sex,
-      bool employmentStatus,
-      String middleName,
-      String dateOfBirth,
-      String occupation) {
+    String firstName,
+    String lastName,
+    String program,
+    int yearGraduated,
+    String batch,
+    String sex,
+    bool employmentStatus,
+    String middleName,
+    String dateOfBirth,
+    String occupation, {
+    String? question_1,
+    String? question_2,
+    String? question_3,
+    String? question_4,
+    String? question_5,
+    String? question_6,
+  }) {
     setSearchParam(String firstName, String lastName) {
       final String name = '$firstName $lastName';
       List<String> caseSearchList = [];
@@ -39,6 +46,31 @@ class FirestoreService {
       'employment_status': employmentStatus,
       'occupation': occupation,
       'searchable_name': setSearchParam(firstName, lastName),
+      'question_1': question_1,
+      'question_2': question_2,
+      'question_3': question_3,
+      'question_4': question_4,
+      'question_5': question_5,
+      'question_6': question_6,
+    });
+  }
+
+  Future updateResponse(
+    String docID,
+    String? question_1,
+    String? question_2,
+    String? question_3,
+    String? question_4,
+    String? question_5,
+    String? question_6,
+  ) {
+    return alumni.doc(docID).update({
+      'question_1': question_1,
+      'questio_2': question_2,
+      'question_3': question_3,
+      'question_4': question_4,
+      'question_5': question_5,
+      'question_6': question_6,
     });
   }
 }

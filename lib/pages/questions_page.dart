@@ -76,7 +76,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                 ],
               ),
               const SizedBox(
-                height: 75,
+                height: 10,
               ),
               Container(
                 child: Column(
@@ -281,7 +281,10 @@ class _QuestionsPageState extends State<QuestionsPage> {
                     const SizedBox(height: 28),
                     Button(
                       onSubmit: () {},
-                    )
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                   ],
                 ),
               ),
