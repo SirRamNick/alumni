@@ -38,22 +38,127 @@ class _ProfileState extends State<Profile> {
                   if (snapshot.hasData) {
                     var value = snapshot.data;
                     return SingleChildScrollView(
-                      child: Center(
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 300,
-                            ),
-                            Container(
-                              color: Colors.blue,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: ProfileContent(
-                                    contentprofile: Text(value!['question_1'])),
+                      child: Row(children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                right: 100, left: 20, top: 100, bottom: 7),
+                            child: Container(
+                              padding: const EdgeInsets.only(bottom: 100),
+                              decoration: BoxDecoration(
+                                  color: Colors.blue,
+                                  border: Border.all(color: Colors.white)),
+                              child: Container(
+                                padding: EdgeInsets.all(25),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    //question 1
+                                    Align(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            'Are you satisfied with your current status?',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16)),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: ProfileContent(
+                                          contentprofile: value!['question_1']),
+                                    ),
+                                    //question 2
+                                    Align(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            'Were you employed within the year of your graduation?',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16)),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: ProfileContent(
+                                          contentprofile: value!['question_2']),
+                                    ),
+                                    //question 3
+                                    Align(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            'How relevant was the program to your job post-graduation?',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16)),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: ProfileContent(
+                                          contentprofile: value!['question_3']),
+                                    ),
+                                    //question 4
+                                    Align(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            'Did the program help in applying for your current occupation?',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16)),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: ProfileContent(
+                                          contentprofile: value!['question_4']),
+                                    ),
+                                    //question 5
+                                    Align(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            'Did the program provide the necessary skills needed for your current job?',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16)),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: ProfileContent(
+                                          contentprofile: value!['question_5']),
+                                    ),
+                                    //question 6
+                                    Align(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                            'What were the necessary skills you acquired from the program needed for your current job?',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16)),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: ProfileContent(
+                                          contentprofile: value!['question_6']),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ],
+                          ),
                         ),
+                      ]
                       ),
                     );
                   } else {
