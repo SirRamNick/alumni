@@ -114,7 +114,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                          'Are you employed within the year of your graduation?'),
+                                          'Are you satisfied with your current status?'),
                                     ),
                                     Align(
                                       alignment: Alignment.centerLeft,
@@ -147,7 +147,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                          'How relevant is the program you took to your job after graduation?'),
+                                          'Were you employed within the year of your graduation?'),
                                     ),
                                     Align(
                                       alignment: Alignment.centerLeft,
@@ -179,7 +179,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                          'Does the program you took helped you land your first job?'),
+                                          'How relevant was the program to your job post-graduation?'),
                                     ),
                                     Align(
                                       alignment: Alignment.centerLeft,
@@ -211,7 +211,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                          'Were you able to acquire the necessary skills from the program you took that are needed for your current job?'),
+                                          'Did the program help in applying for your current occupation?'),
                                     ),
                                     Align(
                                       alignment: Alignment.centerLeft,
@@ -243,7 +243,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                          'Is your job related to your course?'),
+                                          'Did the program provide the necessary skills needed for your current job?'),
                                     ),
                                     Align(
                                       alignment: Alignment.centerLeft,
@@ -275,7 +275,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                          'What are the skills you aquired from the program you took, that you find helpful in your current job?'),
+                                          'What were the necessary skills you acquired from the program needed for your current job?'),
                                     ),
                                     TextFormField(
                                       controller: question6Controller,
