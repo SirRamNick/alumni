@@ -53,6 +53,52 @@ class _ProfileState extends State<Profile> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Row(
+                                      children: [
+                                        Align(
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text('Welcome, ',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 30)),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 3,
+                                        ),
+                                        Align(
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(value!['first_name'],
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 30)),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Align(
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(value!['last_name'],
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 30)),
+                                          ),
+                                        ),
+                                        Align(
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text('!',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 30)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                     const SizedBox(
                                       height: 30,
                                     ),

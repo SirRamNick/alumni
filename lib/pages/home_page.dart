@@ -319,7 +319,7 @@ class _HomePageState extends State<HomePage> {
                                         Colors.blue,
                                       ),
                                     ),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       if (formKey.currentState!.validate()) {
                                         final DocumentReference document =
                                             alumni.alumni
@@ -346,7 +346,7 @@ class _HomePageState extends State<HomePage> {
                                             'time_stamp': Timestamp.now(),
                                           });
                                         });
-                                        alumni.stats
+                                        await alumni.stats
                                             .doc(yearGraduatedController.text)
                                             .set({
                                           'value': doc.get('value') + 1,
