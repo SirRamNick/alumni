@@ -5,6 +5,7 @@ class FirestoreService {
       FirebaseFirestore.instance.collection('alumni');
 
   Future addAlumnus(
+    String email,
     String firstName,
     String lastName,
     String program,
@@ -34,6 +35,7 @@ class FirestoreService {
     }
 
     return alumni.add({
+      'email': email,
       'first_name': firstName,
       'middle_name': middleName,
       'last_name': lastName,

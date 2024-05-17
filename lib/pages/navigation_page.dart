@@ -3,7 +3,8 @@ import 'package:alumni_app/pages/settings.dart';
 import 'package:flutter/material.dart';
 
 class NavigationPage extends StatefulWidget {
-  const NavigationPage({super.key});
+  final String docID;
+  const NavigationPage({super.key, required this.docID});
 
   @override
   State<NavigationPage> createState() => _NavigationPageState();
@@ -25,18 +26,29 @@ const _navBarItems = [
 
 class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
+  late final String documentID;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    documentID = widget.docID;
+  }
 
   //Scrolling through pages
-  final pages = [
-    Profile(),
-    Settings(),
-  ];
+
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final bool isSmallScreen = width < 600;
     final bool isLargeScreen = width > 800;
+
+    final pages = [
+      Profile(docID: documentID),
+      Settings(),
+    ];
+
 
     return Scaffold(
       bottomNavigationBar: isSmallScreen

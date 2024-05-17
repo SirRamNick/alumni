@@ -37,26 +37,31 @@ class _QuestionsPageState extends State<QuestionsPage> {
   late final List<String> listOfAnswers1 = [
     'Yes',
     'No',
+    'Not Applicable',
   ];
   late final List<String> listOfAnswers2 = [
     'Not relevant at all',
     'Somewhat relevant',
     'Very relevant',
+    'Not Applicable',
   ];
   late final List<String> listOfAnswers3 = [
     'Not helpful',
     'Somewhat helpful',
     'Very helpful',
+    'Not Applicable',
   ];
   late final List<String> listOfAnswers4 = [
     'No',
     'Somehow',
     'Yes',
+    'Not Applicable',
   ];
   late final List<String> listOfAnswers5 = [
     'Not relevant at all',
     'Somewhat relevant',
     'Same/very relevant',
+    'Not Applicable',
   ];
 
   @override
@@ -312,7 +317,9 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => NavigationPage(),
+                                        builder: (context) => NavigationPage(
+                                          docID: widget.docID,
+                                        ),
                                       ),
                                     );
                                   }
