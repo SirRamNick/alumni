@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late final TextEditingController emailController;
   late final TextEditingController firstNameController;
   late final TextEditingController middleNameController;
   late final TextEditingController lastNameController;
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    emailController = TextEditingController();
     firstNameController = TextEditingController();
     middleNameController = TextEditingController();
     lastNameController = TextEditingController();
@@ -57,12 +59,14 @@ class _HomePageState extends State<HomePage> {
     status = [
       'Employed',
       'Unemployed',
+      'Self-Employed'
     ];
   }
 
   @override
   void dispose() {
     super.dispose();
+    emailController.dispose();
     firstNameController.dispose();
     middleNameController.dispose();
     lastNameController.dispose();
@@ -206,6 +210,22 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Expanded(
                             child: OlopscForm(
+                          subTitle: const Text('Email'),
+                          textEditingController: emailController,
+                          suffixIcon: null,
+                          validator: (value) => value!.isEmpty && value != null
+                              ? 'This field is required'
+                              : null,
+                        )),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: OlopscForm(
                           textEditingController: dateOfBirthController,
                           subTitle: const Text('Date of Birth'),
                           suffixIcon: null,
@@ -296,6 +316,7 @@ class _HomePageState extends State<HomePage> {
                                     alumni.alumni.doc(firstNameController.text);
                                 setState(() {
                                   document.set({
+                                    'email': emailController.text,
                                     'first_name': firstNameController.text,
                                     'last_name': lastNameController.text,
                                     'program': programController.text,
@@ -309,6 +330,7 @@ class _HomePageState extends State<HomePage> {
                                     'occupation': occupationController.text,
                                   });
                                 });
+                                emailController.clear();
                                 firstNameController.clear();
                                 middleNameController.clear();
                                 lastNameController.clear();
