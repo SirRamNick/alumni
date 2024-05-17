@@ -14,11 +14,11 @@ class FirestoreService {
     String middleName,
     String dateOfBirth,
     String occupation, {
-    bool? question_1,
-    bool? question_2,
-    bool? question_3,
-    bool? question_4,
-    bool? question_5,
+    String? question_1,
+    String? question_2,
+    String? question_3,
+    String? question_4,
+    String? question_5,
     String? question_6,
   }) {
     setSearchParam(String firstName, String lastName) {
@@ -44,22 +44,22 @@ class FirestoreService {
       'employment_status': employmentStatus,
       'occupation': occupation,
       'searchable_name': setSearchParam(firstName, lastName),
-      'question_1': false,
-      'question_2': false,
-      'question_3': false,
-      'question_4': false,
-      'question_5': false,
-      'question_6': '',
+      'question_1': question_1,
+      'question_2': question_2,
+      'question_3': question_3,
+      'question_4': question_4,
+      'question_5': question_5,
+      'question_6': question_6,
     });
   }
 
   Future updateResponse(
     String docID,
     String? question_1,
-    bool? question_2,
-    bool? question_3,
-    bool? question_4,
-    bool? question_5,
+    String? question_2,
+    String? question_3,
+    String? question_4,
+    String? question_5,
     String? question_6,
   ) {
     return alumni.doc(docID).update({

@@ -1,7 +1,9 @@
 import 'package:alumni_app/compontents/button.dart';
 import 'package:alumni_app/compontents/question_form.dart';
 import 'package:alumni_app/pages/navigation_page.dart';
+// import 'package:alumni_app/pages/navigation_page.dart';
 import 'package:alumni_app/services/firebase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -17,35 +19,44 @@ class QuestionsPage extends StatefulWidget {
 }
 
 class _QuestionsPageState extends State<QuestionsPage> {
+  late final TextEditingController question1Controller =
+      TextEditingController();
+  late final TextEditingController question2Controller =
+      TextEditingController();
+  late final TextEditingController question3Controller =
+      TextEditingController();
+  late final TextEditingController question4Controller =
+      TextEditingController();
+  late final TextEditingController question5Controller =
+      TextEditingController();
+  late final TextEditingController question6Controller =
+      TextEditingController();
+  late final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late final FirestoreService alumni = FirestoreService();
 
-  final List _firstQuestion = [
-    {'value': false, 'answer': 'yes'},
-    {'value': false, 'answer': 'no'},
+  late final List<String> listOfAnswers1 = [
+    'Yes',
+    'No',
   ];
-
-  final List _secondQuestion = [
-    {'value': false, 'answer': 'Not relevant at all'},
-    {'value': false, 'answer': 'Somewhat relevant'},
-    {'value': false, 'answer': 'Very relevant'},
+  late final List<String> listOfAnswers2 = [
+    'Not relevant at all',
+    'Somewhat relevant',
+    'Very relevant',
   ];
-
-  final List _thirdQuestion = [
-    {'value': false, 'answer': 'Not helpful at all'},
-    {'value': false, 'answer': 'Somewhat helpful'},
-    {'value': false, 'answer': 'Very helpful'},
+  late final List<String> listOfAnswers3 = [
+    'Not helpful',
+    'Somewhat helpful',
+    'Very helpful',
   ];
-
-  final List _fourthQuestion = [
-    {'value': false, 'answer': 'No'},
-    {'value': false, 'answer': 'Somehow'},
-    {'value': false, 'answer': 'Yes'},
+  late final List<String> listOfAnswers4 = [
+    'No',
+    'Somehow',
+    'Yes',
   ];
-
-  final List _fifthQuestion = [
-    {'value': false, 'answer': 'Not relevant at all'},
-    {'value': false, 'answer': 'Somewhat relevant'},
-    {'value': false, 'answer': 'Same/very relevant'},
+  late final List<String> listOfAnswers5 = [
+    'Not relevant at all',
+    'Somewhat relevant',
+    'Same/very relevant',
   ];
 
   @override
@@ -103,31 +114,25 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     child: Text(
                                         'Are you employed within the year of your graduation?'),
                                   ),
-                                  Column(
-                                      children: List.generate(
-                                    _firstQuestion.length,
-                                    (index) => CheckboxListTile(
-                                      contentPadding: const EdgeInsets.all(4),
-                                      checkboxShape: const CircleBorder(),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      dense: true,
-                                      title: Text(
-                                        value!['first_name'],
-                                        style: const TextStyle(),
-                                      ),
-                                      value: _firstQuestion[index]['value'],
-                                      onChanged: (value) {
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: DropdownMenu(
+                                      width: 150,
+                                      hintText: '-Select-',
+                                      onSelected: (String? value) {
                                         setState(() {
-                                          for (var element in _firstQuestion) {
-                                            element['value'] = false;
-                                          }
-                                          _firstQuestion[index]['value'] =
-                                              value;
+                                          question1Controller.text = value!;
                                         });
                                       },
+                                      dropdownMenuEntries:
+                                          listOfAnswers1.map((String value) {
+                                        return DropdownMenuEntry<String>(
+                                          value: value,
+                                          label: value,
+                                        );
+                                      }).toList(),
                                     ),
-                                  )),
+                                  ),
                                 ],
                               ),
                             ),
@@ -141,31 +146,25 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     child: Text(
                                         'How relevant is the program you took to your job after graduation?'),
                                   ),
-                                  Column(
-                                      children: List.generate(
-                                    _secondQuestion.length,
-                                    (index) => CheckboxListTile(
-                                      contentPadding: const EdgeInsets.all(4),
-                                      checkboxShape: const CircleBorder(),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      dense: true,
-                                      title: Text(
-                                        _secondQuestion[index]['answer'],
-                                        style: const TextStyle(),
-                                      ),
-                                      value: _secondQuestion[index]['value'],
-                                      onChanged: (value) {
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: DropdownMenu(
+                                      width: 150,
+                                      hintText: '-Select-',
+                                      onSelected: (String? value) {
                                         setState(() {
-                                          for (var element in _secondQuestion) {
-                                            element['value'] = false;
-                                          }
-                                          _secondQuestion[index]['value'] =
-                                              value;
+                                          question2Controller.text = value!;
                                         });
                                       },
+                                      dropdownMenuEntries:
+                                          listOfAnswers2.map((String value) {
+                                        return DropdownMenuEntry<String>(
+                                          value: value,
+                                          label: value,
+                                        );
+                                      }).toList(),
                                     ),
-                                  )),
+                                  ),
                                 ],
                               ),
                             ),
@@ -179,31 +178,25 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     child: Text(
                                         'Does the program you took helped you land your first job?'),
                                   ),
-                                  Column(
-                                      children: List.generate(
-                                    _thirdQuestion.length,
-                                    (index) => CheckboxListTile(
-                                      contentPadding: const EdgeInsets.all(4),
-                                      checkboxShape: const CircleBorder(),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      dense: true,
-                                      title: Text(
-                                        _thirdQuestion[index]['answer'],
-                                        style: const TextStyle(),
-                                      ),
-                                      value: _thirdQuestion[index]['value'],
-                                      onChanged: (value) {
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: DropdownMenu(
+                                      width: 150,
+                                      hintText: '-Select-',
+                                      onSelected: (String? value) {
                                         setState(() {
-                                          for (var element in _thirdQuestion) {
-                                            element['value'] = false;
-                                          }
-                                          _thirdQuestion[index]['value'] =
-                                              value;
+                                          question3Controller.text = value!;
                                         });
                                       },
+                                      dropdownMenuEntries:
+                                          listOfAnswers3.map((String value) {
+                                        return DropdownMenuEntry<String>(
+                                          value: value,
+                                          label: value,
+                                        );
+                                      }).toList(),
                                     ),
-                                  )),
+                                  ),
                                 ],
                               ),
                             ),
@@ -217,31 +210,25 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     child: Text(
                                         'Were you able to acquire the necessary skills from the program you took that are needed for your current job?'),
                                   ),
-                                  Column(
-                                      children: List.generate(
-                                    _fourthQuestion.length,
-                                    (index) => CheckboxListTile(
-                                      contentPadding: const EdgeInsets.all(4),
-                                      checkboxShape: const CircleBorder(),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      dense: true,
-                                      title: Text(
-                                        _fourthQuestion[index]['answer'],
-                                        style: const TextStyle(),
-                                      ),
-                                      value: _fourthQuestion[index]['value'],
-                                      onChanged: (value) {
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: DropdownMenu(
+                                      width: 150,
+                                      hintText: '-Select-',
+                                      onSelected: (String? value) {
                                         setState(() {
-                                          for (var element in _fourthQuestion) {
-                                            element['value'] = false;
-                                          }
-                                          _fourthQuestion[index]['value'] =
-                                              value;
+                                          question4Controller.text = value!;
                                         });
                                       },
+                                      dropdownMenuEntries:
+                                          listOfAnswers4.map((String value) {
+                                        return DropdownMenuEntry<String>(
+                                          value: value,
+                                          label: value,
+                                        );
+                                      }).toList(),
                                     ),
-                                  )),
+                                  ),
                                 ],
                               ),
                             ),
@@ -255,31 +242,25 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     child: Text(
                                         'Is your job related to your course?'),
                                   ),
-                                  Column(
-                                      children: List.generate(
-                                    _fifthQuestion.length,
-                                    (index) => CheckboxListTile(
-                                      contentPadding: const EdgeInsets.all(4),
-                                      checkboxShape: const CircleBorder(),
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
-                                      dense: true,
-                                      title: Text(
-                                        _fifthQuestion[index]['answer'],
-                                        style: const TextStyle(),
-                                      ),
-                                      value: _fifthQuestion[index]['value'],
-                                      onChanged: (value) {
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: DropdownMenu(
+                                      width: 150,
+                                      hintText: '-Select-',
+                                      onSelected: (String? value) {
                                         setState(() {
-                                          for (var element in _fifthQuestion) {
-                                            element['value'] = false;
-                                          }
-                                          _fifthQuestion[index]['value'] =
-                                              value;
+                                          question5Controller.text = value!;
                                         });
                                       },
+                                      dropdownMenuEntries:
+                                          listOfAnswers5.map((String value) {
+                                        return DropdownMenuEntry<String>(
+                                          value: value,
+                                          label: value,
+                                        );
+                                      }).toList(),
                                     ),
-                                  )),
+                                  ),
                                 ],
                               ),
                             ),
@@ -294,16 +275,49 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                         'What are the skills you aquired from the program you took, that you find helpful in your current job?'),
                                   ),
                                   TextFormField(
+                                    controller: question6Controller,
                                     keyboardType: TextInputType.multiline,
                                     textInputAction: TextInputAction.newline,
                                     maxLines: 2,
+                                    validator: (value) =>
+                                        value!.isEmpty && value != null
+                                            ? 'This field is required'
+                                            : null,
                                   )
                                 ],
                               ),
                             ),
                             const SizedBox(height: 28),
                             Button(
-                              onSubmit: () {},
+                              onSubmit: () {
+                                if (formKey.currentState!.validate()) {
+                                  final DocumentReference document = alumni
+                                      .alumni
+                                      .doc(question6Controller.text);
+                                  setState(() {
+                                    document.set({
+                                      'question_1': question1Controller,
+                                      'question_2': question2Controller,
+                                      'question_3': question3Controller,
+                                      'question_4': question4Controller,
+                                      'question_5': question5Controller,
+                                      'question_6': question6Controller,
+                                    });
+                                  });
+                                  question1Controller.clear();
+                                  question2Controller.clear();
+                                  question3Controller.clear();
+                                  question4Controller.clear();
+                                  question5Controller.clear();
+                                  question6Controller.clear();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NavigationPage(),
+                                    ),
+                                  );
+                                }
+                              },
                             ),
                             SizedBox(
                               height: 20,
@@ -322,3 +336,63 @@ class _QuestionsPageState extends State<QuestionsPage> {
     );
   }
 }
+
+
+
+//nightmare
+
+                                  // Column(
+                                  //     children: List.generate(
+                                  //   _fifthQuestion.length,
+                                  //   (index) => CheckboxListTile(
+                                  //     contentPadding: const EdgeInsets.all(4),
+                                  //     checkboxShape: const CircleBorder(),
+                                  //     controlAffinity:
+                                  //         ListTileControlAffinity.leading,
+                                  //     dense: true,
+                                  //     title: Text(
+                                  //       _fifthQuestion[index]['answer'],
+                                  //       style: const TextStyle(),
+                                  //     ),
+                                  //     value: _fifthQuestion[index]['value'],
+                                  //     onChanged: (value) {
+                                  //       setState(() {
+                                  //         for (var element in _fifthQuestion) {
+                                  //           element['value'] = false;
+                                  //         }
+                                  //         _fifthQuestion[index]['value'] =
+                                  //             value;
+                                  //       });
+                                  //     },
+                                  //   ),
+                                  // )),
+
+
+// final List _firstQuestion = [
+//     {'value': false, 'answer': 'yes'},
+//     {'value': false, 'answer': 'no'},
+//   ];
+
+//   // final List _secondQuestion = [
+//   //   {'value': false, 'answer': 'Not relevant at all'},
+//   //   {'value': false, 'answer': 'Somewhat relevant'},
+//   //   {'value': false, 'answer': 'Very relevant'},
+//   // ];
+
+//   final List _thirdQuestion = [
+//     {'value': false, 'answer': 'Not helpful at all'},
+//     {'value': false, 'answer': 'Somewhat helpful'},
+//     {'value': false, 'answer': 'Very helpful'},
+//   ];
+
+//   final List _fourthQuestion = [
+//     {'value': false, 'answer': 'No'},
+//     {'value': false, 'answer': 'Somehow'},
+//     {'value': false, 'answer': 'Yes'},
+//   ];
+
+//   final List _fifthQuestion = [
+//     {'value': false, 'answer': 'Not relevant at all'},
+//     {'value': false, 'answer': 'Somewhat relevant'},
+//     {'value': false, 'answer': 'Same/very relevant'},
+//   ];

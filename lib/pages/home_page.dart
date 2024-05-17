@@ -307,12 +307,6 @@ class _HomePageState extends State<HomePage> {
                                     'middle_name': middleNameController.text,
                                     'date_of_birth': dateOfBirthController.text,
                                     'occupation': occupationController.text,
-                                    'question_1': false,
-                                    'question_2': false,
-                                    'question_3': false,
-                                    'question_4': false,
-                                    'question_5': false,
-                                    'question_6': false,
                                   });
                                 });
                                 firstNameController.clear();
