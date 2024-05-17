@@ -1,6 +1,6 @@
 import 'package:alumni_app/compontents/button.dart';
 import 'package:alumni_app/compontents/olopsc_form.dart';
-import 'package:alumni_app/pages/questions_page.dart';
+import 'package:alumni_app/pages/questions_page_desktop.dart';
 import 'package:alumni_app/services/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
