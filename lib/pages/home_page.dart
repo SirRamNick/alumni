@@ -350,6 +350,10 @@ class _HomePageState extends State<HomePage> {
                                             .doc(yearGraduatedController.text)
                                             .set({
                                           'value': doc.get('value') + 1,
+                                          'index': int.parse(
+                                                  yearGraduatedController
+                                                      .text) -
+                                              2001
                                         });
                                         emailController.clear();
                                         firstNameController.clear();
