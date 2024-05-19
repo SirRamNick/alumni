@@ -12,17 +12,28 @@ class NavigationPage extends StatefulWidget {
 
 const _navBarItems = [
   BottomNavigationBarItem(
-    icon: Icon(Icons.person_outline_rounded),
-    activeIcon: Icon(Icons.person_rounded),
+    icon: Icon(
+      Icons.person_outline_rounded,
+      color: const Color.fromRGBO(255, 210, 49, 1),
+    ),
+    activeIcon: Icon(
+      Icons.person_rounded,
+      color: const Color.fromRGBO(255, 210, 49, 1),
+    ),
     label: 'Profile',
   ),
   BottomNavigationBarItem(
-    icon: Icon(Icons.settings_outlined),
-    activeIcon: Icon(Icons.settings),
+    icon: Icon(
+      Icons.settings_outlined,
+      color: const Color.fromRGBO(255, 210, 49, 1),
+    ),
+    activeIcon: Icon(
+      Icons.settings,
+      color: const Color.fromRGBO(255, 210, 49, 1),
+    ),
     label: 'Settings',
   ),
 ];
-
 
 class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
@@ -37,7 +48,6 @@ class _NavigationPageState extends State<NavigationPage> {
 
   //Scrolling through pages
 
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -49,10 +59,12 @@ class _NavigationPageState extends State<NavigationPage> {
       Settings(),
     ];
 
-
     return Scaffold(
       bottomNavigationBar: isSmallScreen
           ? BottomNavigationBar(
+              backgroundColor: Color.fromRGBO(11, 10, 95, 1),
+              unselectedItemColor: const Color.fromRGBO(255, 210, 49, 1),
+              selectedItemColor: const Color.fromRGBO(255, 210, 49, 1),
               items: _navBarItems,
               currentIndex: _selectedIndex,
               onTap: (int index) {
@@ -66,35 +78,30 @@ class _NavigationPageState extends State<NavigationPage> {
         children: <Widget>[
           if (!isSmallScreen)
             NavigationRail(
+              backgroundColor: Color.fromRGBO(11, 10, 95, 1),
               //leading start
               leading: Center(
                 child: Container(
                   padding: EdgeInsets.all(8),
-                  child: Row(
+                  child: Column(
                     children: [
-                      const Icon(
-                        Icons.abc,
-                        size: 60,
+                      Image.asset('images/olopsc_logo.png', scale: 2.1),
+                      const SizedBox(
+                        height: 15,
                       ),
-                      Column(
-                        children: [
-                          const Row(
-                            children: [
-                              const Text(
-                                'Our Lady of Perpetual Succor College',
-                                style: TextStyle(fontSize: 11),
-                              ),
-                            ],
-                          ),
-                          const Row(
-                            children: [
-                              const Text(
-                                'Alumni Tracking System',
-                                style: TextStyle(fontSize: 20),
-                              )
-                            ],
-                          ),
-                        ],
+                      const Text(
+                        'Our Lady of Perpetual Succor College',
+                        style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: const Color.fromRGBO(255, 210, 49, 1)),
+                      ),
+                      const Text(
+                        'Alumni Tracking System',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: const Color.fromRGBO(255, 210, 49, 1)),
                       ),
                     ],
                   ),
@@ -114,6 +121,8 @@ class _NavigationPageState extends State<NavigationPage> {
                       selectedIcon: item.activeIcon,
                       label: Text(
                         item.label!,
+                        style: TextStyle(
+                            color: const Color.fromRGBO(255, 210, 49, 1)),
                       )))
                   .toList(),
             ),
@@ -127,13 +136,9 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 }
 
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(),
-    );
-  }
-
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Container(),
+  );
+}
