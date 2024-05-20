@@ -34,7 +34,6 @@ class _HomePageState extends State<HomePage> {
   late final List<String> programs;
   late final List<String> sexDropdownItems;
   late final List<String> status;
-
   @override
   void initState() {
     super.initState();
@@ -80,34 +79,6 @@ class _HomePageState extends State<HomePage> {
     occupationController.dispose();
   }
 
-  // void onSubmit() {
-  //   final DocumentReference document =
-  //       alumni.alumni.doc(firstNameController.text);
-  //   setState(() {
-  //     document.set({
-  //       'first_name': firstNameController.text,
-  //       'last_name': lastNameController.text,
-  //       'program': programController.text,
-  //       'year_graduated': int.parse(yearGraduatedController.text),
-  //       'sex': sexController.text,
-  //       'employment_status': bool.parse(statusController.text),
-  //       'middle_name': middleNameController.text,
-  //       'date_of_birth': dateOfBirthController.text,
-  //       'occupation': occupationController.text,
-  //     });
-  //   });
-  //   firstNameController.clear();
-  //   middleNameController.clear();
-  //   lastNameController.clear();
-  //   programController.clear();
-  //   batchController.clear();
-  //   sexController.clear();
-  //   statusController.clear();
-  //   yearGraduatedController.clear();
-  //   dateOfBirthController.clear();
-  //   occupationController.clear();
-  // }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -140,6 +111,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+ cgadiano
       body: Container(
         height: double.infinity,
         decoration: const BoxDecoration(
@@ -798,6 +770,264 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
               }),
+
+      body: Form(
+        key: formKey,
+        child: Center(
+          child: Column(
+            children: [
+              const Icon(
+                Icons.abc,
+                size: 80,
+              ),
+              const Text('Our Lady of Perpetual Succor College'),
+              const Text('Alumni Tracking System'),
+              const SizedBox(
+                height: 12,
+              ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Made By: '),
+                  Icon(Icons.abc),
+                ],
+              ),
+              const SizedBox(
+                height: 75,
+              ),
+              Container(
+                width: screenWidth * .5,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OlopscForm(
+                            textEditingController: firstNameController,
+                            subTitle: const Text('First Name'),
+                            suffixIcon: null,
+                            validator: (value) =>
+                                value!.isEmpty && value != null
+                                    ? 'This field is required'
+                                    : null,
+                          ),
+                        ),
+                        Expanded(
+                          child: OlopscForm(
+                            textEditingController: lastNameController,
+                            subTitle: const Text('Last Name'),
+                            suffixIcon: null,
+                            validator: (value) =>
+                                value!.isEmpty && value != null
+                                    ? 'This field is required'
+                                    : null,
+                          ),
+                        ),
+                        Expanded(
+                          child: OlopscForm(
+                            textEditingController: middleNameController,
+                            subTitle: const Text('Middle Name'),
+                            suffixIcon: null,
+                            validator: (value) =>
+                                value!.isEmpty && value != null
+                                    ? 'This field is required'
+                                    : null,
+                          ),
+                        ),
+                        Expanded(
+                          child: DropdownMenu(
+                            hintText: 'Sex',
+                            onSelected: (String? value) {
+                              setState(() {
+                                sexController.text = value!;
+                                value = null;
+                              });
+                            },
+                            dropdownMenuEntries:
+                                sexDropdownItems.map((String value) {
+                              return DropdownMenuEntry<String>(
+                                  value: value, label: value);
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: OlopscForm(
+                          subTitle: const Text('Email'),
+                          textEditingController: emailController,
+                          suffixIcon: null,
+                          validator: (value) => value!.isEmpty && value != null
+                              ? 'This field is required'
+                              : null,
+                        )),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: OlopscForm(
+                          textEditingController: dateOfBirthController,
+                          subTitle: const Text('Date of Birth'),
+                          suffixIcon: null,
+                          validator: (value) => value!.isEmpty && value != null
+                              ? 'This field is required'
+                              : null,
+                        )),
+                        Expanded(
+                          child: OlopscForm(
+                            textEditingController: yearGraduatedController,
+                            subTitle: const Text('Year Graduated'),
+                            suffixIcon: null,
+                            validator: (value) =>
+                                value!.isEmpty && value != null
+                                    ? 'This field is required'
+                                    : null,
+                          ),
+                        ),
+                        DropdownMenu(
+                          width: 150,
+                          hintText: 'Course',
+                          onSelected: (String? value) {
+                            setState(() {
+                              programController.text = value!;
+                            });
+                          },
+                          dropdownMenuEntries: programs.map((String value) {
+                            return DropdownMenuEntry<String>(
+                              value: value,
+                              label: value,
+                            );
+                          }).toList(),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: DropdownMenu(
+                            width: 220,
+                            hintText: 'Employement Status',
+                            onSelected: (String? value) {
+                              setState(() {
+                                statusController.text =
+                                    value == 'Employed' ? 'true' : 'false';
+                              });
+                            },
+                            dropdownMenuEntries: status.map((String value) {
+                              return DropdownMenuEntry<String>(
+                                value: value,
+                                label: value,
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      child: statusController.text == 'true'
+                          ? OlopscForm(
+                              textEditingController: occupationController,
+                              subTitle: const Text('Occupation'),
+                              suffixIcon: null,
+                              validator: (value) =>
+                                  value!.isEmpty && value != null
+                                      ? 'This field is required'
+                                      : null,
+                            )
+                          : null,
+                    ),
+                    const SizedBox(
+                      height: 28,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                Colors.blue,
+                              ),
+                            ),
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                final DocumentReference document =
+                                    alumni.alumni.doc(firstNameController.text);
+                                setState(() {
+                                  document.set({
+                                    'email': emailController.text,
+                                    'first_name': firstNameController.text,
+                                    'last_name': lastNameController.text,
+                                    'program': programController.text,
+                                    'year_graduated':
+                                        int.parse(yearGraduatedController.text),
+                                    'sex': sexController.text,
+                                    'employment_status':
+                                        bool.parse(statusController.text),
+                                    'middle_name': middleNameController.text,
+                                    'date_of_birth': dateOfBirthController.text,
+                                    'occupation': occupationController.text,
+                                    'time_stamp': Timestamp.now(),
+                                  });
+                                });
+                                DocumentSnapshot yearData = await alumni.stats
+                                    .doc(yearGraduatedController.text)
+                                    .get();
+                                alumni.stats
+                                    .doc(yearGraduatedController.text)
+                                    .set({
+                                  'value': yearData.get('value') + 1,
+                                  'index':
+                                      int.parse(yearGraduatedController.text) -
+                                          2001,
+                                  'year':
+                                      int.parse(yearGraduatedController.text),
+                                });
+                                emailController.clear();
+                                firstNameController.clear();
+                                middleNameController.clear();
+                                lastNameController.clear();
+                                programController.clear();
+                                batchController.clear();
+                                sexController.clear();
+                                statusController.clear();
+                                yearGraduatedController.clear();
+                                dateOfBirthController.clear();
+                                occupationController.clear();
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => QuestionsPage(
+                                      docID: document.id,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text(
+                              'Next',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            )),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+ main
         ),
       ),
     );
