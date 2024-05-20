@@ -1,4 +1,5 @@
 import 'package:alumni_app/compontents/profile_content.dart';
+import 'package:alumni_app/compontents/profile_user.dart';
 import 'package:alumni_app/services/firebase.dart';
 import 'package:flutter/material.dart';
 
@@ -78,6 +79,108 @@ class _ProfileState extends State<Profile> {
                                       ),
                                       const SizedBox(
                                         height: 30,
+                                      ),
+                                      Row(
+                                        children: [
+                                          //name
+                                          Column(
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text('Name',
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        color: const Color
+                                                            .fromRGBO(
+                                                            255, 210, 49, 1),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16)),
+                                              ),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: ProfileUser(
+                                                    userDescribe:
+                                                        '${value!['first_name']} ${value!['middle_name']} ${value!['last_name']}'),
+                                              ),
+                                            ],
+                                          ),
+                                          //sex
+                                          Column(
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text('Sex',
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        color: const Color
+                                                            .fromRGBO(
+                                                            255, 210, 49, 1),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16)),
+                                              ),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: ProfileUser(
+                                                    userDescribe:
+                                                        '${value!['sex']}'),
+                                              ),
+                                            ],
+                                          ),
+                                          //year graduated
+                                          Column(
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text('Year Graduated',
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        color: const Color
+                                                            .fromRGBO(
+                                                            255, 210, 49, 1),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16)),
+                                              ),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: ProfileUser(
+                                                    userDescribe:
+                                                        '${value!['year_graduated']}'),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      //name of alumni
+
+                                      //sex
+
+                                      // program
+
+                                      // year graduated
+
+                                      //employment status
+
+                                      // email adress
+                                      Align(
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                              'Are you satisfied with your current status?',
+                                              maxLines: 2,
+                                              style: TextStyle(
+                                                  color: const Color.fromRGBO(
+                                                      255, 210, 49, 1),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16)),
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: ProfileContent(
+                                            contentprofile: value!['email']),
                                       ),
                                       //question 1
                                       Align(

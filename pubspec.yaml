@@ -56,11 +56,11 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - images/
-    - images/alumni_watermark.png
-    - images/ocs_insignia_logo.png
-    - images/olopsc_logo.png
+  # assets:
+  #   - images/
+  #   - images/alumni_watermark.png
+  #   - images/ocs_insignia_logo.png
+  #   - images/olopsc_logo.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

@@ -51,10 +51,19 @@ class _HomePageState extends State<HomePage> {
     formKey = GlobalKey<FormState>();
     alumni = FirestoreService();
     programs = [
-      'Bachelors of Science in Computer Science',
-      'Bachelor of Science in Tourism Management',
-      'Bachelor of Science in Hospitality Management',
-      'Bachelor of Science in Business Administration',
+      'Bachelor in Elementary Education Major in General Education',
+      'Bachelor Secondary Education Major in English ',
+      'Bachelor Secondary Education Major in Mathematics ',
+      'Bachelor of Arts in English ',
+      'BS in Business Administration Major in Marketing Management ',
+      'BS in Business Administration Major in Human Resource Management',
+      'BS in Entrepreneurship',
+      'BS in Hospitality Management / Hotel and Restaurant Management',
+      'BS in Tourism Management',
+      'BS in Computer Science',
+      'Associate in Computer Technology',
+      'Teacher Certificate Program',
+
     ];
     sexDropdownItems = [
       'Male',
@@ -115,7 +124,8 @@ class _HomePageState extends State<HomePage> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/alumni_watermark.png'),
+            image: NetworkImage(
+                'https://lh3.googleusercontent.com/d/1A9nZdV4Y4kXErJlBOkahkpODE7EVhp1x'),
             alignment: Alignment.bottomLeft,
             scale: 2.5,
           ),
@@ -127,7 +137,9 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   //olopsc logo // olopsc name
-                  Image.asset('images/olopsc_logo.png', scale: 1.5),
+                  Image.network(
+                      'https://lh3.googleusercontent.com/d/1DlDDvI0eIDivjwvCrngmyKp_Yr6d8oqH',
+                      scale: 1.5),
                   const SizedBox(
                     height: 15,
                   ),
@@ -143,7 +155,8 @@ class _HomePageState extends State<HomePage> {
                       const Text('Made By: '),
                       Opacity(
                         opacity: 0.9,
-                        child: Image.asset('images/ocs_insignia_logo.png',
+                        child: Image.network(
+                            'https://lh3.googleusercontent.com/d/19U4DW6KMNsVOqT6ZzX_ikpezY2N24Vyi',
                             scale: 39.5),
                       ),
                     ],
@@ -260,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                               Container(
                                 color: Colors.white,
                                 child: DropdownMenu(
-                                  width: 150,
+                                  width: 300,
                                   hintText: 'Course',
                                   onSelected: (String? value) {
                                     setState(() {
@@ -504,6 +517,26 @@ class _HomePageState extends State<HomePage> {
                                   spacing: 20.0,
                                   runSpacing: 20.0,
                                   children: <Widget>[
+                                    //course
+                                    Container(
+                                      color: Colors.white,
+                                      child: DropdownMenu(
+                                        width: 300,
+                                        hintText: 'Course',
+                                        onSelected: (String? value) {
+                                          setState(() {
+                                            programController.text = value!;
+                                          });
+                                        },
+                                        dropdownMenuEntries:
+                                            programs.map((String value) {
+                                          return DropdownMenuEntry<String>(
+                                            value: value,
+                                            label: value,
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
                                     //Gender
                                     Container(
                                       color: Colors.white,
@@ -519,26 +552,6 @@ class _HomePageState extends State<HomePage> {
                                             .map((String value) {
                                           return DropdownMenuEntry<String>(
                                               value: value, label: value);
-                                        }).toList(),
-                                      ),
-                                    ),
-                                    //course
-                                    Container(
-                                      color: Colors.white,
-                                      child: DropdownMenu(
-                                        width: 150,
-                                        hintText: 'Course',
-                                        onSelected: (String? value) {
-                                          setState(() {
-                                            programController.text = value!;
-                                          });
-                                        },
-                                        dropdownMenuEntries:
-                                            programs.map((String value) {
-                                          return DropdownMenuEntry<String>(
-                                            value: value,
-                                            label: value,
-                                          );
                                         }).toList(),
                                       ),
                                     ),
