@@ -9,15 +9,25 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onSubmit,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 250, vertical: 15),
-        decoration: BoxDecoration(
-            color: Colors.blue, borderRadius: BorderRadius.circular(6)),
-        child: Text(
-          'S U B M I T',
-          style: TextStyle(color: Colors.white),
+    return Container(
+      margin: EdgeInsets.all(20),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: InkWell(
+          onTap: onSubmit,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 250, vertical: 15),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                color: Color.fromRGBO(11, 10, 95, 1),
+                borderRadius: BorderRadius.circular(6)),
+            child: Text(
+              'S U B M I T',
+              style: TextStyle(
+                color: const Color.fromRGBO(255, 210, 49, 1),
+              ),
+            ),
+          ),
         ),
       ),
     );
