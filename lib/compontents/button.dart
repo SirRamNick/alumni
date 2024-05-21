@@ -10,21 +10,21 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: FittedBox(
         fit: BoxFit.scaleDown,
         child: InkWell(
           onTap: onSubmit,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 250, vertical: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 250, vertical: 15),
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.white),
-                color: Color.fromRGBO(11, 10, 95, 1),
+                color: const Color.fromRGBO(11, 10, 95, 1),
                 borderRadius: BorderRadius.circular(6)),
-            child: Text(
+            child: const Text(
               'S U B M I T',
               style: TextStyle(
-                color: const Color.fromRGBO(255, 210, 49, 1),
+                color: Color.fromRGBO(255, 210, 49, 1),
               ),
             ),
           ),

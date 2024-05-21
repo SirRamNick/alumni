@@ -1,15 +1,11 @@
-import 'dart:ui';
-import 'package:alumni_app/compontents/button.dart';
+import 'dart:js_interop';
+
 import 'package:alumni_app/compontents/olopsc_form.dart';
-import 'package:alumni_app/compontents/question_content_small.dart';
 import 'package:alumni_app/pages/questions_page_desktop.dart';
 import 'package:alumni_app/services/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -71,9 +67,9 @@ class _HomePageState extends State<HomePage> {
     ];
     status = [
       'Government Employee',
-      'Private Employed',
+      'Privately Employed',
       'Entrepreneur',
-      'Other:',
+      'Other',
     ];
   }
 
@@ -245,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                                   buttonStyleData: ButtonStyleData(
                                     height: 50,
                                     width: 160,
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                       left: 14,
                                     ),
                                     decoration: BoxDecoration(
@@ -415,10 +411,7 @@ class _HomePageState extends State<HomePage> {
                                       .toList(),
                                   onChanged: (String? value) {
                                     setState(() {
-                                      statusController.text =
-                                          value == 'Entrepreneur'
-                                              ? 'true'
-                                              : 'true';
+                                      statusController.text = value!;
                                     });
                                   },
                                   buttonStyleData: ButtonStyleData(
@@ -461,7 +454,12 @@ class _HomePageState extends State<HomePage> {
                             height: 20,
                           ),
                           Container(
-                            child: statusController.text == 'true'
+                            child: statusController.text.toLowerCase() ==
+                                        'privately employed' ||
+                                    statusController.text.toLowerCase() ==
+                                        'government employee' ||
+                                    statusController.text.toLowerCase() ==
+                                        'entrepreneur'
                                 ? OlopscForm(
                                     textEditingController: occupationController,
                                     subTitle: const Text('--Please Specify--'),
@@ -479,12 +477,12 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 100,
                                 child: ElevatedButton(
-                                    style: ButtonStyle(
+                                    style: const ButtonStyle(
                                       backgroundColor: MaterialStatePropertyAll(
-                                        const Color.fromRGBO(11, 10, 95, 1),
+                                        Color.fromRGBO(11, 10, 95, 1),
                                       ),
                                     ),
                                     onPressed: () async {
@@ -492,43 +490,133 @@ class _HomePageState extends State<HomePage> {
                                         final DocumentReference document =
                                             alumni.alumni
                                                 .doc(firstNameController.text);
-                                        setState(() {
-                                          document.set({
-                                            'email': emailController.text,
-                                            'first_name':
-                                                firstNameController.text,
-                                            'last_name':
-                                                lastNameController.text,
-                                            'program': programController.text,
-                                            'year_graduated': int.parse(
-                                                yearGraduatedController.text),
-                                            'sex': sexController.text,
-                                            'employment_status': bool.parse(
-                                                statusController.text),
-                                            'middle_name':
-                                                middleNameController.text,
-                                            'date_of_birth':
-                                                dateOfBirthController.text,
-                                            'occupation':
-                                                occupationController.text,
-                                            'time_stamp': Timestamp.now(),
-                                          });
-                                        });
-                                        DocumentSnapshot yearData = await alumni
-                                            .stats
-                                            .doc(yearGraduatedController.text)
-                                            .get();
-                                        alumni.stats
-                                            .doc(yearGraduatedController.text)
-                                            .set({
-                                          'value': yearData.get('value') + 1,
-                                          'index': int.parse(
-                                                  yearGraduatedController
-                                                      .text) -
-                                              2001,
-                                          'year': int.parse(
+                                        document.set({
+                                          'email': emailController.text,
+                                          'first_name':
+                                              firstNameController.text,
+                                          'last_name': lastNameController.text,
+                                          'program': programController.text,
+                                          'year_graduated': int.parse(
                                               yearGraduatedController.text),
+                                          'sex': sexController.text,
+                                          'employment_status':
+                                              statusController.text,
+                                          'middle_name':
+                                              middleNameController.text,
+                                          'date_of_birth':
+                                              dateOfBirthController.text,
+                                          'occupation':
+                                              occupationController.text,
+                                          'time_stamp': Timestamp.now(),
                                         });
+                                        final DocumentReference documentStats =
+                                            alumni.stats.doc(
+                                                yearGraduatedController.text);
+
+                                        final DocumentSnapshot yearData =
+                                            await documentStats.get();
+                                        if (yearData.exists) {
+                                          await documentStats.update({
+                                            'value': yearData.get('value') + 1
+                                          });
+                                        } else {
+                                          await documentStats.set({
+                                            'value': 1,
+                                            'index': int.parse(
+                                                    yearGraduatedController
+                                                        .text) -
+                                                2001,
+                                            'year': int.parse(
+                                                yearGraduatedController.text),
+                                          });
+                                        }
+
+                                        final DocumentReference
+                                            documentEmpStats =
+                                            alumni.empStats.doc(
+                                                yearGraduatedController.text);
+
+                                        final DocumentSnapshot empStatsData =
+                                            await documentEmpStats.get();
+                                        if (statusController.text
+                                                .toLowerCase() ==
+                                            'privately employed') {
+                                          try {
+                                            await documentEmpStats.update({
+                                              'year': int.parse(
+                                                  yearGraduatedController.text),
+                                              'privately_employed':
+                                                  empStatsData.get(
+                                                          'privately_employed') +
+                                                      1,
+                                            });
+                                          } catch (e) {
+                                            await documentEmpStats.set({
+                                              'year': int.parse(
+                                                  yearGraduatedController.text),
+                                              'privately_employed': 1,
+                                            }, SetOptions(merge: true));
+                                          }
+                                        }
+                                        if (statusController.text
+                                                .toLowerCase() ==
+                                            'government employee') {
+                                          try {
+                                            await documentEmpStats.update({
+                                              'year': int.parse(
+                                                  yearGraduatedController.text),
+                                              'government_employee':
+                                                  empStatsData.get(
+                                                          'government_employee') +
+                                                      1,
+                                            });
+                                          } catch (e) {
+                                            await documentEmpStats.set({
+                                              'year': int.parse(
+                                                  yearGraduatedController.text),
+                                              'government_employee': 1,
+                                            }, SetOptions(merge: true));
+                                          }
+                                        }
+                                        if (statusController.text
+                                                .toLowerCase() ==
+                                            'entrepreneur') {
+                                          try {
+                                            await documentEmpStats.update({
+                                              'year': int.parse(
+                                                  yearGraduatedController.text),
+                                              'entrepreneur': empStatsData
+                                                      .get('entrepreneur') +
+                                                  1,
+                                            });
+                                          } catch (e) {
+                                            await documentEmpStats.set({
+                                              'year': int.parse(
+                                                  yearGraduatedController.text),
+                                              'entrepreneur': 1,
+                                            }, SetOptions(merge: true));
+                                          }
+                                        }
+                                        if (statusController.text
+                                                .toLowerCase() ==
+                                            'others') {
+                                          try {
+                                            await documentEmpStats.update({
+                                              'year': int.parse(
+                                                  yearGraduatedController.text),
+                                              'others':
+                                                  empStatsData.get('others') +
+                                                      1,
+                                            });
+                                          } catch (e) {
+                                            await documentEmpStats.set({
+                                              'year': int.parse(
+                                                  yearGraduatedController.text),
+                                              'others': 1,
+                                            }, SetOptions(merge: true));
+                                          }
+                                        }
+
                                         emailController.clear();
                                         firstNameController.clear();
                                         middleNameController.clear();
@@ -550,7 +638,7 @@ class _HomePageState extends State<HomePage> {
                                         );
                                       }
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'Next',
                                       style: TextStyle(
                                         color: const Color.fromRGBO(
@@ -828,10 +916,7 @@ class _HomePageState extends State<HomePage> {
                                             .toList(),
                                         onChanged: (String? value) {
                                           setState(() {
-                                            statusController.text =
-                                                value == 'Entrepreneur'
-                                                    ? 'true'
-                                                    : 'true';
+                                            statusController.text = value!;
                                           });
                                         },
                                         buttonStyleData: ButtonStyleData(
@@ -874,16 +959,21 @@ class _HomePageState extends State<HomePage> {
                                     //employment status
                                   ],
                                 ),
-                                
+
                                 const SizedBox(
                                   height: 25,
                                 ),
-                               
+
                                 const SizedBox(
                                   height: 20,
                                 ),
                                 Container(
-                                  child: statusController.text == 'true'
+                                  child: statusController.text.toLowerCase() ==
+                                              'privately employed' ||
+                                          statusController.text.toLowerCase() ==
+                                              'government employee' ||
+                                          statusController.text.toLowerCase() ==
+                                              'entrepreneur'
                                       ? OlopscForm(
                                           textEditingController:
                                               occupationController,
@@ -912,7 +1002,7 @@ class _HomePageState extends State<HomePage> {
                                           border:
                                               Border.all(color: Colors.white)),
                                       child: ElevatedButton(
-                                          style: ButtonStyle(
+                                          style: const ButtonStyle(
                                             shadowColor:
                                                 MaterialStatePropertyAll(
                                                     Colors.white),
@@ -941,9 +1031,7 @@ class _HomePageState extends State<HomePage> {
                                                           .text),
                                                   'sex': sexController.text,
                                                   'employment_status':
-                                                      bool.parse(
-                                                          statusController
-                                                              .text),
+                                                      statusController.text,
                                                   'middle_name':
                                                       middleNameController.text,
                                                   'date_of_birth':
@@ -996,10 +1084,10 @@ class _HomePageState extends State<HomePage> {
                                               );
                                             }
                                           },
-                                          child: Text(
+                                          child: const Text(
                                             'Next',
                                             style: TextStyle(
-                                              color: const Color.fromRGBO(
+                                              color: Color.fromRGBO(
                                                   255, 210, 49, 1),
                                             ),
                                           )),
