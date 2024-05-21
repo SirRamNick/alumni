@@ -6,8 +6,10 @@ import 'package:alumni_app/compontents/question_content_small.dart';
 import 'package:alumni_app/pages/questions_page_desktop.dart';
 import 'package:alumni_app/services/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class HomePage extends StatefulWidget {
@@ -63,7 +65,6 @@ class _HomePageState extends State<HomePage> {
       'BS in Computer Science',
       'Associate in Computer Technology',
       'Teacher Certificate Program',
-
     ];
     sexDropdownItems = [
       'Male',
@@ -205,22 +206,85 @@ class _HomePageState extends State<HomePage> {
                                           : null,
                                 ),
                               ),
-                              Container(
-                                color: Colors.white,
-                                child: Expanded(
-                                  child: DropdownMenu(
-                                    hintText: 'Sex',
-                                    onSelected: (String? value) {
-                                      setState(() {
-                                        sexController.text = value!;
-                                        value = null;
-                                      });
-                                    },
-                                    dropdownMenuEntries:
-                                        sexDropdownItems.map((String value) {
-                                      return DropdownMenuEntry<String>(
-                                          value: value, label: value);
-                                    }).toList(),
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton2(
+                                  isExpanded: true,
+                                  hint: const Row(
+                                    children: [
+                                      Icon(Icons.list),
+                                      const SizedBox(
+                                        width: 4,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          'Sex',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.yellow,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  items: sexDropdownItems
+                                      .map(
+                                        (item) => DropdownMenuItem(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                  value: sexDropdownItems.first,
+                                  onChanged: (value) {},
+                                  buttonStyleData: ButtonStyleData(
+                                    height: 50,
+                                    width: 160,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 14,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: Colors.black,
+                                      ),
+                                      color: Colors.blue,
+                                    ),
+                                    elevation: 2,
+                                  ),
+                                  iconStyleData: const IconStyleData(
+                                    icon: Icon(Icons.arrow_forward_outlined),
+                                    iconSize: 14,
+                                    iconEnabledColor: Colors.yellow,
+                                    iconDisabledColor: Colors.grey,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    maxHeight: 200,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: Colors.yellow,
+                                    ),
+                                    offset: const Offset(-20, 0),
+                                    scrollbarTheme: ScrollbarThemeData(
+                                      radius: Radius.circular(40),
+                                      thickness: MaterialStateProperty.all(6),
+                                      thumbVisibility:
+                                          MaterialStateProperty.all(true),
+                                    ),
+                                  ),
+                                  menuItemStyleData: const MenuItemStyleData(
+                                    height: 40,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 14),
                                   ),
                                 ),
                               ),
