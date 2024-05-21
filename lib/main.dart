@@ -1,5 +1,6 @@
 import 'package:alumni_app/firebase_options.dart';
 import 'package:alumni_app/pages/home_page.dart';
+import 'package:alumni_app/pages/pro_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomePage(),
+      // home: ProPage(),
     );
   }
 }
