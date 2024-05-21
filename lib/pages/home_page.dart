@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:alumni_app/compontents/button.dart';
 import 'package:alumni_app/compontents/olopsc_form.dart';
 import 'package:alumni_app/compontents/question_content_small.dart';
@@ -70,7 +69,12 @@ class _HomePageState extends State<HomePage> {
       'Male',
       'Female',
     ];
-    status = ['Employed', 'Unemployed', 'Self-Employed'];
+    status = [
+      'Government Employee',
+      'Private Employed',
+      'Entrepreneur',
+      'Other:',
+    ];
   }
 
   @override
@@ -92,7 +96,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final bool isLargeScreen = screenWidth < 1100;
+    final bool isLargeScreen = screenWidth < 1646;
     // width size: 1100
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 210, 49, 1),
@@ -154,12 +158,14 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       //OCS Logo // Recognition & Credit
                       const Text('Made By: '),
+
                       Opacity(
                         opacity: 0.9,
                         child: Image.network(
                             'https://lh3.googleusercontent.com/d/19U4DW6KMNsVOqT6ZzX_ikpezY2N24Vyi',
                             scale: 39.5),
                       ),
+                      // Text('$screenWidth')
                     ],
                   ),
                   const SizedBox(
@@ -206,88 +212,71 @@ class _HomePageState extends State<HomePage> {
                                           : null,
                                 ),
                               ),
-                              DropdownButtonHideUnderline(
-                                child: DropdownButton2(
+                              //gender
+                              SizedBox(
+                                width: 160,
+                                child: DropdownButtonFormField2(
                                   isExpanded: true,
-                                  hint: const Row(
-                                    children: [
-                                      Icon(Icons.list),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          'Sex',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.yellow,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 0),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
                                   ),
+                                  hint: const Text('Sex'),
                                   items: sexDropdownItems
-                                      .map(
-                                        (item) => DropdownMenuItem(
-                                          value: item,
-                                          child: Text(
-                                            item,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis,
+                                      .map((item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      )
+                                          ))
                                       .toList(),
-                                  value: sexDropdownItems.first,
-                                  onChanged: (value) {},
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      sexController.text = value!;
+                                      value = null;
+                                    });
+                                  },
                                   buttonStyleData: ButtonStyleData(
                                     height: 50,
                                     width: 160,
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 14,
+                                    padding: EdgeInsets.only(
+                                      left: 14,
                                     ),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12),
                                       border: Border.all(
                                         color: Colors.black,
                                       ),
-                                      color: Colors.blue,
+                                      color: Colors.white,
                                     ),
                                     elevation: 2,
                                   ),
                                   iconStyleData: const IconStyleData(
-                                    icon: Icon(Icons.arrow_forward_outlined),
-                                    iconSize: 14,
-                                    iconEnabledColor: Colors.yellow,
-                                    iconDisabledColor: Colors.grey,
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.black45,
+                                    ),
+                                    iconSize: 24,
                                   ),
                                   dropdownStyleData: DropdownStyleData(
-                                    maxHeight: 200,
-                                    width: 200,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      color: Colors.yellow,
-                                    ),
-                                    offset: const Offset(-20, 0),
-                                    scrollbarTheme: ScrollbarThemeData(
-                                      radius: Radius.circular(40),
-                                      thickness: MaterialStateProperty.all(6),
-                                      thumbVisibility:
-                                          MaterialStateProperty.all(true),
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.white,
                                     ),
                                   ),
                                   menuItemStyleData: const MenuItemStyleData(
-                                    height: 40,
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 14),
+                                        EdgeInsets.symmetric(horizontal: 16),
                                   ),
                                 ),
                               ),
+                              //gender
                             ],
                           ),
                           const SizedBox(
@@ -334,49 +323,135 @@ class _HomePageState extends State<HomePage> {
                                           : null,
                                 ),
                               ),
-                              Container(
-                                color: Colors.white,
-                                child: DropdownMenu(
-                                  width: 300,
-                                  hintText: 'Course',
-                                  onSelected: (String? value) {
+                              //Degree
+                              SizedBox(
+                                width: 350,
+                                child: DropdownButtonFormField2(
+                                  isExpanded: true,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 0),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  hint: const Text('Degree'),
+                                  items: programs
+                                      .map((item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ))
+                                      .toList(),
+                                  onChanged: (String? value) {
                                     setState(() {
                                       programController.text = value!;
+                                      value = null;
                                     });
                                   },
-                                  dropdownMenuEntries:
-                                      programs.map((String value) {
-                                    return DropdownMenuEntry<String>(
-                                      value: value,
-                                      label: value,
-                                    );
-                                  }).toList(),
+                                  buttonStyleData: ButtonStyleData(
+                                    height: 50,
+                                    width: 160,
+                                    padding: const EdgeInsets.only(
+                                      left: 14,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: Colors.black,
+                                      ),
+                                      color: Colors.white,
+                                    ),
+                                    elevation: 2,
+                                  ),
+                                  iconStyleData: const IconStyleData(
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.black45,
+                                    ),
+                                    iconSize: 24,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  menuItemStyleData: const MenuItemStyleData(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16),
+                                  ),
                                 ),
                               ),
                               const SizedBox(
                                 width: 20,
                               ),
-                              Container(
-                                color: Colors.white,
-                                child: Expanded(
-                                  child: DropdownMenu(
-                                    width: 220,
-                                    hintText: 'Employement Status',
-                                    onSelected: (String? value) {
-                                      setState(() {
-                                        statusController.text =
-                                            value == 'Employed'
-                                                ? 'true'
-                                                : 'false';
-                                      });
-                                    },
-                                    dropdownMenuEntries:
-                                        status.map((String value) {
-                                      return DropdownMenuEntry<String>(
-                                        value: value,
-                                        label: value,
-                                      );
-                                    }).toList(),
+                              SizedBox(
+                                width: 200,
+                                child: DropdownButtonFormField2(
+                                  isExpanded: true,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 0),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  hint: const Text('Employment Status'),
+                                  items: status
+                                      .map((item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ))
+                                      .toList(),
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      statusController.text =
+                                          value == 'Entrepreneur'
+                                              ? 'true'
+                                              : 'true';
+                                    });
+                                  },
+                                  buttonStyleData: ButtonStyleData(
+                                    height: 50,
+                                    width: 160,
+                                    padding: const EdgeInsets.only(
+                                      left: 14,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: Colors.black,
+                                      ),
+                                      color: Colors.white,
+                                    ),
+                                    elevation: 2,
+                                  ),
+                                  iconStyleData: const IconStyleData(
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.black45,
+                                    ),
+                                    iconSize: 24,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  menuItemStyleData: const MenuItemStyleData(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 16),
                                   ),
                                 ),
                               ),
@@ -389,7 +464,7 @@ class _HomePageState extends State<HomePage> {
                             child: statusController.text == 'true'
                                 ? OlopscForm(
                                     textEditingController: occupationController,
-                                    subTitle: const Text('Occupation'),
+                                    subTitle: const Text('--Please Specify--'),
                                     suffixIcon: null,
                                     validator: (value) =>
                                         value!.isEmpty && value != null
@@ -574,6 +649,7 @@ class _HomePageState extends State<HomePage> {
                                           ? 'This field is required'
                                           : null,
                                 ),
+                                //date of birth
                                 const SizedBox(
                                   height: 25,
                                 ),
@@ -581,69 +657,228 @@ class _HomePageState extends State<HomePage> {
                                   spacing: 20.0,
                                   runSpacing: 20.0,
                                   children: <Widget>[
-                                    //course
-                                    Container(
-                                      color: Colors.white,
-                                      child: DropdownMenu(
-                                        width: 300,
-                                        hintText: 'Course',
-                                        onSelected: (String? value) {
-                                          setState(() {
-                                            programController.text = value!;
-                                          });
-                                        },
-                                        dropdownMenuEntries:
-                                            programs.map((String value) {
-                                          return DropdownMenuEntry<String>(
-                                            value: value,
-                                            label: value,
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                    //Gender
-                                    Container(
-                                      color: Colors.white,
-                                      child: DropdownMenu(
-                                        hintText: 'Sex',
-                                        onSelected: (String? value) {
+                                    //gender
+                                    SizedBox(
+                                      width: 200,
+                                      child: DropdownButtonFormField2(
+                                        isExpanded: true,
+                                        decoration: InputDecoration(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 0, horizontal: 0),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                        ),
+                                        hint: const Text('Sex'),
+                                        items: sexDropdownItems
+                                            .map((item) =>
+                                                DropdownMenuItem<String>(
+                                                  value: item,
+                                                  child: Text(
+                                                    item,
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ))
+                                            .toList(),
+                                        onChanged: (String? value) {
                                           setState(() {
                                             sexController.text = value!;
                                             value = null;
                                           });
                                         },
-                                        dropdownMenuEntries: sexDropdownItems
-                                            .map((String value) {
-                                          return DropdownMenuEntry<String>(
-                                              value: value, label: value);
-                                        }).toList(),
+                                        buttonStyleData: ButtonStyleData(
+                                          height: 50,
+                                          width: 160,
+                                          padding: const EdgeInsets.only(
+                                            left: 14,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            border: Border.all(
+                                              color: Colors.black,
+                                            ),
+                                            color: Colors.white,
+                                          ),
+                                          elevation: 2,
+                                        ),
+                                        iconStyleData: const IconStyleData(
+                                          icon: Icon(
+                                            Icons.arrow_drop_down,
+                                            color: Colors.black45,
+                                          ),
+                                          iconSize: 24,
+                                        ),
+                                        dropdownStyleData: DropdownStyleData(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        menuItemStyleData:
+                                            const MenuItemStyleData(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                        ),
                                       ),
                                     ),
-                                    // Employment Status
-                                    Container(
-                                      color: Colors.white,
-                                      child: DropdownMenu(
-                                        width: 220,
-                                        hintText: 'Employement Status',
-                                        onSelected: (String? value) {
+                                    //gender
+                                    //Degree
+                                    SizedBox(
+                                      width: 350,
+                                      child: DropdownButtonFormField2(
+                                        isExpanded: true,
+                                        decoration: InputDecoration(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 0, horizontal: 0),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                        ),
+                                        hint: const Text('Degree'),
+                                        items: programs
+                                            .map((item) =>
+                                                DropdownMenuItem<String>(
+                                                  value: item,
+                                                  child: Text(
+                                                    item,
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ))
+                                            .toList(),
+                                        onChanged: (String? value) {
                                           setState(() {
-                                            statusController.text =
-                                                value == 'Employed'
-                                                    ? 'true'
-                                                    : 'false';
+                                            programController.text = value!;
+                                            value = null;
                                           });
                                         },
-                                        dropdownMenuEntries:
-                                            status.map((String value) {
-                                          return DropdownMenuEntry<String>(
-                                            value: value,
-                                            label: value,
-                                          );
-                                        }).toList(),
+                                        buttonStyleData: ButtonStyleData(
+                                          height: 50,
+                                          width: 160,
+                                          padding: const EdgeInsets.only(
+                                            left: 14,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            border: Border.all(
+                                              color: Colors.black,
+                                            ),
+                                            color: Colors.white,
+                                          ),
+                                          elevation: 2,
+                                        ),
+                                        iconStyleData: const IconStyleData(
+                                          icon: Icon(
+                                            Icons.arrow_drop_down,
+                                            color: Colors.black45,
+                                          ),
+                                          iconSize: 24,
+                                        ),
+                                        dropdownStyleData: DropdownStyleData(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        menuItemStyleData:
+                                            const MenuItemStyleData(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                        ),
                                       ),
                                     ),
+                                    //Degree
+                                    //Employment Status
+                                    SizedBox(
+                                      width: 350,
+                                      child: DropdownButtonFormField2(
+                                        isExpanded: true,
+                                        decoration: InputDecoration(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 0, horizontal: 0),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                        ),
+                                        hint: const Text('Employment Status'),
+                                        items: status
+                                            .map((item) =>
+                                                DropdownMenuItem<String>(
+                                                  value: item,
+                                                  child: Text(
+                                                    item,
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ))
+                                            .toList(),
+                                        onChanged: (String? value) {
+                                          setState(() {
+                                            statusController.text =
+                                                value == 'Entrepreneur'
+                                                    ? 'true'
+                                                    : 'true';
+                                          });
+                                        },
+                                        buttonStyleData: ButtonStyleData(
+                                          height: 50,
+                                          width: 160,
+                                          padding: const EdgeInsets.only(
+                                            left: 14,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            border: Border.all(
+                                              color: Colors.black,
+                                            ),
+                                            color: Colors.white,
+                                          ),
+                                          elevation: 2,
+                                        ),
+                                        iconStyleData: const IconStyleData(
+                                          icon: Icon(
+                                            Icons.arrow_drop_down,
+                                            color: Colors.black45,
+                                          ),
+                                          iconSize: 24,
+                                        ),
+                                        dropdownStyleData: DropdownStyleData(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        menuItemStyleData:
+                                            const MenuItemStyleData(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                        ),
+                                      ),
+                                    ),
+                                    //employment status
                                   ],
                                 ),
+                                
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                               
                                 const SizedBox(
                                   height: 20,
                                 ),
@@ -652,7 +887,8 @@ class _HomePageState extends State<HomePage> {
                                       ? OlopscForm(
                                           textEditingController:
                                               occupationController,
-                                          subTitle: const Text('Occupation'),
+                                          subTitle:
+                                              const Text('--Please Specify--'),
                                           suffixIcon: null,
                                           validator: (value) =>
                                               value!.isEmpty && value != null
