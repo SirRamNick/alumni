@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class QuestionsPage extends StatefulWidget {
-  final String docID;
+  final Map userInformation;
   const QuestionsPage({
     super.key,
-    required this.docID,
+    required this.userInformation,
   });
 
   @override
@@ -33,37 +33,202 @@ class _QuestionsPageState extends State<QuestionsPage> {
   late final TextEditingController question6Controller =
       TextEditingController();
   late final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late final Map information = widget.userInformation;
   late final FirestoreService alumni = FirestoreService();
 
-  late final List<String> listOfAnswers1 = [
-    'Yes',
-    'No',
-    'Not Applicable',
+  // late final List<String> listOfAnswers1 = [
+  //   'Yes',
+  //   'No',
+  //   'Not Applicable',
+  // ];
+  // late final List<String> listOfAnswers2 = [
+  //   'Not relevant at all',
+  //   'Somewhat relevant',
+  //   'Very relevant',
+  //   'Not Applicable',
+  // ];
+  // late final List<String> listOfAnswers3 = [
+  //   'Not helpful',
+  //   'Somewhat helpful',
+  //   'Very helpful',
+  //   'Not Applicable',
+  // ];
+  // late final List<String> listOfAnswers4 = [
+  //   'No',
+  //   'Somehow',
+  //   'Yes',
+  //   'Not Applicable',
+  // ];
+  // late final List<String> listOfAnswers5 = [
+  //   'Not relevant at all',
+  //   'Somewhat relevant',
+  //   'Same/very relevant',
+  //   'Not Applicable',
+  // ];
+
+  final List<String> likertScaleAgree = [
+    "Strongly agree",
+    "Agree",
+    "Neither agree or disagree",
+    "Disagree",
+    "Strongly disagree",
   ];
-  late final List<String> listOfAnswers2 = [
-    'Not relevant at all',
-    'Somewhat relevant',
-    'Very relevant',
-    'Not Applicable',
+  final List<String> durationBeforeEmployed = [
+    "I had a job before my graduation",
+    "Within a month",
+    "2-3 months",
+    "4-5 months",
+    "6-7 months",
+    "More than 7 months",
   ];
-  late final List<String> listOfAnswers3 = [
-    'Not helpful',
-    'Somewhat helpful',
-    'Very helpful',
-    'Not Applicable',
-  ];
-  late final List<String> listOfAnswers4 = [
-    'No',
-    'Somehow',
-    'Yes',
-    'Not Applicable',
-  ];
-  late final List<String> listOfAnswers5 = [
-    'Not relevant at all',
-    'Somewhat relevant',
-    'Same/very relevant',
-    'Not Applicable',
-  ];
+
+  List<String> setSearchParam(String firstName, String lastName) {
+    String name = '$firstName $lastName';
+    List<String> caseSearchList = [];
+    String temp = '';
+
+    for (int i = 0; i < name.length; i++) {
+      temp += name[i];
+      caseSearchList.add(temp.toLowerCase());
+    }
+
+    name = '$lastName $firstName';
+    for (int i = 0; i < name.length; i++) {
+      temp += name[i];
+      caseSearchList.add(temp.toLowerCase());
+    }
+
+    return caseSearchList;
+  }
+
+  Future<String> onSubmitAndValidate() async {
+    final DocumentReference document =
+        alumni.alumni.doc(information['first_name']);
+
+    document.set({
+      'email': information['email'],
+      'first_name': information['first_name'],
+      'last_name': information['last_name'],
+      'program': information['program'],
+      'year_graduated': information['year_graduated'],
+      'sex': information['sex'],
+      'employment_status': information['employment_status'],
+      'middle_name': information['middle_name'],
+      'date_of_birth': information['date_of_birth'],
+      'occupation': information['occupation'],
+      'searchable_name': information['year_graduated'],
+      'question_1': question1Controller.text,
+      'question_2': question2Controller.text,
+      'question_3': question3Controller.text,
+      'question_4': question4Controller.text,
+      'question_5': question5Controller.text,
+      'question_6': question6Controller.text,
+    });
+
+    final DocumentReference documentStats =
+        alumni.stats.doc(information['year_graduated']);
+    final DocumentSnapshot yearData = await documentStats.get();
+    if (yearData.exists) {
+      await documentStats.update({'value': yearData.get('value') + 1});
+    } else {
+      await documentStats.set({
+        'value': 1,
+        'index': int.parse(information['year_graduated']) - 2001,
+        'year': int.parse(information['year_graduated']),
+      });
+    }
+
+    final DocumentReference documentEmpStats =
+        alumni.empStats.doc(information['year_graduated']);
+    final DocumentSnapshot empStatsData = await documentEmpStats.get();
+
+    if (information['employment_status'].toLowerCase() ==
+        'privately employed') {
+      try {
+        documentEmpStats.update({
+          'year': int.parse(information['year_graduated']),
+          'privately_employed': empStatsData.get('privately_employed') + 1,
+        });
+      } catch (e) {
+        await documentEmpStats.set({
+          'year': int.parse(information['year_graduated']),
+          'privately_employed': 1,
+        }, SetOptions(merge: true));
+      }
+    }
+    else if (information['employment_status'].toLowerCase() ==
+        'government employed') {
+      try {
+        await documentEmpStats.update({
+          'year': int.parse(information['year_graduated']),
+          'government_employed': empStatsData.get('government_employed') + 1,
+        });
+      } catch (e) {
+        await documentEmpStats.set({
+          'year': int.parse(information['year_graduated']),
+          'government_employed': 1,
+        }, SetOptions(merge: true));
+      }
+    }
+    else if (information['employment_status'].toLowerCase() ==
+        'self-employed') {
+      try {
+        await documentEmpStats.update({
+          'year': int.parse(information['year_graduated']),
+          'self-employed': empStatsData.get('self-employed') + 1,
+        });
+      } catch (e) {
+        await documentEmpStats.set({
+          'year': int.parse(information['year_graduated']),
+          'self-employed': 1,
+        }, SetOptions(merge: true));
+      }
+    }
+    else if (information['employment_status'].toLowerCase() == 'others') {
+      try {
+        await documentEmpStats.update({
+          'year': int.parse(information['year_graduated']),
+          'others': empStatsData.get('others') + 1,
+        });
+      } catch (e) {
+        await documentEmpStats.set({
+          'year': int.parse(information['year_graduated']),
+          'others': 1,
+        }, SetOptions(merge: true));
+      }
+    }
+    return document.id;
+    // alumni.alumni.doc(widget.docID).update({
+    //   'question_1':
+    //       question1Controller.text,
+    //   'question_2':
+    //       question2Controller.text,
+    //   'question_3':
+    //       question3Controller.text,
+    //   'question_4':
+    //       question4Controller.text,
+    //   'question_5':
+    //       question5Controller.text,
+    //   'question_6':
+    //       question6Controller.text,
+    // });
+    // print(question1Controller.text);
+    // question1Controller.clear();
+    // question2Controller.clear();
+    // question3Controller.clear();
+    // question4Controller.clear();
+    // question5Controller.clear();
+    // question6Controller.clear();
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) =>
+    //         NavigationPage(
+    //       docID: widget.docID,
+    //     ),
+    //   ),
+    // );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,478 +266,1117 @@ class _QuestionsPageState extends State<QuestionsPage> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/alumni_watermark.png'),
+            image: NetworkImage(
+                'https://lh3.googleusercontent.com/d/1A9nZdV4Y4kXErJlBOkahkpODE7EVhp1x'),
             alignment: Alignment.bottomLeft,
             scale: 2.5,
           ),
         ),
         child: Form(
           key: formKey,
-          child: StreamBuilder(
-              stream: alumni.alumni.doc(widget.docID).snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var value = snapshot.data;
-                  return SingleChildScrollView(
-                    child: Center(
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                children: [
+                  //olopsc logo // olopsc name
+                  Image.network(
+                      'https://lh3.googleusercontent.com/d/1DlDDvI0eIDivjwvCrngmyKp_Yr6d8oqH',
+                      scale: 1.5),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const Text('Our Lady of Perpetual Succor College'),
+                  const Text('Alumni Tracking System'),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //OCS Logo // Recognition & Credit
+                      const Text('Made By: '),
+                      Opacity(
+                        opacity: 0.9,
+                        child: Image.network(
+                            'https://lh3.googleusercontent.com/d/19U4DW6KMNsVOqT6ZzX_ikpezY2N24Vyi',
+                            scale: 39.5),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  //larger screen
+                  if (!isLargeScreen)
+                    Container(
                       child: Column(
                         children: [
-                          //olopsc logo // olopsc name
-                          Image.asset('images/olopsc_logo.png', scale: 1.5),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          const Text('Our Lady of Perpetual Succor College'),
-                          const Text('Alumni Tracking System'),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              //OCS Logo // Recognition & Credit
-                              const Text('Made By: '),
-                              Opacity(
-                                opacity: 0.9,
-                                child: Image.asset(
-                                    'images/ocs_insignia_logo.png',
-                                    scale: 39.5),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          //larger screen
-                          if (!isLargeScreen)
-                            Container(
-                              child: Column(
-                                children: [
-                                  //1st Question
-                                  QuestionForm(
-                                    content: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                              'Are you satisfied with your current status?'),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: DropdownMenu(
-                                          
-                                            width: 150,
-                                            hintText: '-Select-',
-                                            onSelected: (String? value) {
-                                              setState(() {
-                                                question1Controller.text =
-                                                    value!;
-                                              });
-                                              print(question1Controller.text);
-                                            },
-                                            dropdownMenuEntries: listOfAnswers1
-                                                .map((String value) {
-                                              return DropdownMenuEntry<String>(
-                                                value: value,
-                                                label: value,
-                                              );
-                                            }).toList(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  //2nd Question
-                                  QuestionForm(
-                                    content: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                              'Were you employed within the year of your graduation?'),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: DropdownMenu(
-                                            width: 150,
-                                            hintText: '-Select-',
-                                            onSelected: (String? value) {
-                                              setState(() {
-                                                question2Controller.text =
-                                                    value!;
-                                              });
-                                            },
-                                            dropdownMenuEntries: listOfAnswers2
-                                                .map((String value) {
-                                              return DropdownMenuEntry<String>(
-                                                value: value,
-                                                label: value,
-                                              );
-                                            }).toList(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  //3rd Question
-                                  QuestionForm(
-                                    content: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                              'How relevant was the program to your job post-graduation?'),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: DropdownMenu(
-                                            width: 150,
-                                            hintText: '-Select-',
-                                            onSelected: (String? value) {
-                                              setState(() {
-                                                question3Controller.text =
-                                                    value!;
-                                              });
-                                            },
-                                            dropdownMenuEntries: listOfAnswers3
-                                                .map((String value) {
-                                              return DropdownMenuEntry<String>(
-                                                value: value,
-                                                label: value,
-                                              );
-                                            }).toList(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  //4th Question
-                                  QuestionForm(
-                                    content: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                              'Did the program help in applying for your current occupation?'),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: DropdownMenu(
-                                            width: 150,
-                                            hintText: '-Select-',
-                                            onSelected: (String? value) {
-                                              setState(() {
-                                                question4Controller.text =
-                                                    value!;
-                                              });
-                                            },
-                                            dropdownMenuEntries: listOfAnswers4
-                                                .map((String value) {
-                                              return DropdownMenuEntry<String>(
-                                                value: value,
-                                                label: value,
-                                              );
-                                            }).toList(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  //5th Question
-                                  QuestionForm(
-                                    content: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                              'Did the program provide the necessary skills needed for your current job?'),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: DropdownMenu(
-                                            width: 150,
-                                            hintText: '-Select-',
-                                            onSelected: (String? value) {
-                                              setState(() {
-                                                question5Controller.text =
-                                                    value!;
-                                              });
-                                            },
-                                            dropdownMenuEntries: listOfAnswers5
-                                                .map((String value) {
-                                              return DropdownMenuEntry<String>(
-                                                value: value,
-                                                label: value,
-                                              );
-                                            }).toList(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  //6th Question
-                                  QuestionForm(
-                                    content: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                              'What were the necessary skills you acquired from the program needed for your current job?'),
-                                        ),
-                                        TextFormField(
-                                          controller: question6Controller,
-                                          keyboardType: TextInputType.multiline,
-                                          textInputAction:
-                                              TextInputAction.newline,
-                                          maxLines: 2,
-                                          validator: (value) =>
-                                              value!.isEmpty && value != null
-                                                  ? 'This field is required'
-                                                  : null,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 28),
-                                  Button(
-                                    onSubmit: () {
-                                      if (formKey.currentState!.validate()) {
-                                        alumni.alumni.doc(widget.docID).update({
-                                          'question_1':
-                                              question1Controller.text,
-                                          'question_2':
-                                              question2Controller.text,
-                                          'question_3':
-                                              question3Controller.text,
-                                          'question_4':
-                                              question4Controller.text,
-                                          'question_5':
-                                              question5Controller.text,
-                                          'question_6':
-                                              question6Controller.text,
-                                        });
-                                        print(question1Controller.text);
-                                        question1Controller.clear();
-                                        question2Controller.clear();
-                                        question3Controller.clear();
-                                        question4Controller.clear();
-                                        question5Controller.clear();
-                                        question6Controller.clear();
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                NavigationPage(
-                                              docID: widget.docID,
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                ],
-                              ),
-                            )
-                          //smaller screen
-                          else
-                            Column(
+                          //1st Question
+                          QuestionForm(
+                            content: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                //first Question
-                                QuestionContentSmall(
-                                  constructQuestion:
-                                      'Are you satisfied with your current status?',
-                                  contructFormQuestion: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: DropdownMenu(
-                                      width: 150,
-                                      hintText: '-Select-',
-                                      onSelected: (String? value) {
-                                        setState(() {
-                                          question1Controller.text = value!;
-                                        });
-                                        print(question1Controller.text);
-                                      },
-                                      dropdownMenuEntries:
-                                          listOfAnswers1.map((String value) {
-                                        return DropdownMenuEntry<String>(
-                                          value: value,
-                                          label: value,
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
+                                const Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                      'What are the life skills OLOPSC has taught you?'),
                                 ),
-                                //second Question
-                                QuestionContentSmall(
-                                  constructQuestion:
-                                      'Were you employed within the year of your graduation?',
-                                  contructFormQuestion: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: DropdownMenu(
-                                      width: 150,
-                                      hintText: '-Select-',
-                                      onSelected: (String? value) {
-                                        setState(() {
-                                          question2Controller.text = value!;
-                                        });
-                                        print(question2Controller.text);
-                                      },
-                                      dropdownMenuEntries:
-                                          listOfAnswers2.map((String value) {
-                                        return DropdownMenuEntry<String>(
-                                          value: value,
-                                          label: value,
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                                //third Question
-                                QuestionContentSmall(
-                                  constructQuestion:
-                                      'How relevant was the program to your job post-graduation?',
-                                  contructFormQuestion: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: DropdownMenu(
-                                      width: 150,
-                                      hintText: '-Select-',
-                                      onSelected: (String? value) {
-                                        setState(() {
-                                          question3Controller.text = value!;
-                                        });
-                                        print(question3Controller.text);
-                                      },
-                                      dropdownMenuEntries:
-                                          listOfAnswers3.map((String value) {
-                                        return DropdownMenuEntry<String>(
-                                          value: value,
-                                          label: value,
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                                //fourth Question
-                                QuestionContentSmall(
-                                  constructQuestion:
-                                      'Did the program help in applying for your current occupation?',
-                                  contructFormQuestion: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: DropdownMenu(
-                                      width: 150,
-                                      hintText: '-Select-',
-                                      onSelected: (String? value) {
-                                        setState(() {
-                                          question4Controller.text = value!;
-                                        });
-                                        print(question4Controller.text);
-                                      },
-                                      dropdownMenuEntries:
-                                          listOfAnswers4.map((String value) {
-                                        return DropdownMenuEntry<String>(
-                                          value: value,
-                                          label: value,
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                                //fifth Question
-                                QuestionContentSmall(
-                                  constructQuestion:
-                                      'Did the program provide the necessary skills needed for your current job?',
-                                  contructFormQuestion: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: DropdownMenu(
-                                      width: 150,
-                                      hintText: '-Select-',
-                                      onSelected: (String? value) {
-                                        setState(() {
-                                          question5Controller.text = value!;
-                                        });
-                                        print(question5Controller.text);
-                                      },
-                                      dropdownMenuEntries:
-                                          listOfAnswers5.map((String value) {
-                                        return DropdownMenuEntry<String>(
-                                          value: value,
-                                          label: value,
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ),
-                                ),
-                                //Sixth Question
-                                QuestionContentSmall(
-                                  constructQuestion:
-                                      'What were the necessary skills you acquired from the program needed for your current job?',
-                                  contructFormQuestion: TextFormField(
-                                    controller: question6Controller,
-                                    keyboardType: TextInputType.multiline,
-                                    textInputAction: TextInputAction.newline,
-                                    maxLines: 2,
-                                    validator: (value) =>
-                                        value!.isEmpty && value != null
-                                            ? 'This field is required'
-                                            : null,
-                                  ),
-                                ),
-                                const SizedBox(height: 15),
-                                Button(
-                                  onSubmit: () {
-                                    if (formKey.currentState!.validate()) {
-                                      alumni.alumni.doc(widget.docID).update({
-                                        'question_1': question1Controller.text,
-                                        'question_2': question2Controller.text,
-                                        'question_3': question3Controller.text,
-                                        'question_4': question4Controller.text,
-                                        'question_5': question5Controller.text,
-                                        'question_6': question6Controller.text,
-                                      });
-                                      print(question1Controller.text);
-                                      question1Controller.clear();
-                                      question2Controller.clear();
-                                      question3Controller.clear();
-                                      question4Controller.clear();
-                                      question5Controller.clear();
-                                      question6Controller.clear();
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => NavigationPage(
-                                            docID: widget.docID,
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  },
-                                ),
-                                const SizedBox(height: 28),
+                                TextFormField(
+                                  controller: question1Controller,
+                                  keyboardType: TextInputType.multiline,
+                                  textInputAction: TextInputAction.newline,
+                                  maxLines: 2,
+                                  validator: (value) =>
+                                      value!.isEmpty && value != null
+                                          ? 'This field is required'
+                                          : null,
+                                )
                               ],
                             ),
+                          ),
+                          //2nd Question
+                          QuestionForm(
+                            content: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                      'The skills you\'ve mentioned helped you in pursuing your career path.'),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: DropdownMenu(
+                                    width: 150,
+                                    hintText: 'Choose',
+                                    onSelected: (String? value) {
+                                      setState(() {
+                                        question2Controller.text = value!;
+                                      });
+                                    },
+                                    dropdownMenuEntries:
+                                        likertScaleAgree.map((String value) {
+                                      return DropdownMenuEntry<String>(
+                                        value: value,
+                                        label: value,
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          //3rd Question
+                          QuestionForm(
+                            content: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                      'Your first job aligns with your current job.'),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: DropdownMenu(
+                                    width: 150,
+                                    hintText: 'Choose',
+                                    onSelected: (String? value) {
+                                      setState(() {
+                                        question3Controller.text = value!;
+                                      });
+                                    },
+                                    dropdownMenuEntries:
+                                        likertScaleAgree.map((String value) {
+                                      return DropdownMenuEntry<String>(
+                                        value: value,
+                                        label: value,
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          //4th Question
+                          QuestionForm(
+                            content: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                      'How long does it take for you to land your first job after graduation?'),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: DropdownMenu(
+                                    width: 150,
+                                    hintText: 'Choose',
+                                    onSelected: (String? value) {
+                                      setState(() {
+                                        question4Controller.text = value!;
+                                      });
+                                    },
+                                    dropdownMenuEntries: durationBeforeEmployed
+                                        .map((String value) {
+                                      return DropdownMenuEntry<String>(
+                                        value: value,
+                                        label: value,
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          //5th Question
+                          QuestionForm(
+                            content: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                      'The program you took in OLOPSC matches your current job.'),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: DropdownMenu(
+                                    width: 150,
+                                    hintText: 'Choose',
+                                    onSelected: (String? value) {
+                                      setState(() {
+                                        question5Controller.text = value!;
+                                      });
+                                    },
+                                    dropdownMenuEntries:
+                                        likertScaleAgree.map((String value) {
+                                      return DropdownMenuEntry<String>(
+                                        value: value,
+                                        label: value,
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          //6th Question
+                          QuestionForm(
+                            content: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                      'You are satisfied with your current job.'),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: DropdownMenu(
+                                    width: 150,
+                                    hintText: 'Choose',
+                                    onSelected: (String? value) {
+                                      setState(() {
+                                        question6Controller.text = value!;
+                                      });
+                                    },
+                                    dropdownMenuEntries:
+                                        likertScaleAgree.map((String value) {
+                                      return DropdownMenuEntry<String>(
+                                        value: value,
+                                        label: value,
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          const SizedBox(height: 28),
+                          Button(
+                            onSubmit: () async {
+                              if (formKey.currentState!.validate()) {
+                                String documentID = await onSubmitAndValidate();
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => NavigationPage(
+                                      docID: documentID,
+                                    ),
+                                  ),
+                                );
+                                // alumni.alumni.doc(widget.docID).update({
+                                //   'question_1':
+                                //       question1Controller.text,
+                                //   'question_2':
+                                //       question2Controller.text,
+                                //   'question_3':
+                                //       question3Controller.text,
+                                //   'question_4':
+                                //       question4Controller.text,
+                                //   'question_5':
+                                //       question5Controller.text,
+                                //   'question_6':
+                                //       question6Controller.text,
+                                // });
+                                // print(question1Controller.text);
+                                // question1Controller.clear();
+                                // question2Controller.clear();
+                                // question3Controller.clear();
+                                // question4Controller.clear();
+                                // question5Controller.clear();
+                                // question6Controller.clear();
+                                // Navigator.pushReplacement(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) =>
+                                //         NavigationPage(
+                                //       docID: widget.docID,
+                                //     ),
+                                //   ),
+                                // );
+                              }
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
                         ],
                       ),
+                    )
+                  //smaller screen
+                  else
+                    Column(
+                      children: [
+                        //first Question
+                        QuestionContentSmall(
+                          constructQuestion:
+                              'What are the life skills OLOPSC has taught you?',
+                          contructFormQuestion: TextFormField(
+                            controller: question1Controller,
+                            keyboardType: TextInputType.multiline,
+                            textInputAction: TextInputAction.newline,
+                            maxLines: 2,
+                            validator: (value) =>
+                                value!.isEmpty && value != null
+                                    ? 'This field is required'
+                                    : null,
+                          ),
+                        ),
+                        //second Question
+                        QuestionContentSmall(
+                          constructQuestion:
+                              'The skills you\'ve mentioned helped you in pursuing your career path.',
+                          contructFormQuestion: Align(
+                            alignment: Alignment.centerLeft,
+                            child: DropdownMenu(
+                              width: 150,
+                              hintText: 'Choose',
+                              onSelected: (String? value) {
+                                setState(() {
+                                  question2Controller.text = value!;
+                                });
+                                print(question2Controller.text);
+                              },
+                              dropdownMenuEntries:
+                                  likertScaleAgree.map((String value) {
+                                return DropdownMenuEntry<String>(
+                                  value: value,
+                                  label: value,
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                        //third Question
+                        QuestionContentSmall(
+                          constructQuestion:
+                              'Your first job aligns with your current job.',
+                          contructFormQuestion: Align(
+                            alignment: Alignment.centerLeft,
+                            child: DropdownMenu(
+                              width: 150,
+                              hintText: 'Choose',
+                              onSelected: (String? value) {
+                                setState(() {
+                                  question3Controller.text = value!;
+                                });
+                                print(question3Controller.text);
+                              },
+                              dropdownMenuEntries:
+                                  likertScaleAgree.map((String value) {
+                                return DropdownMenuEntry<String>(
+                                  value: value,
+                                  label: value,
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                        //fourth Question
+                        QuestionContentSmall(
+                          constructQuestion:
+                              'How long does it take for you to land your first job after graduation?',
+                          contructFormQuestion: Align(
+                            alignment: Alignment.centerLeft,
+                            child: DropdownMenu(
+                              width: 150,
+                              hintText: 'Choose',
+                              onSelected: (String? value) {
+                                setState(() {
+                                  question4Controller.text = value!;
+                                });
+                                print(question4Controller.text);
+                              },
+                              dropdownMenuEntries:
+                                  durationBeforeEmployed.map((String value) {
+                                return DropdownMenuEntry<String>(
+                                  value: value,
+                                  label: value,
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                        //fifth Question
+                        QuestionContentSmall(
+                          constructQuestion:
+                              'The program you took in OLOPSC matches your current job.',
+                          contructFormQuestion: Align(
+                            alignment: Alignment.centerLeft,
+                            child: DropdownMenu(
+                              width: 150,
+                              hintText: 'Choose',
+                              onSelected: (String? value) {
+                                setState(() {
+                                  question5Controller.text = value!;
+                                });
+                                print(question5Controller.text);
+                              },
+                              dropdownMenuEntries:
+                                  likertScaleAgree.map((String value) {
+                                return DropdownMenuEntry<String>(
+                                  value: value,
+                                  label: value,
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                        //Sixth Question
+                        QuestionContentSmall(
+                          constructQuestion:
+                              'You are satisfied with your current job.',
+                          contructFormQuestion: Align(
+                            alignment: Alignment.centerLeft,
+                            child: DropdownMenu(
+                              width: 150,
+                              hintText: 'Choose',
+                              onSelected: (String? value) {
+                                setState(() {
+                                  question5Controller.text = value!;
+                                });
+                                print(question6Controller.text);
+                              },
+                              dropdownMenuEntries:
+                                  likertScaleAgree.map((String value) {
+                                return DropdownMenuEntry<String>(
+                                  value: value,
+                                  label: value,
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        Button(
+                          onSubmit: () async {
+                            if (formKey.currentState!.validate()) {
+                              String documentID = await onSubmitAndValidate();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NavigationPage(
+                                    docID: documentID,
+                                  ),
+                                ),
+                              );
+                              // alumni.alumni.doc(widget.docID).update({
+                              //   'question_1': question1Controller.text,
+                              //   'question_2': question2Controller.text,
+                              //   'question_3': question3Controller.text,
+                              //   'question_4': question4Controller.text,
+                              //   'question_5': question5Controller.text,
+                              //   'question_6': question6Controller.text,
+                              // });
+                              // print(question1Controller.text);
+                              // question1Controller.clear();
+                              // question2Controller.clear();
+                              // question3Controller.clear();
+                              // question4Controller.clear();
+                              // question5Controller.clear();
+                              // question6Controller.clear();
+                              // Navigator.pushReplacement(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => NavigationPage(
+                              //       docID: widget.docID,
+                              //     ),
+                              //   ),
+                              // );
+                            }
+                          },
+                        ),
+                        const SizedBox(height: 28),
+                      ],
                     ),
-                  );
-                } else {
-                  return Center(child: Text('LOADING FORM...'));
-                }
-              }),
+                  // Column(
+                  //   children: [
+                  //     //first Question
+                  //     QuestionContentSmall(
+                  //       constructQuestion:
+                  //           'Are you satisfied with your current status?',
+                  //       contructFormQuestion: Align(
+                  //         alignment: Alignment.centerLeft,
+                  //         child: DropdownMenu(
+                  //           width: 150,
+                  //           hintText: '-Select-',
+                  //           onSelected: (String? value) {
+                  //             setState(() {
+                  //               question1Controller.text = value!;
+                  //             });
+                  //             print(question1Controller.text);
+                  //           },
+                  //           dropdownMenuEntries:
+                  //               listOfAnswers1.map((String value) {
+                  //             return DropdownMenuEntry<String>(
+                  //               value: value,
+                  //               label: value,
+                  //             );
+                  //           }).toList(),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     //second Question
+                  //     QuestionContentSmall(
+                  //       constructQuestion:
+                  //           'Were you employed within the year of your graduation?',
+                  //       contructFormQuestion: Align(
+                  //         alignment: Alignment.centerLeft,
+                  //         child: DropdownMenu(
+                  //           width: 150,
+                  //           hintText: '-Select-',
+                  //           onSelected: (String? value) {
+                  //             setState(() {
+                  //               question2Controller.text = value!;
+                  //             });
+                  //             print(question2Controller.text);
+                  //           },
+                  //           dropdownMenuEntries:
+                  //               listOfAnswers2.map((String value) {
+                  //             return DropdownMenuEntry<String>(
+                  //               value: value,
+                  //               label: value,
+                  //             );
+                  //           }).toList(),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     //third Question
+                  //     QuestionContentSmall(
+                  //       constructQuestion:
+                  //           'How relevant was the program to your job post-graduation?',
+                  //       contructFormQuestion: Align(
+                  //         alignment: Alignment.centerLeft,
+                  //         child: DropdownMenu(
+                  //           width: 150,
+                  //           hintText: '-Select-',
+                  //           onSelected: (String? value) {
+                  //             setState(() {
+                  //               question3Controller.text = value!;
+                  //             });
+                  //             print(question3Controller.text);
+                  //           },
+                  //           dropdownMenuEntries:
+                  //               listOfAnswers3.map((String value) {
+                  //             return DropdownMenuEntry<String>(
+                  //               value: value,
+                  //               label: value,
+                  //             );
+                  //           }).toList(),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     //fourth Question
+                  //     QuestionContentSmall(
+                  //       constructQuestion:
+                  //           'Did the program help in applying for your current occupation?',
+                  //       contructFormQuestion: Align(
+                  //         alignment: Alignment.centerLeft,
+                  //         child: DropdownMenu(
+                  //           width: 150,
+                  //           hintText: '-Select-',
+                  //           onSelected: (String? value) {
+                  //             setState(() {
+                  //               question4Controller.text = value!;
+                  //             });
+                  //             print(question4Controller.text);
+                  //           },
+                  //           dropdownMenuEntries:
+                  //               listOfAnswers4.map((String value) {
+                  //             return DropdownMenuEntry<String>(
+                  //               value: value,
+                  //               label: value,
+                  //             );
+                  //           }).toList(),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     //fifth Question
+                  //     QuestionContentSmall(
+                  //       constructQuestion:
+                  //           'Did the program provide the necessary skills needed for your current job?',
+                  //       contructFormQuestion: Align(
+                  //         alignment: Alignment.centerLeft,
+                  //         child: DropdownMenu(
+                  //           width: 150,
+                  //           hintText: '-Select-',
+                  //           onSelected: (String? value) {
+                  //             setState(() {
+                  //               question5Controller.text = value!;
+                  //             });
+                  //             print(question5Controller.text);
+                  //           },
+                  //           dropdownMenuEntries:
+                  //               listOfAnswers5.map((String value) {
+                  //             return DropdownMenuEntry<String>(
+                  //               value: value,
+                  //               label: value,
+                  //             );
+                  //           }).toList(),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     //Sixth Question
+                  //     QuestionContentSmall(
+                  //       constructQuestion:
+                  //           'What were the necessary skills you acquired from the program needed for your current job?',
+                  //       contructFormQuestion: TextFormField(
+                  //         controller: question6Controller,
+                  //         keyboardType: TextInputType.multiline,
+                  //         textInputAction: TextInputAction.newline,
+                  //         maxLines: 2,
+                  //         validator: (value) =>
+                  //             value!.isEmpty && value != null
+                  //                 ? 'This field is required'
+                  //                 : null,
+                  //       ),
+                  //     ),
+                  //     const SizedBox(height: 15),
+                  //     Button(
+                  //       onSubmit: () {
+                  //         if (formKey.currentState!.validate()) {
+                  //           // alumni.alumni.doc(widget.docID).update({
+                  //           //   'question_1': question1Controller.text,
+                  //           //   'question_2': question2Controller.text,
+                  //           //   'question_3': question3Controller.text,
+                  //           //   'question_4': question4Controller.text,
+                  //           //   'question_5': question5Controller.text,
+                  //           //   'question_6': question6Controller.text,
+                  //           // });
+                  //           // print(question1Controller.text);
+                  //           // question1Controller.clear();
+                  //           // question2Controller.clear();
+                  //           // question3Controller.clear();
+                  //           // question4Controller.clear();
+                  //           // question5Controller.clear();
+                  //           // question6Controller.clear();
+                  //           // Navigator.pushReplacement(
+                  //           //   context,
+                  //           //   MaterialPageRoute(
+                  //           //     builder: (context) => NavigationPage(
+                  //           //       docID: widget.docID,
+                  //           //     ),
+                  //           //   ),
+                  //           // );
+                  //         }
+                  //       },
+                  //     ),
+                  //     const SizedBox(height: 28),
+                  //   ],
+                  // ),
+                ],
+              ),
+            ),
+          ),
+          // child: StreamBuilder(
+          //     stream: alumni.alumni.doc(widget.docID).snapshots(),
+          //     builder: (context, snapshot) {
+          //       if (snapshot.hasData) {
+          //         var value = snapshot.data;
+          //         return SingleChildScrollView(
+          //           child: Center(
+          //             child: Column(
+          //               children: [
+          //                 //olopsc logo // olopsc name
+          //                 Image.asset('images/olopsc_logo.png', scale: 1.5),
+          //                 const SizedBox(
+          //                   height: 15,
+          //                 ),
+          //                 const Text('Our Lady of Perpetual Succor College'),
+          //                 const Text('Alumni Tracking System'),
+          //                 const SizedBox(
+          //                   height: 12,
+          //                 ),
+          //                 Row(
+          //                   mainAxisAlignment: MainAxisAlignment.center,
+          //                   children: [
+          //                     //OCS Logo // Recognition & Credit
+          //                     const Text('Made By: '),
+          //                     Opacity(
+          //                       opacity: 0.9,
+          //                       child: Image.asset(
+          //                           'images/ocs_insignia_logo.png',
+          //                           scale: 39.5),
+          //                     ),
+          //                   ],
+          //                 ),
+          //                 const SizedBox(
+          //                   height: 10,
+          //                 ),
+          //                 //larger screen
+          //                 if (!isLargeScreen)
+          //                   Container(
+          //                     child: Column(
+          //                       children: [
+          //                         //1st Question
+          //                         QuestionForm(
+          //                           content: Column(
+          //                             mainAxisAlignment:
+          //                                 MainAxisAlignment.center,
+          //                             children: [
+          //                               const Align(
+          //                                 alignment: Alignment.centerLeft,
+          //                                 child: Text(
+          //                                     'Are you satisfied with your current status?'),
+          //                               ),
+          //                               Align(
+          //                                 alignment: Alignment.centerLeft,
+          //                                 child: DropdownMenu(
+
+          //                                   width: 150,
+          //                                   hintText: '-Select-',
+          //                                   onSelected: (String? value) {
+          //                                     setState(() {
+          //                                       question1Controller.text =
+          //                                           value!;
+          //                                     });
+          //                                     print(question1Controller.text);
+          //                                   },
+          //                                   dropdownMenuEntries: listOfAnswers1
+          //                                       .map((String value) {
+          //                                     return DropdownMenuEntry<String>(
+          //                                       value: value,
+          //                                       label: value,
+          //                                     );
+          //                                   }).toList(),
+          //                                 ),
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                         //2nd Question
+          //                         QuestionForm(
+          //                           content: Column(
+          //                             mainAxisAlignment:
+          //                                 MainAxisAlignment.center,
+          //                             children: [
+          //                               const Align(
+          //                                 alignment: Alignment.centerLeft,
+          //                                 child: Text(
+          //                                     'Were you employed within the year of your graduation?'),
+          //                               ),
+          //                               Align(
+          //                                 alignment: Alignment.centerLeft,
+          //                                 child: DropdownMenu(
+          //                                   width: 150,
+          //                                   hintText: '-Select-',
+          //                                   onSelected: (String? value) {
+          //                                     setState(() {
+          //                                       question2Controller.text =
+          //                                           value!;
+          //                                     });
+          //                                   },
+          //                                   dropdownMenuEntries: listOfAnswers2
+          //                                       .map((String value) {
+          //                                     return DropdownMenuEntry<String>(
+          //                                       value: value,
+          //                                       label: value,
+          //                                     );
+          //                                   }).toList(),
+          //                                 ),
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                         //3rd Question
+          //                         QuestionForm(
+          //                           content: Column(
+          //                             mainAxisAlignment:
+          //                                 MainAxisAlignment.center,
+          //                             children: [
+          //                               const Align(
+          //                                 alignment: Alignment.centerLeft,
+          //                                 child: Text(
+          //                                     'How relevant was the program to your job post-graduation?'),
+          //                               ),
+          //                               Align(
+          //                                 alignment: Alignment.centerLeft,
+          //                                 child: DropdownMenu(
+          //                                   width: 150,
+          //                                   hintText: '-Select-',
+          //                                   onSelected: (String? value) {
+          //                                     setState(() {
+          //                                       question3Controller.text =
+          //                                           value!;
+          //                                     });
+          //                                   },
+          //                                   dropdownMenuEntries: listOfAnswers3
+          //                                       .map((String value) {
+          //                                     return DropdownMenuEntry<String>(
+          //                                       value: value,
+          //                                       label: value,
+          //                                     );
+          //                                   }).toList(),
+          //                                 ),
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                         //4th Question
+          //                         QuestionForm(
+          //                           content: Column(
+          //                             mainAxisAlignment:
+          //                                 MainAxisAlignment.center,
+          //                             children: [
+          //                               const Align(
+          //                                 alignment: Alignment.centerLeft,
+          //                                 child: Text(
+          //                                     'Did the program help in applying for your current occupation?'),
+          //                               ),
+          //                               Align(
+          //                                 alignment: Alignment.centerLeft,
+          //                                 child: DropdownMenu(
+          //                                   width: 150,
+          //                                   hintText: '-Select-',
+          //                                   onSelected: (String? value) {
+          //                                     setState(() {
+          //                                       question4Controller.text =
+          //                                           value!;
+          //                                     });
+          //                                   },
+          //                                   dropdownMenuEntries: listOfAnswers4
+          //                                       .map((String value) {
+          //                                     return DropdownMenuEntry<String>(
+          //                                       value: value,
+          //                                       label: value,
+          //                                     );
+          //                                   }).toList(),
+          //                                 ),
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                         //5th Question
+          //                         QuestionForm(
+          //                           content: Column(
+          //                             mainAxisAlignment:
+          //                                 MainAxisAlignment.center,
+          //                             children: [
+          //                               const Align(
+          //                                 alignment: Alignment.centerLeft,
+          //                                 child: Text(
+          //                                     'Did the program provide the necessary skills needed for your current job?'),
+          //                               ),
+          //                               Align(
+          //                                 alignment: Alignment.centerLeft,
+          //                                 child: DropdownMenu(
+          //                                   width: 150,
+          //                                   hintText: '-Select-',
+          //                                   onSelected: (String? value) {
+          //                                     setState(() {
+          //                                       question5Controller.text =
+          //                                           value!;
+          //                                     });
+          //                                   },
+          //                                   dropdownMenuEntries: listOfAnswers5
+          //                                       .map((String value) {
+          //                                     return DropdownMenuEntry<String>(
+          //                                       value: value,
+          //                                       label: value,
+          //                                     );
+          //                                   }).toList(),
+          //                                 ),
+          //                               ),
+          //                             ],
+          //                           ),
+          //                         ),
+          //                         //6th Question
+          //                         QuestionForm(
+          //                           content: Column(
+          //                             mainAxisAlignment:
+          //                                 MainAxisAlignment.center,
+          //                             children: [
+          //                               const Align(
+          //                                 alignment: Alignment.centerLeft,
+          //                                 child: Text(
+          //                                     'What were the necessary skills you acquired from the program needed for your current job?'),
+          //                               ),
+          //                               TextFormField(
+          //                                 controller: question6Controller,
+          //                                 keyboardType: TextInputType.multiline,
+          //                                 textInputAction:
+          //                                     TextInputAction.newline,
+          //                                 maxLines: 2,
+          //                                 validator: (value) =>
+          //                                     value!.isEmpty && value != null
+          //                                         ? 'This field is required'
+          //                                         : null,
+          //                               )
+          //                             ],
+          //                           ),
+          //                         ),
+          //                         const SizedBox(height: 28),
+          //                         Button(
+          //                           onSubmit: () {
+          //                             if (formKey.currentState!.validate()) {
+          //                               alumni.alumni.doc(widget.docID).update({
+          //                                 'question_1':
+          //                                     question1Controller.text,
+          //                                 'question_2':
+          //                                     question2Controller.text,
+          //                                 'question_3':
+          //                                     question3Controller.text,
+          //                                 'question_4':
+          //                                     question4Controller.text,
+          //                                 'question_5':
+          //                                     question5Controller.text,
+          //                                 'question_6':
+          //                                     question6Controller.text,
+          //                               });
+          //                               print(question1Controller.text);
+          //                               question1Controller.clear();
+          //                               question2Controller.clear();
+          //                               question3Controller.clear();
+          //                               question4Controller.clear();
+          //                               question5Controller.clear();
+          //                               question6Controller.clear();
+          //                               Navigator.pushReplacement(
+          //                                 context,
+          //                                 MaterialPageRoute(
+          //                                   builder: (context) =>
+          //                                       NavigationPage(
+          //                                     docID: widget.docID,
+          //                                   ),
+          //                                 ),
+          //                               );
+          //                             }
+          //                           },
+          //                         ),
+          //                         SizedBox(
+          //                           height: 20,
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   )
+          //                 //smaller screen
+          //                 else
+          //                   Column(
+          //                     children: [
+          //                       //first Question
+          //                       QuestionContentSmall(
+          //                         constructQuestion:
+          //                             'Are you satisfied with your current status?',
+          //                         contructFormQuestion: Align(
+          //                           alignment: Alignment.centerLeft,
+          //                           child: DropdownMenu(
+          //                             width: 150,
+          //                             hintText: '-Select-',
+          //                             onSelected: (String? value) {
+          //                               setState(() {
+          //                                 question1Controller.text = value!;
+          //                               });
+          //                               print(question1Controller.text);
+          //                             },
+          //                             dropdownMenuEntries:
+          //                                 listOfAnswers1.map((String value) {
+          //                               return DropdownMenuEntry<String>(
+          //                                 value: value,
+          //                                 label: value,
+          //                               );
+          //                             }).toList(),
+          //                           ),
+          //                         ),
+          //                       ),
+          //                       //second Question
+          //                       QuestionContentSmall(
+          //                         constructQuestion:
+          //                             'Were you employed within the year of your graduation?',
+          //                         contructFormQuestion: Align(
+          //                           alignment: Alignment.centerLeft,
+          //                           child: DropdownMenu(
+          //                             width: 150,
+          //                             hintText: '-Select-',
+          //                             onSelected: (String? value) {
+          //                               setState(() {
+          //                                 question2Controller.text = value!;
+          //                               });
+          //                               print(question2Controller.text);
+          //                             },
+          //                             dropdownMenuEntries:
+          //                                 listOfAnswers2.map((String value) {
+          //                               return DropdownMenuEntry<String>(
+          //                                 value: value,
+          //                                 label: value,
+          //                               );
+          //                             }).toList(),
+          //                           ),
+          //                         ),
+          //                       ),
+          //                       //third Question
+          //                       QuestionContentSmall(
+          //                         constructQuestion:
+          //                             'How relevant was the program to your job post-graduation?',
+          //                         contructFormQuestion: Align(
+          //                           alignment: Alignment.centerLeft,
+          //                           child: DropdownMenu(
+          //                             width: 150,
+          //                             hintText: '-Select-',
+          //                             onSelected: (String? value) {
+          //                               setState(() {
+          //                                 question3Controller.text = value!;
+          //                               });
+          //                               print(question3Controller.text);
+          //                             },
+          //                             dropdownMenuEntries:
+          //                                 listOfAnswers3.map((String value) {
+          //                               return DropdownMenuEntry<String>(
+          //                                 value: value,
+          //                                 label: value,
+          //                               );
+          //                             }).toList(),
+          //                           ),
+          //                         ),
+          //                       ),
+          //                       //fourth Question
+          //                       QuestionContentSmall(
+          //                         constructQuestion:
+          //                             'Did the program help in applying for your current occupation?',
+          //                         contructFormQuestion: Align(
+          //                           alignment: Alignment.centerLeft,
+          //                           child: DropdownMenu(
+          //                             width: 150,
+          //                             hintText: '-Select-',
+          //                             onSelected: (String? value) {
+          //                               setState(() {
+          //                                 question4Controller.text = value!;
+          //                               });
+          //                               print(question4Controller.text);
+          //                             },
+          //                             dropdownMenuEntries:
+          //                                 listOfAnswers4.map((String value) {
+          //                               return DropdownMenuEntry<String>(
+          //                                 value: value,
+          //                                 label: value,
+          //                               );
+          //                             }).toList(),
+          //                           ),
+          //                         ),
+          //                       ),
+          //                       //fifth Question
+          //                       QuestionContentSmall(
+          //                         constructQuestion:
+          //                             'Did the program provide the necessary skills needed for your current job?',
+          //                         contructFormQuestion: Align(
+          //                           alignment: Alignment.centerLeft,
+          //                           child: DropdownMenu(
+          //                             width: 150,
+          //                             hintText: '-Select-',
+          //                             onSelected: (String? value) {
+          //                               setState(() {
+          //                                 question5Controller.text = value!;
+          //                               });
+          //                               print(question5Controller.text);
+          //                             },
+          //                             dropdownMenuEntries:
+          //                                 listOfAnswers5.map((String value) {
+          //                               return DropdownMenuEntry<String>(
+          //                                 value: value,
+          //                                 label: value,
+          //                               );
+          //                             }).toList(),
+          //                           ),
+          //                         ),
+          //                       ),
+          //                       //Sixth Question
+          //                       QuestionContentSmall(
+          //                         constructQuestion:
+          //                             'What were the necessary skills you acquired from the program needed for your current job?',
+          //                         contructFormQuestion: TextFormField(
+          //                           controller: question6Controller,
+          //                           keyboardType: TextInputType.multiline,
+          //                           textInputAction: TextInputAction.newline,
+          //                           maxLines: 2,
+          //                           validator: (value) =>
+          //                               value!.isEmpty && value != null
+          //                                   ? 'This field is required'
+          //                                   : null,
+          //                         ),
+          //                       ),
+          //                       const SizedBox(height: 15),
+          //                       Button(
+          //                         onSubmit: () {
+          //                           if (formKey.currentState!.validate()) {
+          //                             alumni.alumni.doc(widget.docID).update({
+          //                               'question_1': question1Controller.text,
+          //                               'question_2': question2Controller.text,
+          //                               'question_3': question3Controller.text,
+          //                               'question_4': question4Controller.text,
+          //                               'question_5': question5Controller.text,
+          //                               'question_6': question6Controller.text,
+          //                             });
+          //                             print(question1Controller.text);
+          //                             question1Controller.clear();
+          //                             question2Controller.clear();
+          //                             question3Controller.clear();
+          //                             question4Controller.clear();
+          //                             question5Controller.clear();
+          //                             question6Controller.clear();
+          //                             Navigator.pushReplacement(
+          //                               context,
+          //                               MaterialPageRoute(
+          //                                 builder: (context) => NavigationPage(
+          //                                   docID: widget.docID,
+          //                                 ),
+          //                               ),
+          //                             );
+          //                           }
+          //                         },
+          //                       ),
+          //                       const SizedBox(height: 28),
+          //                     ],
+          //                   ),
+          //               ],
+          //             ),
+          //           ),
+          //         );
+          //       } else {
+          //         return Center(child: Text('LOADING FORM...'));
+          //       }
+          //     }),
         ),
       ),
     );

@@ -1,6 +1,8 @@
 import 'package:alumni_app/firebase_options.dart';
 import 'package:alumni_app/pages/home_page.dart';
+
 import 'package:alumni_app/pages/welcome_page.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: WelcomePage(),
       // home: HomePage(),
+
     );
   }
 }
