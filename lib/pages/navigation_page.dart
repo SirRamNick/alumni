@@ -1,3 +1,4 @@
+import 'package:alumni_app/pages/about.dart';
 import 'package:alumni_app/pages/profile.dart';
 import 'package:alumni_app/pages/settings.dart';
 import 'package:flutter/material.dart';
@@ -24,14 +25,14 @@ const _navBarItems = [
   ),
   BottomNavigationBarItem(
     icon: Icon(
-      Icons.settings_outlined,
+      Icons.question_mark_rounded,
       color: const Color.fromRGBO(255, 210, 49, 1),
     ),
     activeIcon: Icon(
-      Icons.settings,
+      Icons.question_mark_rounded,
       color: const Color.fromRGBO(255, 210, 49, 1),
     ),
-    label: 'Settings',
+    label: 'About',
   ),
 ];
 
@@ -56,7 +57,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
     final pages = [
       Profile(docID: documentID),
-      Settings(),
+      About(),
     ];
 
     return Scaffold(

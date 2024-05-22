@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
                         child: Row(children: [
                           Expanded(
                             child: Container(
-                              padding: EdgeInsets.all(20),
+                              padding: EdgeInsets.all(30),
                               margin: EdgeInsets.all(20),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
