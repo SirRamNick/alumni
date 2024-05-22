@@ -66,11 +66,35 @@ class _HomePageState extends State<HomePage> {
       'Female',
     ];
     status = [
-      'Government Employee',
+      'Government Employed',
       'Privately Employed',
-      'Entrepreneur',
-      'Other',
+      'Self-employed',
+      'Others',
     ];
+  }
+
+  void onNextPageAndValidate() {
+    Map userInfo = {
+      'email': emailController.text,
+      'first_name': firstNameController.text,
+      'last_name': lastNameController.text,
+      'program': programController.text,
+      'year_graduated': yearGraduatedController.text,
+      'sex': sexController.text,
+      'employment_status': statusController.text,
+      'middle_name': middleNameController.text,
+      'date_of_birth': dateOfBirthController.text,
+      'occupation': occupationController.text,
+      'time_stamp': Timestamp.now(),
+    };
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => QuestionsPage(
+          userInformation: userInfo,
+        ),
+      ),
+    );
   }
 
   @override
@@ -92,7 +116,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final bool isLargeScreen = screenWidth < 1646;
+    final bool isLargeScreen = screenWidth < 1100;
     // width size: 1100
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 210, 49, 1),
@@ -202,16 +226,16 @@ class _HomePageState extends State<HomePage> {
                                   textEditingController: middleNameController,
                                   subTitle: const Text('Middle Name'),
                                   suffixIcon: null,
-                                  validator: (value) =>
-                                      value!.isEmpty && value != null
-                                          ? 'This field is required'
-                                          : null,
                                 ),
                               ),
                               //gender
                               SizedBox(
                                 width: 160,
                                 child: DropdownButtonFormField2(
+                                  validator: (value) =>
+                                        value!.isEmpty && value != null
+                                            ? 'This field is required'
+                                            : null,
                                   isExpanded: true,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
@@ -313,15 +337,18 @@ class _HomePageState extends State<HomePage> {
                                       yearGraduatedController,
                                   subTitle: const Text('Year Graduated'),
                                   suffixIcon: null,
-                                  validator: (value) =>
-                                      value!.isEmpty && value != null
-                                          ? 'This field is required'
-                                          : null,
+                                  validator: (value) {
+                                    if (value!.isEmpty && value != null) {
+                                      return 'This field is required';
+                                    } else if (int.parse(value) < 2002) {
+                                      return 'Invalid year graduated';
+                                    }
+                                  },
                                 ),
                               ),
                               //Degree
                               SizedBox(
-                                width: 350,
+                                width: 270,
                                 child: DropdownButtonFormField2(
                                   isExpanded: true,
                                   decoration: InputDecoration(
@@ -390,6 +417,10 @@ class _HomePageState extends State<HomePage> {
                                 width: 200,
                                 child: DropdownButtonFormField2(
                                   isExpanded: true,
+                                  validator: (value) =>
+                                        value!.isEmpty && value != null
+                                            ? 'This field is required'
+                                            : null,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
                                         vertical: 0, horizontal: 0),
@@ -397,7 +428,7 @@ class _HomePageState extends State<HomePage> {
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                   ),
-                                  hint: const Text('Employment Status'),
+                                  hint: const Text('Current Employment Status'),
                                   items: status
                                       .map((item) => DropdownMenuItem<String>(
                                             value: item,
@@ -457,9 +488,9 @@ class _HomePageState extends State<HomePage> {
                             child: statusController.text.toLowerCase() ==
                                         'privately employed' ||
                                     statusController.text.toLowerCase() ==
-                                        'government employee' ||
+                                        'government employed' ||
                                     statusController.text.toLowerCase() ==
-                                        'entrepreneur'
+                                        'self-employed'
                                 ? OlopscForm(
                                     textEditingController: occupationController,
                                     subTitle: const Text('--Please Specify--'),
@@ -485,164 +516,160 @@ class _HomePageState extends State<HomePage> {
                                         Color.fromRGBO(11, 10, 95, 1),
                                       ),
                                     ),
-                                    onPressed: () async {
+                                    onPressed: () {
                                       if (formKey.currentState!.validate()) {
-                                        final DocumentReference document =
-                                            alumni.alumni
-                                                .doc(firstNameController.text);
-                                        document.set({
-                                          'email': emailController.text,
-                                          'first_name':
-                                              firstNameController.text,
-                                          'last_name': lastNameController.text,
-                                          'program': programController.text,
-                                          'year_graduated': int.parse(
-                                              yearGraduatedController.text),
-                                          'sex': sexController.text,
-                                          'employment_status':
-                                              statusController.text,
-                                          'middle_name':
-                                              middleNameController.text,
-                                          'date_of_birth':
-                                              dateOfBirthController.text,
-                                          'occupation':
-                                              occupationController.text,
-                                          'time_stamp': Timestamp.now(),
-                                        });
-                                        final DocumentReference documentStats =
-                                            alumni.stats.doc(
-                                                yearGraduatedController.text);
-
-                                        final DocumentSnapshot yearData =
-                                            await documentStats.get();
-                                        if (yearData.exists) {
-                                          await documentStats.update({
-                                            'value': yearData.get('value') + 1
-                                          });
-                                        } else {
-                                          await documentStats.set({
-                                            'value': 1,
-                                            'index': int.parse(
-                                                    yearGraduatedController
-                                                        .text) -
-                                                2001,
-                                            'year': int.parse(
-                                                yearGraduatedController.text),
-                                          });
-                                        }
-
-                                        final DocumentReference
-                                            documentEmpStats =
-                                            alumni.empStats.doc(
-                                                yearGraduatedController.text);
-
-                                        final DocumentSnapshot empStatsData =
-                                            await documentEmpStats.get();
-                                        if (statusController.text
-                                                .toLowerCase() ==
-                                            'privately employed') {
-                                          try {
-                                            await documentEmpStats.update({
-                                              'year': int.parse(
-                                                  yearGraduatedController.text),
-                                              'privately_employed':
-                                                  empStatsData.get(
-                                                          'privately_employed') +
-                                                      1,
-                                            });
-                                          } catch (e) {
-                                            await documentEmpStats.set({
-                                              'year': int.parse(
-                                                  yearGraduatedController.text),
-                                              'privately_employed': 1,
-                                            }, SetOptions(merge: true));
-                                          }
-                                        }
-                                        if (statusController.text
-                                                .toLowerCase() ==
-                                            'government employee') {
-                                          try {
-                                            await documentEmpStats.update({
-                                              'year': int.parse(
-                                                  yearGraduatedController.text),
-                                              'government_employee':
-                                                  empStatsData.get(
-                                                          'government_employee') +
-                                                      1,
-                                            });
-                                          } catch (e) {
-                                            await documentEmpStats.set({
-                                              'year': int.parse(
-                                                  yearGraduatedController.text),
-                                              'government_employee': 1,
-                                            }, SetOptions(merge: true));
-                                          }
-                                        }
-                                        if (statusController.text
-                                                .toLowerCase() ==
-                                            'entrepreneur') {
-                                          try {
-                                            await documentEmpStats.update({
-                                              'year': int.parse(
-                                                  yearGraduatedController.text),
-                                              'entrepreneur': empStatsData
-                                                      .get('entrepreneur') +
-                                                  1,
-                                            });
-                                          } catch (e) {
-                                            await documentEmpStats.set({
-                                              'year': int.parse(
-                                                  yearGraduatedController.text),
-                                              'entrepreneur': 1,
-                                            }, SetOptions(merge: true));
-                                          }
-                                        }
-                                        if (statusController.text
-                                                .toLowerCase() ==
-                                            'others') {
-                                          try {
-                                            await documentEmpStats.update({
-                                              'year': int.parse(
-                                                  yearGraduatedController.text),
-                                              'others':
-                                                  empStatsData.get('others') +
-                                                      1,
-                                            });
-                                          } catch (e) {
-                                            await documentEmpStats.set({
-                                              'year': int.parse(
-                                                  yearGraduatedController.text),
-                                              'others': 1,
-                                            }, SetOptions(merge: true));
-                                          }
-                                        }
-
-                                        emailController.clear();
-                                        firstNameController.clear();
-                                        middleNameController.clear();
-                                        lastNameController.clear();
-                                        programController.clear();
-                                        batchController.clear();
-                                        sexController.clear();
-                                        statusController.clear();
-                                        yearGraduatedController.clear();
-                                        dateOfBirthController.clear();
-                                        occupationController.clear();
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => QuestionsPage(
-                                              docID: document.id,
-                                            ),
-                                          ),
-                                        );
+                                        onNextPageAndValidate();
+                                        //   final DocumentReference document =
+                                        //       alumni.alumni
+                                        //           .doc(firstNameController.text);
+                                        //   document.set({
+                                        //     'email': emailController.text,
+                                        //     'first_name':
+                                        //         firstNameController.text,
+                                        //     'last_name': lastNameController.text,
+                                        //     'program': programController.text,
+                                        //     'year_graduated': int.parse(
+                                        //         yearGraduatedController.text),
+                                        //     'sex': sexController.text,
+                                        //     'employment_status':
+                                        //         statusController.text,
+                                        //     'middle_name':
+                                        //         middleNameController.text,
+                                        //     'date_of_birth':
+                                        //         dateOfBirthController.text,
+                                        //     'occupation':
+                                        //         occupationController.text,
+                                        //     'time_stamp': Timestamp.now(),
+                                        //   });
+                                        //   final DocumentReference documentStats =
+                                        //       alumni.stats.doc(
+                                        //           yearGraduatedController.text);
+                                        //   final DocumentSnapshot yearData =
+                                        //       await documentStats.get();
+                                        //   if (yearData.exists) {
+                                        //     await documentStats.update({
+                                        //       'value': yearData.get('value') + 1
+                                        //     });
+                                        //   } else {
+                                        //     await documentStats.set({
+                                        //       'value': 1,
+                                        //       'index': int.parse(
+                                        //               yearGraduatedController
+                                        //                   .text) -
+                                        //           2001,
+                                        //       'year': int.parse(
+                                        //           yearGraduatedController.text),
+                                        //     });
+                                        //   }
+                                        //   final DocumentReference
+                                        //       documentEmpStats =
+                                        //       alumni.empStats.doc(
+                                        //           yearGraduatedController.text);
+                                        //   final DocumentSnapshot empStatsData =
+                                        //       await documentEmpStats.get();
+                                        //   if (statusController.text
+                                        //           .toLowerCase() ==
+                                        //       'privately employed') {
+                                        //     try {
+                                        //       await documentEmpStats.update({
+                                        //         'year': int.parse(
+                                        //             yearGraduatedController.text),
+                                        //         'privately_employed':
+                                        //             empStatsData.get(
+                                        //                     'privately_employed') +
+                                        //                 1,
+                                        //       });
+                                        //     } catch (e) {
+                                        //       await documentEmpStats.set({
+                                        //         'year': int.parse(
+                                        //             yearGraduatedController.text),
+                                        //         'privately_employed': 1,
+                                        //       }, SetOptions(merge: true));
+                                        //     }
+                                        //   }
+                                        //   if (statusController.text
+                                        //           .toLowerCase() ==
+                                        //       'government employee') {
+                                        //     try {
+                                        //       await documentEmpStats.update({
+                                        //         'year': int.parse(
+                                        //             yearGraduatedController.text),
+                                        //         'government_employee':
+                                        //             empStatsData.get(
+                                        //                     'government_employee') +
+                                        //                 1,
+                                        //       });
+                                        //     } catch (e) {
+                                        //       await documentEmpStats.set({
+                                        //         'year': int.parse(
+                                        //             yearGraduatedController.text),
+                                        //         'government_employee': 1,
+                                        //       }, SetOptions(merge: true));
+                                        //     }
+                                        //   }
+                                        //   if (statusController.text
+                                        //           .toLowerCase() ==
+                                        //       'entrepreneur') {
+                                        //     try {
+                                        //       await documentEmpStats.update({
+                                        //         'year': int.parse(
+                                        //             yearGraduatedController.text),
+                                        //         'entrepreneur': empStatsData
+                                        //                 .get('entrepreneur') +
+                                        //             1,
+                                        //       });
+                                        //     } catch (e) {
+                                        //       await documentEmpStats.set({
+                                        //         'year': int.parse(
+                                        //             yearGraduatedController.text),
+                                        //         'entrepreneur': 1,
+                                        //       }, SetOptions(merge: true));
+                                        //     }
+                                        //   }
+                                        //   if (statusController.text
+                                        //           .toLowerCase() ==
+                                        //       'others') {
+                                        //     try {
+                                        //       await documentEmpStats.update({
+                                        //         'year': int.parse(
+                                        //             yearGraduatedController.text),
+                                        //         'others':
+                                        //             empStatsData.get('others') +
+                                        //                 1,
+                                        //       });
+                                        //     } catch (e) {
+                                        //       await documentEmpStats.set({
+                                        //         'year': int.parse(
+                                        //             yearGraduatedController.text),
+                                        //         'others': 1,
+                                        //       }, SetOptions(merge: true));
+                                        //     }
+                                        //   }
+                                        //   emailController.clear();
+                                        //   firstNameController.clear();
+                                        //   middleNameController.clear();
+                                        //   lastNameController.clear();
+                                        //   programController.clear();
+                                        //   batchController.clear();
+                                        //   sexController.clear();
+                                        //   statusController.clear();
+                                        //   yearGraduatedController.clear();
+                                        //   dateOfBirthController.clear();
+                                        //   occupationController.clear();
+                                        //   Navigator.pushReplacement(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //       builder: (context) => QuestionsPage(
+                                        //         docID: document.id,
+                                        //       ),
+                                        //     ),
+                                        //   );
                                       }
                                     },
                                     child: const Text(
                                       'Next',
                                       style: TextStyle(
-                                        color: const Color.fromRGBO(
-                                            255, 210, 49, 1),
+                                        color: Color.fromRGBO(255, 210, 49, 1),
                                       ),
                                     )),
                               ),
@@ -692,10 +719,6 @@ class _HomePageState extends State<HomePage> {
                                   textEditingController: middleNameController,
                                   subTitle: const Text('Middle Name'),
                                   suffixIcon: null,
-                                  validator: (value) =>
-                                      value!.isEmpty && value != null
-                                          ? 'This field is required'
-                                          : null,
                                 ),
                                 const SizedBox(
                                   height: 25,
@@ -732,10 +755,13 @@ class _HomePageState extends State<HomePage> {
                                       yearGraduatedController,
                                   subTitle: const Text('Year Graduated'),
                                   suffixIcon: null,
-                                  validator: (value) =>
-                                      value!.isEmpty && value != null
-                                          ? 'This field is required'
-                                          : null,
+                                  validator: (value) {
+                                    if (value!.isEmpty && value != null) {
+                                      return 'This field is required';
+                                    } else if (int.parse(value) < 2002) {
+                                      return 'Invalid year graduated';
+                                    }
+                                  },
                                 ),
                                 //date of birth
                                 const SizedBox(
@@ -901,7 +927,8 @@ class _HomePageState extends State<HomePage> {
                                                 BorderRadius.circular(15),
                                           ),
                                         ),
-                                        hint: const Text('Employment Status'),
+                                        hint: const Text(
+                                            'Current Employment Status'),
                                         items: status
                                             .map((item) =>
                                                 DropdownMenuItem<String>(
@@ -971,9 +998,9 @@ class _HomePageState extends State<HomePage> {
                                   child: statusController.text.toLowerCase() ==
                                               'privately employed' ||
                                           statusController.text.toLowerCase() ==
-                                              'government employee' ||
+                                              'government employed' ||
                                           statusController.text.toLowerCase() ==
-                                              'entrepreneur'
+                                              'self-employed'
                                       ? OlopscForm(
                                           textEditingController:
                                               occupationController,
@@ -1011,77 +1038,78 @@ class _HomePageState extends State<HomePage> {
                                               Color.fromRGBO(11, 10, 95, 1),
                                             ),
                                           ),
-                                          onPressed: () async {
+                                          onPressed: () {
                                             if (formKey.currentState!
                                                 .validate()) {
-                                              final DocumentReference document =
-                                                  alumni.alumni.doc(
-                                                      firstNameController.text);
-                                              setState(() {
-                                                document.set({
-                                                  'email': emailController.text,
-                                                  'first_name':
-                                                      firstNameController.text,
-                                                  'last_name':
-                                                      lastNameController.text,
-                                                  'program':
-                                                      programController.text,
-                                                  'year_graduated': int.parse(
-                                                      yearGraduatedController
-                                                          .text),
-                                                  'sex': sexController.text,
-                                                  'employment_status':
-                                                      statusController.text,
-                                                  'middle_name':
-                                                      middleNameController.text,
-                                                  'date_of_birth':
-                                                      dateOfBirthController
-                                                          .text,
-                                                  'occupation':
-                                                      occupationController.text,
-                                                  'time_stamp': Timestamp.now(),
-                                                });
-                                              });
-                                              DocumentSnapshot yearData =
-                                                  await alumni.stats
-                                                      .doc(
-                                                          yearGraduatedController
-                                                              .text)
-                                                      .get();
-                                              alumni.stats
-                                                  .doc(yearGraduatedController
-                                                      .text)
-                                                  .set({
-                                                'value':
-                                                    yearData.get('value') + 1,
-                                                'index': int.parse(
-                                                        yearGraduatedController
-                                                            .text) -
-                                                    2001,
-                                                'year': int.parse(
-                                                    yearGraduatedController
-                                                        .text),
-                                              });
-                                              emailController.clear();
-                                              firstNameController.clear();
-                                              middleNameController.clear();
-                                              lastNameController.clear();
-                                              programController.clear();
-                                              batchController.clear();
-                                              sexController.clear();
-                                              statusController.clear();
-                                              yearGraduatedController.clear();
-                                              dateOfBirthController.clear();
-                                              occupationController.clear();
-                                              Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      QuestionsPage(
-                                                    docID: document.id,
-                                                  ),
-                                                ),
-                                              );
+                                              onNextPageAndValidate();
+                                              // final DocumentReference document =
+                                              //     alumni.alumni.doc(
+                                              //         firstNameController.text);
+                                              // setState(() {
+                                              //   document.set({
+                                              //     'email': emailController.text,
+                                              //     'first_name':
+                                              //         firstNameController.text,
+                                              //     'last_name':
+                                              //         lastNameController.text,
+                                              //     'program':
+                                              //         programController.text,
+                                              //     'year_graduated': int.parse(
+                                              //         yearGraduatedController
+                                              //             .text),
+                                              //     'sex': sexController.text,
+                                              //     'employment_status':
+                                              //         statusController.text,
+                                              //     'middle_name':
+                                              //         middleNameController.text,
+                                              //     'date_of_birth':
+                                              //         dateOfBirthController
+                                              //             .text,
+                                              //     'occupation':
+                                              //         occupationController.text,
+                                              //     'time_stamp': Timestamp.now(),
+                                              //   });
+                                              // });
+                                              // DocumentSnapshot yearData =
+                                              //     await alumni.stats
+                                              //         .doc(
+                                              //             yearGraduatedController
+                                              //                 .text)
+                                              //         .get();
+                                              // alumni.stats
+                                              //     .doc(yearGraduatedController
+                                              //         .text)
+                                              //     .set({
+                                              //   'value':
+                                              //       yearData.get('value') + 1,
+                                              //   'index': int.parse(
+                                              //           yearGraduatedController
+                                              //               .text) -
+                                              //       2001,
+                                              //   'year': int.parse(
+                                              //       yearGraduatedController
+                                              //           .text),
+                                              // });
+                                              // emailController.clear();
+                                              // firstNameController.clear();
+                                              // middleNameController.clear();
+                                              // lastNameController.clear();
+                                              // programController.clear();
+                                              // batchController.clear();
+                                              // sexController.clear();
+                                              // statusController.clear();
+                                              // yearGraduatedController.clear();
+                                              // dateOfBirthController.clear();
+                                              // occupationController.clear();
+                                              // Navigator.pushReplacement(
+                                              //   context,
+                                              //   MaterialPageRoute(
+                                              //     builder: (context) =>
+                                              //         QuestionsPage(
+                                              //       docID: document.id,
+                                              //     ),
+                                              //   ),
+                                              // );
                                             }
                                           },
                                           child: const Text(

@@ -4,7 +4,7 @@ class OlopscForm extends StatelessWidget {
   final TextEditingController textEditingController;
   final Widget subTitle;
   final Widget? suffixIcon;
-  final String? Function(String?) validator;
+  final String? Function(String?)? validator;
   // final Function(String?) onChanged;
   const OlopscForm({
     super.key,
@@ -12,7 +12,7 @@ class OlopscForm extends StatelessWidget {
     required this.textEditingController,
     required this.suffixIcon,
     // required this.onChanged,
-    required this.validator,
+    this.validator,
   });
 
   @override
