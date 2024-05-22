@@ -32,7 +32,7 @@ class FirestoreService {
     String? question_6,
   }) {
     setSearchParam(String firstName, String lastName) {
-      final String name = '$firstName $lastName';
+      String name = '$firstName $lastName';
       List<String> caseSearchList = [];
       String temp = '';
 
@@ -40,6 +40,13 @@ class FirestoreService {
         temp += name[i];
         caseSearchList.add(temp.toLowerCase());
       }
+
+      name = '$lastName $firstName';
+      for (int i = 0; i < name.length; i++) {
+        temp += name[i];
+        caseSearchList.add(temp.toLowerCase());
+      }
+
       return caseSearchList;
     }
 
@@ -75,7 +82,7 @@ class FirestoreService {
   ) {
     return alumni.doc(docID).update({
       'question_1': question_1,
-      'questio_2': question_2,
+      'question_2': question_2,
       'question_3': question_3,
       'question_4': question_4,
       'question_5': question_5,
