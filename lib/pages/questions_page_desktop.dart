@@ -70,7 +70,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
   final List<String> likertScaleAgree = [
     "Strongly agree",
     "Agree",
-    "Neither agree or disagree",
+    "Neutral",
     "Disagree",
     "Strongly disagree",
   ];
