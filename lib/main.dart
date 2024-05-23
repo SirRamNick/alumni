@@ -1,6 +1,5 @@
 import 'package:alumni_app/firebase_options.dart';
 import 'package:alumni_app/pages/home_page.dart';
-import 'package:alumni_app/pages/profile_layout.dart';
 
 import 'package:alumni_app/pages/welcome_page.dart';
 
@@ -23,7 +22,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: WelcomePage(),
       // home: HomePage(),
-      // home: ProfileLayout(),
     );
   }
 }

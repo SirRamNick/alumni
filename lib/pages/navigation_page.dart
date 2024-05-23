@@ -1,5 +1,5 @@
+import 'package:alumni_app/pages/about.dart';
 import 'package:alumni_app/pages/profile.dart';
-import 'package:alumni_app/pages/settings.dart';
 import 'package:flutter/material.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -24,14 +24,14 @@ const _navBarItems = [
   ),
   BottomNavigationBarItem(
     icon: Icon(
-      Icons.settings_outlined,
+      Icons.info_outline,
       color: const Color.fromRGBO(255, 210, 49, 1),
     ),
     activeIcon: Icon(
-      Icons.settings,
+      Icons.info,
       color: const Color.fromRGBO(255, 210, 49, 1),
     ),
-    label: 'Settings',
+    label: 'About',
   ),
 ];
 
@@ -56,7 +56,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
     final pages = [
       Profile(docID: documentID),
-      Settings(),
+      About(),
     ];
 
     return Scaffold(
@@ -85,7 +85,9 @@ class _NavigationPageState extends State<NavigationPage> {
                   padding: EdgeInsets.all(8),
                   child: Column(
                     children: [
-                      Image.asset('images/olopsc_logo.png', scale: 2.1),
+                      Image.network(
+                          'https://lh3.googleusercontent.com/d/1XMP5QKXyZKjaFupHFRQ0HjRdety1Kb5N',
+                          scale: 12),
                       const SizedBox(
                         height: 15,
                       ),

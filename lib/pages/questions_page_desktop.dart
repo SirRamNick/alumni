@@ -110,7 +110,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
       'email': information['email'],
       'first_name': information['first_name'],
       'last_name': information['last_name'],
-      'program': information['program'],
+      'degree': information['degree'],
       'year_graduated': information['year_graduated'],
       'sex': information['sex'],
       'employment_status': information['employment_status'],
@@ -170,16 +170,16 @@ class _QuestionsPageState extends State<QuestionsPage> {
         }, SetOptions(merge: true));
       }
     } else if (information['employment_status'].toLowerCase() ==
-        'self-employed') {
+        'self_employed') {
       try {
         await documentEmpStats.update({
           'year': int.parse(information['year_graduated']),
-          'self-employed': empStatsData.get('self-employed') + 1,
+          'self_employed': empStatsData.get('self_employed') + 1,
         });
       } catch (e) {
         await documentEmpStats.set({
           'year': int.parse(information['year_graduated']),
-          'self-employed': 1,
+          'self_employed': 1,
         }, SetOptions(merge: true));
       }
     } else if (information['employment_status'].toLowerCase() == 'others') {
@@ -296,7 +296,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
                       Opacity(
                         opacity: 0.9,
                         child: Image.network(
-                            'https://lh3.googleusercontent.com/d/19U4DW6KMNsVOqT6ZzX_ikpezY2N24Vyi',
+                            // 'https://lh3.googleusercontent.com/d/19U4DW6KMNsVOqT6ZzX_ikpezY2N24Vyi',
+                            'https://lh3.googleusercontent.com/d/1VDWlFOEyS-rftjzmy1DtWYNf5HvDSDq3',
                             scale: 39.5),
                       ),
                     ],
@@ -1207,11 +1208,11 @@ class _QuestionsPageState extends State<QuestionsPage> {
                         Button(
                           enabled: !clickSubmit,
                           onSubmit: () async {
-                            setState(() {
-                              clickSubmit = true;
-                            });
                             if (formKey.currentState!.validate()) {
                               String documentID = await onSubmitAndValidate();
+                            setState(() {
+                                clickSubmit = true;
+                              });
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
