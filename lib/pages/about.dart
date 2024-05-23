@@ -57,10 +57,10 @@ class _AboutState extends State<About> {
                     Expanded(
                         child: Container(
                             padding: const EdgeInsets.all(30),
-                            margin: const EdgeInsets.all(100),
+                            margin: const EdgeInsets.all(50),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: Color.fromARGB(209, 255, 255, 255),
+                              color: Color.fromARGB(218, 255, 255, 255),
                             ),
                             child: Wrap(
                               spacing: 8.0,

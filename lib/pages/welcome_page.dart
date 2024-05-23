@@ -55,6 +55,7 @@ class _WelcomePageState extends State<WelcomePage> {
           image: DecorationImage(
             image: NetworkImage(
                 'https://lh3.googleusercontent.com/d/1A9nZdV4Y4kXErJlBOkahkpODE7EVhp1x'),
+                
             alignment: Alignment.bottomLeft,
             scale: 2.5,
             opacity: 0.8,
@@ -90,7 +91,9 @@ class _WelcomePageState extends State<WelcomePage> {
                             Opacity(
                               opacity: 0.9,
                               child: Image.network(
-                                  'https://lh3.googleusercontent.com/d/19U4DW6KMNsVOqT6ZzX_ikpezY2N24Vyi',
+                                  // 'https://lh3.googleusercontent.com/d/19U4DW6KMNsVOqT6ZzX_ikpezY2N24Vyi',
+                                  'https://lh3.googleusercontent.com/d/1VDWlFOEyS-rftjzmy1DtWYNf5HvDSDq3',
+
                                   scale: 39.5),
                             ),
                           ],

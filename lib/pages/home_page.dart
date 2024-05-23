@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
       'email': emailController.text,
       'first_name': firstNameController.text,
       'last_name': lastNameController.text,
-      'program': programController.text,
+      'degree': programController.text,
       'year_graduated': yearGraduatedController.text,
       'sex': sexController.text,
       'employment_status': statusController.text,
@@ -182,7 +182,8 @@ class _HomePageState extends State<HomePage> {
                       Opacity(
                         opacity: 0.9,
                         child: Image.network(
-                            'https://lh3.googleusercontent.com/d/19U4DW6KMNsVOqT6ZzX_ikpezY2N24Vyi',
+                            // 'https://lh3.googleusercontent.com/d/19U4DW6KMNsVOqT6ZzX_ikpezY2N24Vyi',
+                            'https://lh3.googleusercontent.com/d/1VDWlFOEyS-rftjzmy1DtWYNf5HvDSDq3',
                             scale: 39.5),
                       ),
                       // Text('$screenWidth')
