@@ -22,6 +22,7 @@ class OlopscForm extends StatelessWidget {
       child: TextFormField(
         controller: textEditingController,
         decoration: InputDecoration(
+          errorMaxLines: 3,
           border: const OutlineInputBorder(),
           filled: true,
           fillColor: Colors.white,

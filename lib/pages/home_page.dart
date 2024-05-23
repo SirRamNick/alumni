@@ -226,16 +226,19 @@ class _HomePageState extends State<HomePage> {
                                   textEditingController: middleNameController,
                                   subTitle: const Text('Middle Name'),
                                   suffixIcon: null,
+                                  validator: (value) =>
+                                      value!.isEmpty && value != null
+                                          ? 'This field is required'
+                                          : null,
                                 ),
                               ),
                               //gender
                               SizedBox(
                                 width: 160,
                                 child: DropdownButtonFormField2(
-                                  validator: (value) =>
-                                        value!.isEmpty && value != null
-                                            ? 'This field is required'
-                                            : null,
+                                  validator: (value) => value == null
+                                      ? 'This field is required'
+                                      : null,
                                   isExpanded: true,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
@@ -324,7 +327,11 @@ class _HomePageState extends State<HomePage> {
                               Expanded(
                                   child: OlopscForm(
                                 textEditingController: dateOfBirthController,
-                                subTitle: const Text('Date of Birth'),
+                                subTitle: const Text(
+                                  'Date of Birth',
+                                  maxLines: 2,
+                                  style: TextStyle(fontSize: 15),
+                                ),
                                 suffixIcon: null,
                                 validator: (value) =>
                                     value!.isEmpty && value != null
@@ -335,7 +342,11 @@ class _HomePageState extends State<HomePage> {
                                 child: OlopscForm(
                                   textEditingController:
                                       yearGraduatedController,
-                                  subTitle: const Text('Year Graduated'),
+                                  subTitle: const Text(
+                                    'Year \nGraduated',
+                                    maxLines: 2,
+                                    style: TextStyle(fontSize: 13),
+                                  ),
                                   suffixIcon: null,
                                   validator: (value) {
                                     if (value!.isEmpty && value != null) {
@@ -350,6 +361,9 @@ class _HomePageState extends State<HomePage> {
                               SizedBox(
                                 width: 270,
                                 child: DropdownButtonFormField2(
+                                  validator: (value) => value == null
+                                      ? 'This field is required'
+                                      : null,
                                   isExpanded: true,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
@@ -414,13 +428,12 @@ class _HomePageState extends State<HomePage> {
                                 width: 20,
                               ),
                               SizedBox(
-                                width: 200,
+                                width: 180,
                                 child: DropdownButtonFormField2(
                                   isExpanded: true,
-                                  validator: (value) =>
-                                        value!.isEmpty && value != null
-                                            ? 'This field is required'
-                                            : null,
+                                  validator: (value) => value == null
+                                      ? 'This field is required'
+                                      : null,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
                                         vertical: 0, horizontal: 0),
@@ -775,6 +788,9 @@ class _HomePageState extends State<HomePage> {
                                     SizedBox(
                                       width: 200,
                                       child: DropdownButtonFormField2(
+                                        validator: (value) => value == null
+                                            ? 'This field is required'
+                                            : null,
                                         isExpanded: true,
                                         decoration: InputDecoration(
                                           contentPadding:
@@ -846,6 +862,9 @@ class _HomePageState extends State<HomePage> {
                                     SizedBox(
                                       width: 350,
                                       child: DropdownButtonFormField2(
+                                        validator: (value) => value == null
+                                            ? 'This field is required'
+                                            : null,
                                         isExpanded: true,
                                         decoration: InputDecoration(
                                           contentPadding:
@@ -917,6 +936,9 @@ class _HomePageState extends State<HomePage> {
                                     SizedBox(
                                       width: 350,
                                       child: DropdownButtonFormField2(
+                                        validator: (value) => value == null
+                                            ? 'This field is required'
+                                            : null,
                                         isExpanded: true,
                                         decoration: InputDecoration(
                                           contentPadding:
