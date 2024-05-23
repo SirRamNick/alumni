@@ -198,29 +198,29 @@ class _QuestionsPageState extends State<QuestionsPage> {
         }, SetOptions(merge: true));
       }
     }
-    final DocumentReference collectionRef1 = FirebaseFirestore.instance
-        .collection('question_2')
-        .doc(information['degree']);
-    final DocumentSnapshot qDoc = await collectionRef1.get();
-    try {
-      collectionRef1.update({
-        'strongly_agree': qDoc.get('privately_employed') == null
-            ? stronglyAgree
-            : qDoc.get('strongly_agree') + 1,
-        'agree': qDoc.get('privately_employed') + agree,
-        'neutral': qDoc.get('privately_employed') + neutral,
-        'disagree': qDoc.get('privately_employed') + disagree,
-        'strongly_disagree': qDoc.get('privately_employed') + stronglyDisagree,
-      });
-    } catch (e) {
-      await documentEmpStats.set({
-        'strongly_agree': stronglyAgree,
-        'agree': agree,
-        'neutral': neutral,
-        'disagree': disagree,
-        'strongly_disagree': stronglyDisagree,
-      }, SetOptions(merge: true));
-    }
+    // final DocumentReference collectionRef1 = FirebaseFirestore.instance
+    //     .collection('question_2')
+    //     .doc(information['degree']);
+    // final DocumentSnapshot qDoc = await collectionRef1.get();
+    // try {
+    //   collectionRef1.update({
+    //     'strongly_agree': qDoc.get('privately_employed') == null
+    //         ? stronglyAgree
+    //         : qDoc.get('strongly_agree') + 1,
+    //     'agree': qDoc.get('privately_employed') + agree,
+    //     'neutral': qDoc.get('privately_employed') + neutral,
+    //     'disagree': qDoc.get('privately_employed') + disagree,
+    //     'strongly_disagree': qDoc.get('privately_employed') + stronglyDisagree,
+    //   });
+    // } catch (e) {
+    //   await documentEmpStats.set({
+    //     'strongly_agree': stronglyAgree,
+    //     'agree': agree,
+    //     'neutral': neutral,
+    //     'disagree': disagree,
+    //     'strongly_disagree': stronglyDisagree,
+    //   }, SetOptions(merge: true));
+    // }
     return document.id;
   }
 
