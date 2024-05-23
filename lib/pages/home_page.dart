@@ -226,10 +226,6 @@ class _HomePageState extends State<HomePage> {
                                   textEditingController: middleNameController,
                                   subTitle: const Text('Middle Name'),
                                   suffixIcon: null,
-                                  validator: (value) =>
-                                      value!.isEmpty && value != null
-                                          ? 'This field is required'
-                                          : null,
                                 ),
                               ),
                               //gender
@@ -754,10 +750,13 @@ class _HomePageState extends State<HomePage> {
                                   textEditingController: dateOfBirthController,
                                   subTitle: const Text('Date of Birth'),
                                   suffixIcon: null,
-                                  validator: (value) =>
-                                      value!.isEmpty && value != null
-                                          ? 'This field is required'
-                                          : null,
+                                  validator: (value) {
+                                    if (value!.isEmpty && value != null) {
+                                      return 'This field is required';
+                                    } else if (int.parse(value) < 2002) {
+                                      return 'Invalid year graduated';
+                                    }
+                                  },
                                 ),
                                 const SizedBox(
                                   height: 25,
