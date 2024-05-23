@@ -68,204 +68,40 @@ class _ProfileState extends State<Profile> {
                             const SizedBox(
                               height: 30,
                             ),
-                            Wrap(
-                              spacing: 10,
-                              runSpacing: 10,
+                            Row(
                               children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        padding: const EdgeInsets.all(30),
-                                        margin: const EdgeInsets.all(30),
-                                        decoration: BoxDecoration(
-                                            color: Color.fromARGB(
-                                                230, 255, 255, 255),
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        child: Column(
-                                          children: <Widget>[
-                                            const Divider(),
-                                            const SizedBox(height: 5),
-                                            //Profile Information
-                                            const Row(
+                                Expanded(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(30),
+                                    margin: const EdgeInsets.all(30),
+                                    decoration: BoxDecoration(
+                                        color: const Color.fromARGB(
+                                            230, 255, 255, 255),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    child: Column(
+                                      children: <Widget>[
+                                        const Divider(),
+                                        const SizedBox(height: 5),
+                                        //Profile Information
+                                        const Row(
+                                          children: [
+                                            Text(
+                                                textAlign: TextAlign.left,
+                                                'Profile information',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15)),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 15),
+                                        Column(
+                                          children: [
+                                            Wrap(
                                               children: [
-                                                Text(
-                                                    textAlign: TextAlign.left,
-                                                    'Profile information',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15)),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 15),
-                                            Column(
-                                              children: [
-                                                Wrap(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                decoration: const BoxDecoration(
-                                                                    border: Border(
-                                                                        bottom: BorderSide(
-                                                                            width:
-                                                                                0))),
-                                                                child: Text(
-                                                                  ' ${value['first_name']} ',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          17),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                  decoration: const BoxDecoration(
-                                                                      border: Border(
-                                                                          top: BorderSide(
-                                                                              width:
-                                                                                  0))),
-                                                                  child:
-                                                                      const Text(
-                                                                    '   First Name   ',
-                                                                    style: TextStyle(
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            102,
-                                                                            102,
-                                                                            102),
-                                                                        fontSize:
-                                                                            15),
-                                                                  ))
-                                                            ],
-                                                          ),
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                decoration: const BoxDecoration(
-                                                                    border: Border(
-                                                                        bottom: BorderSide(
-                                                                            width:
-                                                                                0))),
-                                                                child: Text(
-                                                                  ' ${value['last_name']}, ',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          17),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                  decoration: const BoxDecoration(
-                                                                      border: Border(
-                                                                          top: BorderSide(
-                                                                              width:
-                                                                                  0))),
-                                                                  child:
-                                                                      const Text(
-                                                                    '   Last Name   ',
-                                                                    style: TextStyle(
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            102,
-                                                                            102,
-                                                                            102),
-                                                                        fontSize:
-                                                                            15),
-                                                                  )),
-                                                            ],
-                                                          ),
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                decoration: const BoxDecoration(
-                                                                    border: Border(
-                                                                        bottom: BorderSide(
-                                                                            width:
-                                                                                0))),
-                                                                child: Text(
-                                                                  ' ${value['middle_name']} ',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          17),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                  decoration: const BoxDecoration(
-                                                                      border: Border(
-                                                                          top: BorderSide(
-                                                                              width:
-                                                                                  0))),
-                                                                  child:
-                                                                      const Text(
-                                                                    '   Middle Name   ',
-                                                                    style: TextStyle(
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            102,
-                                                                            102,
-                                                                            102),
-                                                                        fontSize:
-                                                                            15),
-                                                                  )),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 25,
-                                                ),
-                                                Wrap(
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        Container(
-                                                          decoration: const BoxDecoration(
-                                                              border: Border(
-                                                                  bottom:
-                                                                      BorderSide(
-                                                                          width:
-                                                                              0))),
-                                                          child: Expanded(
-                                                              child: Text(
-                                                            ' ${value['degree']} ',
-                                                            style: TextStyle(
-                                                                fontSize: 17),
-                                                          )),
-                                                        ),
-                                                        Container(
-                                                            decoration: const BoxDecoration(
-                                                                border: Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0))),
-                                                            child: const Text(
-                                                              '   Degree   ',
-                                                              style: TextStyle(
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          102,
-                                                                          102,
-                                                                          102),
-                                                                  fontSize: 15),
-                                                            ))
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 20,
-                                                ),
-                                                Wrap(
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: [
                                                     Column(
                                                       children: [
@@ -277,9 +113,11 @@ class _ProfileState extends State<Profile> {
                                                                           width:
                                                                               0))),
                                                           child: Text(
-                                                            ' ${value['email']} ',
-                                                            style: TextStyle(
-                                                                fontSize: 17),
+                                                            ' ${value['first_name']} ',
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        17),
                                                           ),
                                                         ),
                                                         Container(
@@ -289,7 +127,7 @@ class _ProfileState extends State<Profile> {
                                                                         width:
                                                                             0))),
                                                             child: const Text(
-                                                              '   Email   ',
+                                                              '   First Name   ',
                                                               style: TextStyle(
                                                                   color: Color
                                                                       .fromARGB(
@@ -301,13 +139,6 @@ class _ProfileState extends State<Profile> {
                                                             ))
                                                       ],
                                                     ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 20,
-                                                ),
-                                                Wrap(
-                                                  children: [
                                                     Column(
                                                       children: [
                                                         Container(
@@ -318,9 +149,11 @@ class _ProfileState extends State<Profile> {
                                                                           width:
                                                                               0))),
                                                           child: Text(
-                                                            ' ${value['date_of_birth']} ',
-                                                            style: TextStyle(
-                                                                fontSize: 17),
+                                                            ' ${value['last_name']}, ',
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        17),
                                                           ),
                                                         ),
                                                         Container(
@@ -330,7 +163,7 @@ class _ProfileState extends State<Profile> {
                                                                         width:
                                                                             0))),
                                                             child: const Text(
-                                                              '   Date of birth   ',
+                                                              '   Last Name   ',
                                                               style: TextStyle(
                                                                   color: Color
                                                                       .fromARGB(
@@ -342,9 +175,6 @@ class _ProfileState extends State<Profile> {
                                                             )),
                                                       ],
                                                     ),
-                                                    const SizedBox(
-                                                      width: 20,
-                                                    ),
                                                     Column(
                                                       children: [
                                                         Container(
@@ -355,9 +185,11 @@ class _ProfileState extends State<Profile> {
                                                                           width:
                                                                               0))),
                                                           child: Text(
-                                                            ' ${value['year_graduated']} ',
-                                                            style: TextStyle(
-                                                                fontSize: 17),
+                                                            ' ${value['middle_name']} ',
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        17),
                                                           ),
                                                         ),
                                                         Container(
@@ -367,7 +199,7 @@ class _ProfileState extends State<Profile> {
                                                                         width:
                                                                             0))),
                                                             child: const Text(
-                                                              '   Year Graduated   ',
+                                                              '   Middle Name   ',
                                                               style: TextStyle(
                                                                   color: Color
                                                                       .fromARGB(
@@ -380,354 +212,514 @@ class _ProfileState extends State<Profile> {
                                                       ],
                                                     ),
                                                   ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 20,
-                                                ),
-                                                Wrap(
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        Container(
-                                                          decoration: const BoxDecoration(
-                                                              border: Border(
-                                                                  bottom:
-                                                                      BorderSide(
-                                                                          width:
-                                                                              0))),
-                                                          child: Text(
-                                                            '${value!['employment_status']}',
-                                                            style: TextStyle(
-                                                                fontSize: 17),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                            decoration: const BoxDecoration(
-                                                                border: Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0))),
-                                                            child: const Text(
-                                                              '   Employment Status   ',
-                                                              style: TextStyle(
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          102,
-                                                                          102,
-                                                                          102),
-                                                                  fontSize: 15),
-                                                            ))
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 20,
-                                                ),
-                                                Wrap(
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        Container(
-                                                          decoration: const BoxDecoration(
-                                                              border: Border(
-                                                                  bottom:
-                                                                      BorderSide(
-                                                                          width:
-                                                                              0))),
-                                                          child: Text(
-                                                              ' ${value['occupation']} '),
-                                                        ),
-                                                        Container(
-                                                            decoration: const BoxDecoration(
-                                                                border: Border(
-                                                                    top: BorderSide(
-                                                                        width:
-                                                                            0))),
-                                                            child: const Text(
-                                                              '   Occupation   ',
-                                                              style: TextStyle(
-                                                                  color: Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          102,
-                                                                          102,
-                                                                          102),
-                                                                  fontSize: 15),
-                                                            ))
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 20,
-                                                ),
-                                                const Divider(),
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                              ],
-                                            ),
-                                            const Row(
-                                              children: [
-                                                Text(
-                                                    textAlign: TextAlign.left,
-                                                    'Questions Information',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15)),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 10),
-                                            const Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    textAlign: TextAlign.left,
-                                                    maxLines: 2,
-                                                    'What are the life skills OLOPSC has taught you?',
-                                                    style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 102, 102, 102),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10,
-                                                            right: 10,
-                                                            top: 2,
-                                                            bottom: 2),
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 1)),
-                                                    child: Expanded(
-                                                      child: Text(
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          maxLines: 2,
-                                                          '${value!['question_1']}'),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            const Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    textAlign: TextAlign.left,
-                                                    maxLines: 2,
-                                                    'The skills you\'ve mentioned helped you in pursuing your career path.',
-                                                    style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 102, 102, 102),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10,
-                                                            right: 10,
-                                                            top: 2,
-                                                            bottom: 2),
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 1)),
-                                                    child: Text(
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        maxLines: 2,
-                                                        '${value!['question_2']}'),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            const Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    textAlign: TextAlign.left,
-                                                    maxLines: 2,
-                                                    'Your first job aligns with your current job.',
-                                                    style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 102, 102, 102),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10,
-                                                            right: 10,
-                                                            top: 2,
-                                                            bottom: 2),
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 1)),
-                                                    child: Text(
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        maxLines: 2,
-                                                        '${value!['question_3']}'),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            const Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    textAlign: TextAlign.left,
-                                                    maxLines: 2,
-                                                    'How long does it take for you to land your first job after graduation?',
-                                                    style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 102, 102, 102),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10,
-                                                            right: 10,
-                                                            top: 2,
-                                                            bottom: 2),
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 1)),
-                                                    child: Text(
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        maxLines: 2,
-                                                        '${value!['question_4']}'),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            const Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    textAlign: TextAlign.left,
-                                                    maxLines: 2,
-                                                    'The program you took in OLOPSC matches your current job.',
-                                                    style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 102, 102, 102),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10,
-                                                            right: 10,
-                                                            top: 2,
-                                                            bottom: 2),
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 1)),
-                                                    child: Text(
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        maxLines: 2,
-                                                        '${value!['question_5']}'),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            const Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    textAlign: TextAlign.left,
-                                                    maxLines: 2,
-                                                    'You are satisfied with your current job.',
-                                                    style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 102, 102, 102),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10,
-                                                            right: 10,
-                                                            top: 2,
-                                                            bottom: 2),
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 1)),
-                                                    child: Text(
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        maxLines: 2,
-                                                        '${value!['question_6']}'),
-                                                  ),
                                                 ),
                                               ],
                                             ),
                                             const SizedBox(
                                               height: 25,
                                             ),
+                                            Wrap(
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    Container(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              border: Border(
+                                                                  bottom:
+                                                                      BorderSide(
+                                                                          width:
+                                                                              0))),
+                                                      child: Expanded(
+                                                          child: Text(
+                                                        ' ${value['degree']} ',
+                                                        style: const TextStyle(
+                                                            fontSize: 17),
+                                                      )),
+                                                    ),
+                                                    Container(
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                border: Border(
+                                                                    top: BorderSide(
+                                                                        width:
+                                                                            0))),
+                                                        child: const Text(
+                                                          '   Degree   ',
+                                                          style: TextStyle(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      102,
+                                                                      102,
+                                                                      102),
+                                                              fontSize: 15),
+                                                        ))
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Wrap(
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    Container(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              border: Border(
+                                                                  bottom:
+                                                                      BorderSide(
+                                                                          width:
+                                                                              0))),
+                                                      child: Text(
+                                                        ' ${value['email']} ',
+                                                        style: const TextStyle(
+                                                            fontSize: 17),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                border: Border(
+                                                                    top: BorderSide(
+                                                                        width:
+                                                                            0))),
+                                                        child: const Text(
+                                                          '   Email   ',
+                                                          style: TextStyle(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      102,
+                                                                      102,
+                                                                      102),
+                                                              fontSize: 15),
+                                                        ))
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Wrap(
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    Container(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              border: Border(
+                                                                  bottom:
+                                                                      BorderSide(
+                                                                          width:
+                                                                              0))),
+                                                      child: Text(
+                                                        ' ${value['date_of_birth']} ',
+                                                        style: const TextStyle(
+                                                            fontSize: 17),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                border: Border(
+                                                                    top: BorderSide(
+                                                                        width:
+                                                                            0))),
+                                                        child: const Text(
+                                                          '   Date of birth   ',
+                                                          style: TextStyle(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      102,
+                                                                      102,
+                                                                      102),
+                                                              fontSize: 15),
+                                                        )),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    Container(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              border: Border(
+                                                                  bottom:
+                                                                      BorderSide(
+                                                                          width:
+                                                                              0))),
+                                                      child: Text(
+                                                        ' ${value['year_graduated']} ',
+                                                        style: const TextStyle(
+                                                            fontSize: 17),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                border: Border(
+                                                                    top: BorderSide(
+                                                                        width:
+                                                                            0))),
+                                                        child: const Text(
+                                                          '   Year Graduated   ',
+                                                          style: TextStyle(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      102,
+                                                                      102,
+                                                                      102),
+                                                              fontSize: 15),
+                                                        )),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Wrap(
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    Container(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              border: Border(
+                                                                  bottom:
+                                                                      BorderSide(
+                                                                          width:
+                                                                              0))),
+                                                      child: Text(
+                                                        '${value!['employment_status']}',
+                                                        style: TextStyle(
+                                                            fontSize: 17),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                border: Border(
+                                                                    top: BorderSide(
+                                                                        width:
+                                                                            0))),
+                                                        child: const Text(
+                                                          '   Employment Status   ',
+                                                          style: TextStyle(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      102,
+                                                                      102,
+                                                                      102),
+                                                              fontSize: 15),
+                                                        ))
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Wrap(
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    Container(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              border: Border(
+                                                                  bottom:
+                                                                      BorderSide(
+                                                                          width:
+                                                                              0))),
+                                                      child: Text(
+                                                          ' ${value['occupation']} '),
+                                                    ),
+                                                    Container(
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                border: Border(
+                                                                    top: BorderSide(
+                                                                        width:
+                                                                            0))),
+                                                        child: const Text(
+                                                          '   Occupation   ',
+                                                          style: TextStyle(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      102,
+                                                                      102,
+                                                                      102),
+                                                              fontSize: 15),
+                                                        ))
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            const Divider(),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
                                           ],
                                         ),
-                                      ),
+                                        const Row(
+                                          children: [
+                                            Text(
+                                                textAlign: TextAlign.left,
+                                                'Questions Information',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15)),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        const Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                textAlign: TextAlign.left,
+                                                maxLines: 2,
+                                                'What are the life skills OLOPSC has taught you?',
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 102, 102, 102),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 2,
+                                                    bottom: 2),
+                                                decoration: BoxDecoration(
+                                                    border:
+                                                        Border.all(width: 1)),
+                                                child: Expanded(
+                                                  child: Text(
+                                                      textAlign: TextAlign.left,
+                                                      maxLines: 2,
+                                                      '${value!['question_1']}'),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                textAlign: TextAlign.left,
+                                                maxLines: 2,
+                                                'The skills you\'ve mentioned helped you in pursuing your career path.',
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 102, 102, 102),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 2,
+                                                    bottom: 2),
+                                                decoration: BoxDecoration(
+                                                    border:
+                                                        Border.all(width: 1)),
+                                                child: Text(
+                                                    textAlign: TextAlign.left,
+                                                    maxLines: 2,
+                                                    '${value!['question_2']}'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                textAlign: TextAlign.left,
+                                                maxLines: 2,
+                                                'Your first job aligns with your current job.',
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 102, 102, 102),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 2,
+                                                    bottom: 2),
+                                                decoration: BoxDecoration(
+                                                    border:
+                                                        Border.all(width: 1)),
+                                                child: Text(
+                                                    textAlign: TextAlign.left,
+                                                    maxLines: 2,
+                                                    '${value!['question_3']}'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                textAlign: TextAlign.left,
+                                                maxLines: 2,
+                                                'How long does it take for you to land your first job after graduation?',
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 102, 102, 102),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 2,
+                                                    bottom: 2),
+                                                decoration: BoxDecoration(
+                                                    border:
+                                                        Border.all(width: 1)),
+                                                child: Text(
+                                                    textAlign: TextAlign.left,
+                                                    maxLines: 2,
+                                                    '${value!['question_4']}'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                textAlign: TextAlign.left,
+                                                maxLines: 2,
+                                                'The program you took in OLOPSC matches your current job.',
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 102, 102, 102),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 2,
+                                                    bottom: 2),
+                                                decoration: BoxDecoration(
+                                                    border:
+                                                        Border.all(width: 1)),
+                                                child: Text(
+                                                    textAlign: TextAlign.left,
+                                                    maxLines: 2,
+                                                    '${value!['question_5']}'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                textAlign: TextAlign.left,
+                                                maxLines: 2,
+                                                'You are satisfied with your current job.',
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 102, 102, 102),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 2,
+                                                    bottom: 2),
+                                                decoration: BoxDecoration(
+                                                    border:
+                                                        Border.all(width: 1)),
+                                                child: Text(
+                                                    textAlign: TextAlign.left,
+                                                    maxLines: 2,
+                                                    '${value!['question_6']}'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 25,
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ],
                             ),
