@@ -95,118 +95,88 @@ class _ProfileState extends State<Profile> {
                                     children: [
                                       Wrap(
                                         children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                          Column(
                                             children: [
-                                              Column(
-                                                children: [
-                                                  Container(
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                            border: Border(
-                                                                bottom:
-                                                                    BorderSide(
-                                                                        width:
-                                                                            0))),
-                                                    child: Text(
-                                                      ' ${value['first_name']} ',
-                                                      style: const TextStyle(
-                                                          fontSize: 17),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                              border: Border(
-                                                                  top: BorderSide(
-                                                                      width:
-                                                                          0))),
-                                                      child: const Text(
-                                                        '   First Name   ',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    102,
-                                                                    102,
-                                                                    102),
-                                                            fontSize: 15),
-                                                      ))
-                                                ],
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            width: 0))),
+                                                child: Text(
+                                                  ' ${value['first_name']} ',
+                                                  style: const TextStyle(
+                                                      fontSize: 17),
+                                                ),
                                               ),
-                                              Column(
-                                                children: [
-                                                  Container(
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                            border: Border(
-                                                                bottom:
-                                                                    BorderSide(
-                                                                        width:
-                                                                            0))),
-                                                    child: Text(
-                                                      ' ${value['last_name']}, ',
-                                                      style: const TextStyle(
-                                                          fontSize: 17),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                              border: Border(
-                                                                  top: BorderSide(
-                                                                      width:
-                                                                          0))),
-                                                      child: const Text(
-                                                        '   Last Name   ',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    102,
-                                                                    102,
-                                                                    102),
-                                                            fontSize: 15),
-                                                      )),
-                                                ],
+                                              Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          border: Border(
+                                                              top: BorderSide(
+                                                                  width: 0))),
+                                                  child: const Text(
+                                                    '   First Name   ',
+                                                    style: TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 102, 102, 102),
+                                                        fontSize: 15),
+                                                  ))
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            width: 0))),
+                                                child: Text(
+                                                  ' ${value['last_name']}, ',
+                                                  style: const TextStyle(
+                                                      fontSize: 17),
+                                                ),
                                               ),
-                                              Column(
-                                                children: [
-                                                  Container(
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                            border: Border(
-                                                                bottom:
-                                                                    BorderSide(
-                                                                        width:
-                                                                            0))),
-                                                    child: Text(
-                                                      ' ${value['middle_name']} ',
-                                                      style: const TextStyle(
-                                                          fontSize: 17),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                              border: Border(
-                                                                  top: BorderSide(
-                                                                      width:
-                                                                          0))),
-                                                      child: const Text(
-                                                        '   Middle Name   ',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    102,
-                                                                    102,
-                                                                    102),
-                                                            fontSize: 15),
-                                                      )),
-                                                ],
+                                              Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          border: Border(
+                                                              top: BorderSide(
+                                                                  width: 0))),
+                                                  child: const Text(
+                                                    '   Last Name   ',
+                                                    style: TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 102, 102, 102),
+                                                        fontSize: 15),
+                                                  )),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            width: 0))),
+                                                child: Text(
+                                                  ' ${value['middle_name']} ',
+                                                  style: const TextStyle(
+                                                      fontSize: 17),
+                                                ),
                                               ),
+                                              Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          border: Border(
+                                                              top: BorderSide(
+                                                                  width: 0))),
+                                                  child: const Text(
+                                                    '   Middle Name   ',
+                                                    style: TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 102, 102, 102),
+                                                        fontSize: 15),
+                                                  )),
                                             ],
                                           ),
                                         ],
@@ -215,47 +185,34 @@ class _ProfileState extends State<Profile> {
                                         height: 25,
                                       ),
                                       Wrap(
+                                      
                                         children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                          Column(
                                             children: [
-                                              Column(
-                                                children: [
-                                                  Container(
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                            border: Border(
-                                                                bottom:
-                                                                    BorderSide(
-                                                                        width:
-                                                                            0))),
-                                                    child: Text(
-                                                      ' ${value['degree']} ',
-                                                      style: const TextStyle(
-                                                          fontSize: 17),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                              border: Border(
-                                                                  top: BorderSide(
-                                                                      width:
-                                                                          0))),
-                                                      child: const Text(
-                                                        '   Degree   ',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    102,
-                                                                    102,
-                                                                    102),
-                                                            fontSize: 15),
-                                                      ))
-                                                ],
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                            width: 0))),
+                                                child: Text(
+                                                  ' ${value['degree']} ',
+                                                  style: const TextStyle(
+                                                      fontSize: 17),
+                                                ),
                                               ),
+                                              Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          border: Border(
+                                                              top: BorderSide(
+                                                                  width: 0))),
+                                                  child: const Text(
+                                                    '   Degree   ',
+                                                    style: TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 102, 102, 102),
+                                                        fontSize: 15),
+                                                  ))
                                             ],
                                           ),
                                         ],
@@ -463,30 +420,44 @@ class _ProfileState extends State<Profile> {
                                       ),
                                     ],
                                   ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          padding: const EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 2,
-                                              bottom: 2),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(width: 1)),
-                                          child: Expanded(
-                                            child: Text(
-                                                textAlign: TextAlign.left,
-                                                maxLines: 2,
-                                                '${value!['question_1']}'),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  ProfileContent(
+                                      contentprofile:
+                                          '${value!['question_1']}'),
                                   const SizedBox(
                                     height: 10,
                                   ),
+                                  // Row(
+                                  //   children: [
+                                  //     Column(
+                                  //       children: [
+                                  //         Row(
+                                  //           children: [
+                                  //             Expanded(
+                                  //               child: Container(
+                                  //                 padding: const EdgeInsets.only(
+                                  //                     left: 10,
+                                  //                     right: 10,
+                                  //                     top: 2,
+                                  //                     bottom: 2),
+                                  //                 decoration: BoxDecoration(
+                                  //                     border: Border.all(width: 1)),
+                                  //                 child: Expanded(
+                                  //                   child: Text(
+                                  //                       textAlign: TextAlign.left,
+                                  //                       maxLines: 2,
+                                  //                       '${value!['question_1']}'),
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //           ],
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // const SizedBox(
+                                  //   height: 10,
+                                  // ),
                                   const Row(
                                     children: [
                                       Expanded(

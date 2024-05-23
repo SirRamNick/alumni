@@ -751,13 +751,10 @@ class _HomePageState extends State<HomePage> {
                                   textEditingController: dateOfBirthController,
                                   subTitle: const Text('Date of Birth'),
                                   suffixIcon: null,
-                                  validator: (value) {
-                                    if (value!.isEmpty && value != null) {
-                                      return 'This field is required';
-                                    } else if (int.parse(value) < 2002) {
-                                      return 'Invalid year graduated';
-                                    }
-                                  },
+                                  validator: (value) =>
+                                      value!.isEmpty && value != null
+                                          ? 'This field is required'
+                                          : null,
                                 ),
                                 const SizedBox(
                                   height: 25,
