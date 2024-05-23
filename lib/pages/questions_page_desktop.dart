@@ -2,7 +2,6 @@ import 'package:alumni_app/compontents/button.dart';
 import 'package:alumni_app/compontents/question_content_small.dart';
 import 'package:alumni_app/compontents/question_form.dart';
 import 'package:alumni_app/pages/navigation_page.dart';
-// import 'package:alumni_app/pages/navigation_page.dart';
 import 'package:alumni_app/services/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +31,11 @@ class _QuestionsPageState extends State<QuestionsPage> {
       TextEditingController();
   late final TextEditingController question6Controller =
       TextEditingController();
+  int? stronglyAgree = 0;
+  int? agree = 0;
+  int? neutral = 0;
+  int? disagree = 0;
+  int? stronglyDisagree = 0;
   late final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late final Map information = widget.userInformation;
   late final FirestoreService alumni = FirestoreService();
@@ -134,7 +138,6 @@ class _QuestionsPageState extends State<QuestionsPage> {
     } else {
       await documentStats.set({
         'value': 1,
-        'index': int.parse(information['year_graduated']) - 2001,
         'year': int.parse(information['year_graduated']),
       });
     }
@@ -195,37 +198,30 @@ class _QuestionsPageState extends State<QuestionsPage> {
         }, SetOptions(merge: true));
       }
     }
+    final DocumentReference collectionRef1 = FirebaseFirestore.instance
+        .collection('question_2')
+        .doc(information['degree']);
+    final DocumentSnapshot qDoc = await collectionRef1.get();
+    try {
+      collectionRef1.update({
+        'strongly_agree': qDoc.get('privately_employed') == null
+            ? stronglyAgree
+            : qDoc.get('strongly_agree') + 1,
+        'agree': qDoc.get('privately_employed') + agree,
+        'neutral': qDoc.get('privately_employed') + neutral,
+        'disagree': qDoc.get('privately_employed') + disagree,
+        'strongly_disagree': qDoc.get('privately_employed') + stronglyDisagree,
+      });
+    } catch (e) {
+      await documentEmpStats.set({
+        'strongly_agree': stronglyAgree,
+        'agree': agree,
+        'neutral': neutral,
+        'disagree': disagree,
+        'strongly_disagree': stronglyDisagree,
+      }, SetOptions(merge: true));
+    }
     return document.id;
-    // alumni.alumni.doc(widget.docID).update({
-    //   'question_1':
-    //       question1Controller.text,
-    //   'question_2':
-    //       question2Controller.text,
-    //   'question_3':
-    //       question3Controller.text,
-    //   'question_4':
-    //       question4Controller.text,
-    //   'question_5':
-    //       question5Controller.text,
-    //   'question_6':
-    //       question6Controller.text,
-    // });
-    // print(question1Controller.text);
-    // question1Controller.clear();
-    // question2Controller.clear();
-    // question3Controller.clear();
-    // question4Controller.clear();
-    // question5Controller.clear();
-    // question6Controller.clear();
-    // Navigator.pushReplacement(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) =>
-    //         NavigationPage(
-    //       docID: widget.docID,
-    //     ),
-    //   ),
-    // );
   }
 
   @override
@@ -377,6 +373,18 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                       onChanged: (String? value) {
                                         setState(() {
                                           question2Controller.text = value!;
+                                          if (value == 'Strongly Agree') {
+                                            stronglyAgree = 1;
+                                          } else if (value == 'Agree') {
+                                            agree = 1;
+                                          } else if (value == 'Neutral') {
+                                            neutral = 1;
+                                          } else if (value == 'Disagree') {
+                                            disagree = 1;
+                                          } else if (value ==
+                                              'Strongly Disagree') {
+                                            stronglyDisagree = 1;
+                                          }
                                         });
                                       },
                                       buttonStyleData: ButtonStyleData(
@@ -786,36 +794,6 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                     ),
                                   ),
                                 );
-                                // alumni.alumni.doc(widget.docID).update({
-                                //   'question_1':
-                                //       question1Controller.text,
-                                //   'question_2':
-                                //       question2Controller.text,
-                                //   'question_3':
-                                //       question3Controller.text,
-                                //   'question_4':
-                                //       question4Controller.text,
-                                //   'question_5':
-                                //       question5Controller.text,
-                                //   'question_6':
-                                //       question6Controller.text,
-                                // });
-                                // print(question1Controller.text);
-                                // question1Controller.clear();
-                                // question2Controller.clear();
-                                // question3Controller.clear();
-                                // question4Controller.clear();
-                                // question5Controller.clear();
-                                // question6Controller.clear();
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) =>
-                                //         NavigationPage(
-                                //       docID: widget.docID,
-                                //     ),
-                                //   ),
-                                // );
                               }
                             },
                           ),
@@ -1210,7 +1188,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
                           onSubmit: () async {
                             if (formKey.currentState!.validate()) {
                               String documentID = await onSubmitAndValidate();
-                            setState(() {
+                              setState(() {
                                 clickSubmit = true;
                               });
                               Navigator.pushReplacement(

@@ -5,7 +5,7 @@ class FirestoreService {
       FirebaseFirestore.instance.collection('alumni');
 
   final CollectionReference stats =
-      FirebaseFirestore.instance.collection('statistics');
+      FirebaseFirestore.instance.collection('alumni_by_year');
 
   final CollectionReference empStats =
       FirebaseFirestore.instance.collection('employment_status');
