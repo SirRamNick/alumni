@@ -7,6 +7,7 @@ import 'package:alumni_app/services/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class QuestionsPage extends StatefulWidget {
   final Map userInformation;
@@ -155,8 +156,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           'privately_employed': 1,
         }, SetOptions(merge: true));
       }
-    }
-    else if (information['employment_status'].toLowerCase() ==
+    } else if (information['employment_status'].toLowerCase() ==
         'government employed') {
       try {
         await documentEmpStats.update({
@@ -169,8 +169,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           'government_employed': 1,
         }, SetOptions(merge: true));
       }
-    }
-    else if (information['employment_status'].toLowerCase() ==
+    } else if (information['employment_status'].toLowerCase() ==
         'self-employed') {
       try {
         await documentEmpStats.update({
@@ -183,8 +182,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
           'self-employed': 1,
         }, SetOptions(merge: true));
       }
-    }
-    else if (information['employment_status'].toLowerCase() == 'others') {
+    } else if (information['employment_status'].toLowerCase() == 'others') {
       try {
         await documentEmpStats.update({
           'year': int.parse(information['year_graduated']),
@@ -346,21 +344,76 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                 ),
                                 Align(
                                   alignment: Alignment.centerLeft,
-                                  child: DropdownMenu(
+                                  child: SizedBox(
                                     width: 150,
-                                    hintText: 'Choose',
-                                    onSelected: (String? value) {
-                                      setState(() {
-                                        question2Controller.text = value!;
-                                      });
-                                    },
-                                    dropdownMenuEntries:
-                                        likertScaleAgree.map((String value) {
-                                      return DropdownMenuEntry<String>(
-                                        value: value,
-                                        label: value,
-                                      );
-                                    }).toList(),
+                                    child: DropdownButtonFormField2(
+                                      validator: (value) => value == null
+                                          ? 'This field is required'
+                                          : null,
+                                      isExpanded: true,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                vertical: 0, horizontal: 0),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                      hint: const Text('Choose'),
+                                      items: likertScaleAgree
+                                          .map((item) =>
+                                              DropdownMenuItem<String>(
+                                                value: item,
+                                                child: Text(
+                                                  item,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ))
+                                          .toList(),
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          question2Controller.text = value!;
+                                        });
+                                      },
+                                      buttonStyleData: ButtonStyleData(
+                                        height: 50,
+                                        width: 160,
+                                        padding: const EdgeInsets.only(
+                                          left: 14,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
+                                          color: Colors.white,
+                                        ),
+                                        elevation: 2,
+                                      ),
+                                      iconStyleData: const IconStyleData(
+                                        icon: Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.black45,
+                                        ),
+                                        iconSize: 24,
+                                      ),
+                                      dropdownStyleData: DropdownStyleData(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      menuItemStyleData:
+                                          const MenuItemStyleData(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -378,21 +431,76 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                 ),
                                 Align(
                                   alignment: Alignment.centerLeft,
-                                  child: DropdownMenu(
+                                  child: SizedBox(
                                     width: 150,
-                                    hintText: 'Choose',
-                                    onSelected: (String? value) {
-                                      setState(() {
-                                        question3Controller.text = value!;
-                                      });
-                                    },
-                                    dropdownMenuEntries:
-                                        likertScaleAgree.map((String value) {
-                                      return DropdownMenuEntry<String>(
-                                        value: value,
-                                        label: value,
-                                      );
-                                    }).toList(),
+                                    child: DropdownButtonFormField2(
+                                      validator: (value) => value == null
+                                          ? 'This field is required'
+                                          : null,
+                                      isExpanded: true,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                vertical: 0, horizontal: 0),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                      hint: const Text('Choose'),
+                                      items: likertScaleAgree
+                                          .map((item) =>
+                                              DropdownMenuItem<String>(
+                                                value: item,
+                                                child: Text(
+                                                  item,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ))
+                                          .toList(),
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          question3Controller.text = value!;
+                                        });
+                                      },
+                                      buttonStyleData: ButtonStyleData(
+                                        height: 50,
+                                        width: 160,
+                                        padding: const EdgeInsets.only(
+                                          left: 14,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
+                                          color: Colors.white,
+                                        ),
+                                        elevation: 2,
+                                      ),
+                                      iconStyleData: const IconStyleData(
+                                        icon: Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.black45,
+                                        ),
+                                        iconSize: 24,
+                                      ),
+                                      dropdownStyleData: DropdownStyleData(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      menuItemStyleData:
+                                          const MenuItemStyleData(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -410,21 +518,76 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                 ),
                                 Align(
                                   alignment: Alignment.centerLeft,
-                                  child: DropdownMenu(
-                                    width: 150,
-                                    hintText: 'Choose',
-                                    onSelected: (String? value) {
-                                      setState(() {
-                                        question4Controller.text = value!;
-                                      });
-                                    },
-                                    dropdownMenuEntries: durationBeforeEmployed
-                                        .map((String value) {
-                                      return DropdownMenuEntry<String>(
-                                        value: value,
-                                        label: value,
-                                      );
-                                    }).toList(),
+                                  child: SizedBox(
+                                    width: 250,
+                                    child: DropdownButtonFormField2(
+                                      validator: (value) => value == null
+                                          ? 'This field is required'
+                                          : null,
+                                      isExpanded: true,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                vertical: 0, horizontal: 0),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                      hint: const Text('Choose'),
+                                      items: durationBeforeEmployed
+                                          .map((item) =>
+                                              DropdownMenuItem<String>(
+                                                value: item,
+                                                child: Text(
+                                                  item,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ))
+                                          .toList(),
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          question4Controller.text = value!;
+                                        });
+                                      },
+                                      buttonStyleData: ButtonStyleData(
+                                        height: 50,
+                                        width: 160,
+                                        padding: const EdgeInsets.only(
+                                          left: 14,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
+                                          color: Colors.white,
+                                        ),
+                                        elevation: 2,
+                                      ),
+                                      iconStyleData: const IconStyleData(
+                                        icon: Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.black45,
+                                        ),
+                                        iconSize: 24,
+                                      ),
+                                      dropdownStyleData: DropdownStyleData(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      menuItemStyleData:
+                                          const MenuItemStyleData(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -442,21 +605,76 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                 ),
                                 Align(
                                   alignment: Alignment.centerLeft,
-                                  child: DropdownMenu(
+                                  child: SizedBox(
                                     width: 150,
-                                    hintText: 'Choose',
-                                    onSelected: (String? value) {
-                                      setState(() {
-                                        question5Controller.text = value!;
-                                      });
-                                    },
-                                    dropdownMenuEntries:
-                                        likertScaleAgree.map((String value) {
-                                      return DropdownMenuEntry<String>(
-                                        value: value,
-                                        label: value,
-                                      );
-                                    }).toList(),
+                                    child: DropdownButtonFormField2(
+                                      validator: (value) => value == null
+                                          ? 'This field is required'
+                                          : null,
+                                      isExpanded: true,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                vertical: 0, horizontal: 0),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                      hint: const Text('Choose'),
+                                      items: likertScaleAgree
+                                          .map((item) =>
+                                              DropdownMenuItem<String>(
+                                                value: item,
+                                                child: Text(
+                                                  item,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ))
+                                          .toList(),
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          question5Controller.text = value!;
+                                        });
+                                      },
+                                      buttonStyleData: ButtonStyleData(
+                                        height: 50,
+                                        width: 160,
+                                        padding: const EdgeInsets.only(
+                                          left: 14,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
+                                          color: Colors.white,
+                                        ),
+                                        elevation: 2,
+                                      ),
+                                      iconStyleData: const IconStyleData(
+                                        icon: Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.black45,
+                                        ),
+                                        iconSize: 24,
+                                      ),
+                                      dropdownStyleData: DropdownStyleData(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      menuItemStyleData:
+                                          const MenuItemStyleData(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -474,21 +692,76 @@ class _QuestionsPageState extends State<QuestionsPage> {
                                 ),
                                 Align(
                                   alignment: Alignment.centerLeft,
-                                  child: DropdownMenu(
+                                  child: SizedBox(
                                     width: 150,
-                                    hintText: 'Choose',
-                                    onSelected: (String? value) {
-                                      setState(() {
-                                        question6Controller.text = value!;
-                                      });
-                                    },
-                                    dropdownMenuEntries:
-                                        likertScaleAgree.map((String value) {
-                                      return DropdownMenuEntry<String>(
-                                        value: value,
-                                        label: value,
-                                      );
-                                    }).toList(),
+                                    child: DropdownButtonFormField2(
+                                      validator: (value) => value == null
+                                          ? 'This field is required'
+                                          : null,
+                                      isExpanded: true,
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                vertical: 0, horizontal: 0),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                      hint: const Text('Choose'),
+                                      items: likertScaleAgree
+                                          .map((item) =>
+                                              DropdownMenuItem<String>(
+                                                value: item,
+                                                child: Text(
+                                                  item,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ))
+                                          .toList(),
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          question6Controller.text = value!;
+                                        });
+                                      },
+                                      buttonStyleData: ButtonStyleData(
+                                        height: 50,
+                                        width: 160,
+                                        padding: const EdgeInsets.only(
+                                          left: 14,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                          ),
+                                          color: Colors.white,
+                                        ),
+                                        elevation: 2,
+                                      ),
+                                      iconStyleData: const IconStyleData(
+                                        icon: Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.black45,
+                                        ),
+                                        iconSize: 24,
+                                      ),
+                                      dropdownStyleData: DropdownStyleData(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      menuItemStyleData:
+                                          const MenuItemStyleData(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -572,22 +845,69 @@ class _QuestionsPageState extends State<QuestionsPage> {
                               'The skills you\'ve mentioned helped you in pursuing your career path.',
                           contructFormQuestion: Align(
                             alignment: Alignment.centerLeft,
-                            child: DropdownMenu(
+                            child: SizedBox(
                               width: 150,
-                              hintText: 'Choose',
-                              onSelected: (String? value) {
-                                setState(() {
-                                  question2Controller.text = value!;
-                                });
-                                print(question2Controller.text);
-                              },
-                              dropdownMenuEntries:
-                                  likertScaleAgree.map((String value) {
-                                return DropdownMenuEntry<String>(
-                                  value: value,
-                                  label: value,
-                                );
-                              }).toList(),
+                              child: DropdownButtonFormField2(
+                                validator: (value) => value == null
+                                    ? 'This field is required'
+                                    : null,
+                                isExpanded: true,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 0),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                hint: const Text('Choose'),
+                                items: likertScaleAgree
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    question2Controller.text = value!;
+                                  });
+                                },
+                                buttonStyleData: ButtonStyleData(
+                                  height: 50,
+                                  width: 160,
+                                  padding: const EdgeInsets.only(
+                                    left: 14,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Colors.black,
+                                    ),
+                                    color: Colors.white,
+                                  ),
+                                  elevation: 2,
+                                ),
+                                iconStyleData: const IconStyleData(
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.black45,
+                                  ),
+                                  iconSize: 24,
+                                ),
+                                dropdownStyleData: DropdownStyleData(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                menuItemStyleData: const MenuItemStyleData(
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -597,22 +917,69 @@ class _QuestionsPageState extends State<QuestionsPage> {
                               'Your first job aligns with your current job.',
                           contructFormQuestion: Align(
                             alignment: Alignment.centerLeft,
-                            child: DropdownMenu(
+                            child: SizedBox(
                               width: 150,
-                              hintText: 'Choose',
-                              onSelected: (String? value) {
-                                setState(() {
-                                  question3Controller.text = value!;
-                                });
-                                print(question3Controller.text);
-                              },
-                              dropdownMenuEntries:
-                                  likertScaleAgree.map((String value) {
-                                return DropdownMenuEntry<String>(
-                                  value: value,
-                                  label: value,
-                                );
-                              }).toList(),
+                              child: DropdownButtonFormField2(
+                                validator: (value) => value == null
+                                    ? 'This field is required'
+                                    : null,
+                                isExpanded: true,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 0),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                hint: const Text('Choose'),
+                                items: likertScaleAgree
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    question3Controller.text = value!;
+                                  });
+                                },
+                                buttonStyleData: ButtonStyleData(
+                                  height: 50,
+                                  width: 160,
+                                  padding: const EdgeInsets.only(
+                                    left: 14,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Colors.black,
+                                    ),
+                                    color: Colors.white,
+                                  ),
+                                  elevation: 2,
+                                ),
+                                iconStyleData: const IconStyleData(
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.black45,
+                                  ),
+                                  iconSize: 24,
+                                ),
+                                dropdownStyleData: DropdownStyleData(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                menuItemStyleData: const MenuItemStyleData(
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -622,22 +989,69 @@ class _QuestionsPageState extends State<QuestionsPage> {
                               'How long does it take for you to land your first job after graduation?',
                           contructFormQuestion: Align(
                             alignment: Alignment.centerLeft,
-                            child: DropdownMenu(
-                              width: 150,
-                              hintText: 'Choose',
-                              onSelected: (String? value) {
-                                setState(() {
-                                  question4Controller.text = value!;
-                                });
-                                print(question4Controller.text);
-                              },
-                              dropdownMenuEntries:
-                                  durationBeforeEmployed.map((String value) {
-                                return DropdownMenuEntry<String>(
-                                  value: value,
-                                  label: value,
-                                );
-                              }).toList(),
+                            child: SizedBox(
+                              width: 250,
+                              child: DropdownButtonFormField2(
+                                validator: (value) => value == null
+                                    ? 'This field is required'
+                                    : null,
+                                isExpanded: true,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 0),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                hint: const Text('Choose'),
+                                items: durationBeforeEmployed
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    question4Controller.text = value!;
+                                  });
+                                },
+                                buttonStyleData: ButtonStyleData(
+                                  height: 50,
+                                  width: 160,
+                                  padding: const EdgeInsets.only(
+                                    left: 14,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Colors.black,
+                                    ),
+                                    color: Colors.white,
+                                  ),
+                                  elevation: 2,
+                                ),
+                                iconStyleData: const IconStyleData(
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.black45,
+                                  ),
+                                  iconSize: 24,
+                                ),
+                                dropdownStyleData: DropdownStyleData(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                menuItemStyleData: const MenuItemStyleData(
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -647,22 +1061,69 @@ class _QuestionsPageState extends State<QuestionsPage> {
                               'The program you took in OLOPSC matches your current job.',
                           contructFormQuestion: Align(
                             alignment: Alignment.centerLeft,
-                            child: DropdownMenu(
+                            child: SizedBox(
                               width: 150,
-                              hintText: 'Choose',
-                              onSelected: (String? value) {
-                                setState(() {
-                                  question5Controller.text = value!;
-                                });
-                                print(question5Controller.text);
-                              },
-                              dropdownMenuEntries:
-                                  likertScaleAgree.map((String value) {
-                                return DropdownMenuEntry<String>(
-                                  value: value,
-                                  label: value,
-                                );
-                              }).toList(),
+                              child: DropdownButtonFormField2(
+                                validator: (value) => value == null
+                                    ? 'This field is required'
+                                    : null,
+                                isExpanded: true,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 0),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                hint: const Text('Choose'),
+                                items: likertScaleAgree
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    question5Controller.text = value!;
+                                  });
+                                },
+                                buttonStyleData: ButtonStyleData(
+                                  height: 50,
+                                  width: 160,
+                                  padding: const EdgeInsets.only(
+                                    left: 14,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Colors.black,
+                                    ),
+                                    color: Colors.white,
+                                  ),
+                                  elevation: 2,
+                                ),
+                                iconStyleData: const IconStyleData(
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.black45,
+                                  ),
+                                  iconSize: 24,
+                                ),
+                                dropdownStyleData: DropdownStyleData(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                menuItemStyleData: const MenuItemStyleData(
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -672,22 +1133,69 @@ class _QuestionsPageState extends State<QuestionsPage> {
                               'You are satisfied with your current job.',
                           contructFormQuestion: Align(
                             alignment: Alignment.centerLeft,
-                            child: DropdownMenu(
+                            child: SizedBox(
                               width: 150,
-                              hintText: 'Choose',
-                              onSelected: (String? value) {
-                                setState(() {
-                                  question5Controller.text = value!;
-                                });
-                                print(question6Controller.text);
-                              },
-                              dropdownMenuEntries:
-                                  likertScaleAgree.map((String value) {
-                                return DropdownMenuEntry<String>(
-                                  value: value,
-                                  label: value,
-                                );
-                              }).toList(),
+                              child: DropdownButtonFormField2(
+                                validator: (value) => value == null
+                                    ? 'This field is required'
+                                    : null,
+                                isExpanded: true,
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 0),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                hint: const Text('Choose'),
+                                items: likertScaleAgree
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    question6Controller.text = value!;
+                                  });
+                                },
+                                buttonStyleData: ButtonStyleData(
+                                  height: 50,
+                                  width: 160,
+                                  padding: const EdgeInsets.only(
+                                    left: 14,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Colors.black,
+                                    ),
+                                    color: Colors.white,
+                                  ),
+                                  elevation: 2,
+                                ),
+                                iconStyleData: const IconStyleData(
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.black45,
+                                  ),
+                                  iconSize: 24,
+                                ),
+                                dropdownStyleData: DropdownStyleData(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                menuItemStyleData: const MenuItemStyleData(
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                ),
+                              ),
                             ),
                           ),
                         ),
