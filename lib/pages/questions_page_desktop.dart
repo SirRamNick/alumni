@@ -6,7 +6,6 @@ import 'package:alumni_app/pages/navigation_page.dart';
 import 'package:alumni_app/services/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
 class QuestionsPage extends StatefulWidget {
@@ -36,6 +35,7 @@ class _QuestionsPageState extends State<QuestionsPage> {
   late final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late final Map information = widget.userInformation;
   late final FirestoreService alumni = FirestoreService();
+  bool clickSubmit = false;
 
   // late final List<String> listOfAnswers1 = [
   //   'Yes',
@@ -770,7 +770,11 @@ class _QuestionsPageState extends State<QuestionsPage> {
 
                           const SizedBox(height: 28),
                           Button(
+                            enabled: !clickSubmit,
                             onSubmit: () async {
+                              setState(() {
+                                clickSubmit = true;
+                              });
                               if (formKey.currentState!.validate()) {
                                 String documentID = await onSubmitAndValidate();
                                 Navigator.pushReplacement(
@@ -1201,7 +1205,11 @@ class _QuestionsPageState extends State<QuestionsPage> {
                         ),
                         const SizedBox(height: 15),
                         Button(
+                          enabled: !clickSubmit,
                           onSubmit: () async {
+                            setState(() {
+                              clickSubmit = true;
+                            });
                             if (formKey.currentState!.validate()) {
                               String documentID = await onSubmitAndValidate();
                               Navigator.pushReplacement(
